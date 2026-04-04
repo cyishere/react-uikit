@@ -1,0 +1,25 @@
+{
+  "name": "react-uikit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "Chen Yang",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.1",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "typescript": "^6.0.2"
+  }
+}

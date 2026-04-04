@@ -1,0 +1,11 @@
+{
+  "name": "@react-uikit/config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig": "./tsconfig.base.json",
+    "./eslint": "./.eslintrc.base.cjs",
+    "./prettier": "./prettier.config.js"
+  }
+}

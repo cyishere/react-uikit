@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.turbo/
+.cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# pnpm
+.pnpm-store/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+
+# Playwright
+test-results/
+playwright-report/
+
+# Local
+_docs/
+_plans/
