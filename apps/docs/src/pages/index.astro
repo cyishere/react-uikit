@@ -1,7 +1,16 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
+import { Content, frontmatter } from '@/content/introduction.mdx';
+
+const { title } = frontmatter;
 ---
 
 <BaseLayout>
-	<h1>React for Astro</h1>
+	<div class="uk-section">
+		<h1 class="uk-heading-divider">{title}</h1>
+
+		<article class="uk-article">
+			<Content />
+		</article>
+	</div>
 </BaseLayout>

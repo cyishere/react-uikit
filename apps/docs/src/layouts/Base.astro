@@ -1,5 +1,9 @@
 ---
 import 'uikit/dist/css/uikit.min.css';
+
+import Header from '@/components/Header.astro';
+import Sidebar from '@/components/Sidebar.astro';
+import Toc from '@/components/Toc.astro';
 ---
 
 <html lang="en">
@@ -12,6 +16,37 @@ import 'uikit/dist/css/uikit.min.css';
 		<title>React for UIkit</title>
 	</head>
 	<body>
-		<slot />
+		<Header />
+
+		<div class="wrapper">
+			<Sidebar />
+
+			<main class="main">
+				<div class="uk-container">
+					<slot />
+				</div>
+			</main>
+
+			<Toc />
+		</div>
 	</body>
 </html>
+
+<style>
+	.wrapper {
+		position: relative;
+		height: calc(100vh - 80px);
+		display: flex;
+		flex: 1;
+		align-items: stretch;
+	}
+
+	.main {
+		flex: 1;
+		max-width: 860px;
+	}
+
+	@media (max-width: 1100px) {
+	  .main { max-width: 100%; }
+	}
+</style>

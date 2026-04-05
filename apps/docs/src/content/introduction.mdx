@@ -1,0 +1,15 @@
+---
+title: "React for UIkit"
+---
+
+`react-uikit` is a React component library built around UIkit that:
+
+- Uses UIkit CSS as the primary visual layer across all components.
+- Establishes a strict, documented ownership model — UIkit-JS-enhanced or React-owned — so each component's behavior is predictable.
+- Deliberately excludes React wrappers for purely CSS-driven components (Button, Badge, Label, Alert, Card, etc.). These components add no value over UIkit's CSS classes directly, and wrapping them would create surface area without solving a real problem. The docs site explains this decision and provides copy-ready UIkit class snippets for each.
+- Implements interactive components (Modal, Dropdown, Offcanvas) as fully React-owned: React controls all state and behavior, UIkit CSS handles styling only, and UIkit JS never touches these nodes.
+- Implements DOM-enhancement components (Grid masonry, parallax) by rendering markup in React and initializing UIkit JS in lifecycle hooks with correct cleanup.
+- Ships SSR-safe by default: no browser APIs are required during server render, and client-only initialization is deferred to lifecycle hooks.
+- Is accompanied by an Astro docs site that uses React islands (partial hydration) for live interactive examples, keeping SSR semantics consistent between the docs and the library itself.
+- Is published as a single npm package (`react-uikit`) initially, with the option to split into scoped packages later.
+- Has a testing strategy introduced in Phase 2: Vitest for unit and integration tests of component behavior, Playwright for end-to-end tests of interactive components and SSR hydration.
