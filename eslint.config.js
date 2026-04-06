@@ -1,10 +1,13 @@
 import js from '@eslint/js';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 import prettier from 'eslint-config-prettier';
+import reactPlugin from 'eslint-plugin-react';
+
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import importPlugin from 'eslint-plugin-import';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -13,60 +16,73 @@ export default [
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tsparser,
+      parser: tsParser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: { jsx: true }
       },
       globals: {
-        React: 'readonly',
-        console: 'readonly',
-        window: 'readonly',
-        document: 'readonly',
-        navigator: 'readonly',
-        setTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearTimeout: 'readonly',
-        clearInterval: 'readonly',
-        fetch: 'readonly',
-        Promise: 'readonly'
+        ...globals.browser
       }
     },
     plugins: {
-      '@typescript-eslint': tseslint,
-      react,
-      'react-hooks': reactHooks,
+      '@typescript-eslint': tsPlugin,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      import: importPlugin,
       'jsx-a11y': jsxA11y
     },
     settings: {
-      react: { version: '18' }
+      react: { version: 'detect' }
     },
     rules: {
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
+      ...tsPlugin.configs.recommended.rules,
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
-      ...tseslint.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/consistent-type-imports': [
         'error',
-        { prefer: 'type-imports', fixStyle: 'inline-type-imports' }
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+          fixStyle: 'separate-type-imports'
+        }
       ],
+      'import/no-duplicates': 'error',
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-      '@typescript-eslint/no-explicit-any': 'error',
-      'jsx-a11y/no-autofocus': 'off'
+      'jsx-a11y/no-autofocus': 'off',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'type',
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object'
+          ],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          pathGroups: [
+            {
+              pattern: '^react',
+              group: 'builtin',
+              position: 'before'
+            }
+          ],
+          pathGroupsExcludedImportTypes: [],
+          distinctGroup: true
+        }
+      ]
     }
   },
   {
-    ignores: [
-      'packages/config/**',
-      'node_modules/**',
-      'dist/**',
-      '**/*.cjs',
-      '.astro/**',
-      'apps/docs/.astro/**'
-    ]
+    ignores: ['**/node_modules/**', '**/dist/**', '.astro/**', 'apps/docs/.astro/**']
   }
 ];

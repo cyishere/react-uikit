@@ -20,7 +20,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": "^19.0.0",
