@@ -6,6 +6,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-config-prettier';
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   js.configs.recommended,
   prettier,
@@ -16,7 +17,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        ecmaFeatures: { jsx: true },
+        ecmaFeatures: { jsx: true }
       },
       globals: {
         React: 'readonly',
@@ -29,17 +30,17 @@ export default [
         clearTimeout: 'readonly',
         clearInterval: 'readonly',
         fetch: 'readonly',
-        Promise: 'readonly',
-      },
+        Promise: 'readonly'
+      }
     },
     plugins: {
       '@typescript-eslint': tseslint,
       react,
       'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
+      'jsx-a11y': jsxA11y
     },
     settings: {
-      react: { version: '18' },
+      react: { version: '18' }
     },
     rules: {
       ...react.configs.recommended.rules,
@@ -51,14 +52,21 @@ export default [
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': [
         'error',
-        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+        { prefer: 'type-imports', fixStyle: 'inline-type-imports' }
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       '@typescript-eslint/no-explicit-any': 'error',
-      'jsx-a11y/no-autofocus': 'off',
-    },
+      'jsx-a11y/no-autofocus': 'off'
+    }
   },
   {
-    ignores: ['packages/config/**', 'node_modules/**', 'dist/**', '**/*.cjs'],
-  },
+    ignores: [
+      'packages/config/**',
+      'node_modules/**',
+      'dist/**',
+      '**/*.cjs',
+      '.astro/**',
+      'apps/docs/.astro/**'
+    ]
+  }
 ];

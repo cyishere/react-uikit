@@ -1,6 +1,4 @@
 {
   "files": [],
-  "references": [
-    { "path": "./packages/react-uikit" }
-  ]
+  "references": [{ "path": "./packages/react-uikit" }]
 }

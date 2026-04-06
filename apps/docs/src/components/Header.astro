@@ -29,7 +29,7 @@ const NAV_LINKS = [
 				<ul class="uk-navbar-nav">
 					{NAV_LINKS.map(({ label, slug }) => (
 						<li class={pathname.slice(1) === slug ? 'uk-active' : ''}>
-							<a href={`/${slug}`}>Docs</a>
+							<a href={`/${slug}`}>{label}</a>
 						</li>
 					))}
 					<li>
