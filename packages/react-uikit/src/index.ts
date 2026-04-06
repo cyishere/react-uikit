@@ -2,4 +2,4 @@
 export { Close } from './components/Close';
 
 // Utils
-export { cn } from './utils';
+export { cn } from './utils/cn';
