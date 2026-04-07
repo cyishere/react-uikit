@@ -1,28 +1,3 @@
-/**
- * Close component test suite.
- *
- * Testing strategy (see _docs/icon-system.md § Testing Decisions):
- *
- * - Every test asserts *externally observable* behavior — rendered DOM
- *    structure, applied CSS classes, HTML attributes, and ref
- *    forwarding.
- * - Internal implementation details (SVG string format, Slot
- *    internals, etc.) are intentionally NOT tested here.
- *
- * Coverage checklist (Phase 1 acceptance criteria):
- *
- * - Default render: `<button>` with `uk-icon` + `uk-close` classes
- * - SVG content: correct dimensions for standard (14×14) and large
- *    (20×20)
- * - `currentColor` on the SVG path stroke
- * - `large` prop: switches to `uk-close-large` class and 20×20 SVG
- * - `className` merging
- * - `type` attribute defaults and override
- * - `ref` forwarding
- * - `asChild` / Slot: renders the passed element, injects SVG, no
- *    `type` attr
- */
-
 import { render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 import { describe, expect, it } from 'vitest';

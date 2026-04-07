@@ -33,6 +33,8 @@ import type { ButtonHTMLAttributes, Ref } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { isValidElement, cloneElement } from 'react';
 
+import { cn } from '../../utils';
+
 /**
  * Inline SVG for UIkit's `close-icon.svg` (14×14).
  * Matches `uk-close` — the standard modal / dismissible close glyph.
@@ -89,9 +91,7 @@ export const Close = ({
    * class (`uk-close` or `uk-close-large`) to be present on the same
    * element.
    */
-  const classes = ['uk-icon', large ? 'uk-close-large' : 'uk-close', className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = cn('uk-icon', large ? 'uk-close-large' : 'uk-close', className);
 
   /**
    * Default to type="button" in standard button mode to prevent
