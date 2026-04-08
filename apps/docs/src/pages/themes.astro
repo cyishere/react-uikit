@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
+import { Content, frontmatter } from '@/content/themes.mdx';
+
+const { title } = frontmatter;
 ---
 
 <BaseLayout>
 	<div class="uk-section">
-		<h1 class="uk-heading-divider">Themes</h1>
+		<h1 class="uk-heading-divider">{title}</h1>
+
+		<article class="uk-article">
+			<Content />
+		</article>
 	</div>
 </BaseLayout>
