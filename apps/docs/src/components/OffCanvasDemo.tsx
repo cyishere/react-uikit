@@ -4,15 +4,17 @@ import { Close, OffCanvas, OffCanvasBar } from 'react-uikit';
 const OffCanvasDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleClose = () => setIsOpen(false);
+
   return (
     <div className="uk-margin-top">
       <button type="button" className="uk-button uk-button-default" onClick={() => setIsOpen(true)}>
         Open
       </button>
 
-      <OffCanvas open={isOpen}>
+      <OffCanvas open={isOpen} onClose={handleClose} mode="slide" overlay>
         <OffCanvasBar>
-          <Close className="uk-offcanvas-close" onClick={() => setIsOpen(false)} />
+          <Close className="uk-offcanvas-close" onClick={handleClose} />
 
           <h3>Title</h3>
 

@@ -1,11 +1,16 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
-import OffCanvasDemo from '@/components/OffCanvasDemo.tsx';
+import { Content, frontmatter } from '@/content/offcanvas.mdx';
+
+const { title } = frontmatter;
 ---
 
 <BaseLayout>
 	<div class="uk-section">
-		<h1 class="uk-heading-divider">OffCanvas</h1>
-		<OffCanvasDemo client:only="react" />
+		<h1 class="uk-heading-divider">{title}</h1>
+
+		<article class="uk-article">
+			<Content />
+		</article>
 	</div>
 </BaseLayout>
