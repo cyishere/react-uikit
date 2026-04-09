@@ -7,7 +7,6 @@ export interface OffCanvasBarProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
-// TODO: find out why the default background is dark
 const OffCanvasBar = ({ className, children, ...props }: OffCanvasBarProps) => {
   // TODO: needed for the focus trap
   const { open } = useOffCanvasContext();

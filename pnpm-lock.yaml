@@ -109,6 +109,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.0
         version: 19.2.3(@types/react@19.2.14)
+      '@types/uikit':
+        specifier: ^3.23.0
+        version: 3.23.0
       jsdom:
         specifier: ^25.0.0
         version: 25.0.1
@@ -1200,6 +1203,9 @@ packages:
 
   '@types/react@19.2.14':
     resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
+
+  '@types/uikit@3.23.0':
+    resolution: {integrity: sha512-GTn8/K+f4AjFxtLqRKWzjaVKckQp/rHcl20IO09salh2VjyFb9CqeFugL95skO6qbbJLil3PE1MmNajrSj5gMg==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -4890,6 +4896,8 @@ snapshots:
   '@types/react@19.2.14':
     dependencies:
       csstype: 3.2.3
+
+  '@types/uikit@3.23.0': {}
 
   '@types/unist@2.0.11': {}
 

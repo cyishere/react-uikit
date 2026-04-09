@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import UIkit from 'uikit';
 
 import { OffCanvasContext } from './OffCanvasContext';
-import { cn } from '../../utils';
 
 export interface OffCanvasProps {
   open: boolean;
-  onClose?: () => void;
+  onClose: () => void;
   overlay?: boolean;
   flip?: boolean;
   mode?: 'slide' | 'push' | 'reveal' | 'none';
@@ -23,17 +23,39 @@ const OffCanvas = ({
   mode = 'none',
   children
 }: OffCanvasProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const classes = cn('uk-offcanvas', open && 'uk-open', flip && 'uk-offcanvas-flip');
-  const styles = open ? { display: 'block' } : {};
+  const ref = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    if (ref.current) {
+      const el = ref.current;
+      const _offcanvas = UIkit.offcanvas(el);
+
+      if (open) {
+        _offcanvas.show();
+      } else {
+        _offcanvas.hide();
+      }
+
+      const handleHidden = () => onCloseRef.current();
+      UIkit.util.on(el, 'hidden', handleHidden);
+
+      return () => {
+        UIkit.util.off(el, 'hidden', handleHidden);
+      };
+    }
+  }, [open]);
 
   return createPortal(
     <OffCanvasContext.Provider value={{ open }}>
       <div
-        ref={containerRef}
-        className={classes}
-        style={styles}
-        data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}`}
+        ref={ref}
+        className="uk-offcanvas"
+        data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}`}
       >
         {children}
       </div>
