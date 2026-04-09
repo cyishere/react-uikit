@@ -93,6 +93,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@19.2.14)(react@19.2.4)
+      tua-body-scroll-lock:
+        specifier: ^1.6.3
+        version: 1.6.3
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.4.0
@@ -3423,6 +3426,9 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  tua-body-scroll-lock@1.6.3:
+    resolution: {integrity: sha512-rGDX9Yj3TPaM8EcVphMMSx8OhKD3FKn6smvSu/DRhuapJf3gCvPQMeLMOpIJg6QQbB7J/NonekeboZxqKwxqIA==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -7968,6 +7974,8 @@ snapshots:
       - supports-color
       - tsx
       - yaml
+
+  tua-body-scroll-lock@1.6.3: {}
 
   type-check@0.4.0:
     dependencies:

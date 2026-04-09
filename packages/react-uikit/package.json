@@ -43,6 +43,7 @@
     "vitest": "^2.1.0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.4"
+    "@radix-ui/react-slot": "^1.2.4",
+    "tua-body-scroll-lock": "^1.6.3"
   }
 }
