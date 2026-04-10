@@ -41,7 +41,13 @@ import { cn } from '../../utils';
  * `stroke="currentColor"` to enable CSS color inheritance.
  */
 const CloseIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    aria-hidden="true"
+  >
     <path fill="none" stroke="currentColor" strokeWidth="1.1" d="m1 1 12 12M13 1 1 13" />
   </svg>
 );
@@ -52,7 +58,13 @@ const CloseIcon = () => (
  * `stroke="currentColor"` to enable CSS color inheritance.
  */
 const CloseLargeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    aria-hidden="true"
+  >
     <path fill="none" stroke="currentColor" strokeWidth="1.4" d="m1 1 18 18M19 1 1 19" />
   </svg>
 );
