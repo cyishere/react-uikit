@@ -19,18 +19,31 @@ export interface IconProps extends HTMLAttributes<HTMLSpanElement> {
   /** The UIkit icon name to render (e.g. `"heart"`, `"check"`) */
   name: UIkitIconName;
   /**
+   * Accessible label for the icon.
+   * If omitted, the icon is considered decorative and hidden from screen readers.
+   */
+  label?: string;
+  /**
    * Scales the icon by this multiplier. Defaults to `1`.
    * For example: `ratio={2}` renders the icon at 2x its natural size.
    */
   ratio?: number;
 }
 
-export const Icon = ({ ref, name, ratio = 1, className, ...props }: IconProps) => {
+export const Icon = ({ ref, name, label, ratio = 1, className, ...props }: IconProps) => {
   const svg = getIconSvg(name, ratio);
 
   const classes = cn('uk-icon', className);
 
   return (
-    <span ref={ref} className={classes} dangerouslySetInnerHTML={{ __html: svg }} {...props} />
+    <span
+      ref={ref}
+      className={classes}
+      role={label ? 'img' : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : 'true'}
+      dangerouslySetInnerHTML={{ __html: svg }}
+      {...props}
+    />
   );
 };

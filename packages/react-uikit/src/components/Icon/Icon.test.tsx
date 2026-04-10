@@ -30,6 +30,26 @@ describe('Icon', () => {
     expect(svg).toHaveAttribute('aria-hidden', 'true');
   });
 
+  // --- Accessibility ---
+
+  it('is hidden from screen readers by default (no label)', () => {
+    const { container } = render(<Icon name="heart" />);
+    const span = container.querySelector('.uk-icon');
+
+    expect(span).toHaveAttribute('aria-hidden', 'true');
+    expect(span).not.toHaveAttribute('role');
+    expect(span).not.toHaveAttribute('aria-label');
+  });
+
+  it('has role="img" and aria-label when label is provided', () => {
+    const { container } = render(<Icon name="heart" label="Favorite" />);
+    const span = container.querySelector('.uk-icon');
+
+    expect(span).toHaveAttribute('role', 'img');
+    expect(span).toHaveAttribute('aria-label', 'Favorite');
+    expect(span).not.toHaveAttribute('aria-hidden');
+  });
+
   // --- Ratio prop ---
 
   it('applies ratio scaling to SVG width and height attributes', () => {
