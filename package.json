@@ -15,7 +15,8 @@
     "typecheck": "pnpm --filter react-uikit typecheck && pnpm --filter docs check",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "check": "pnpm format && eslint . && pnpm --filter docs check && pnpm typecheck"
+    "docs:check": "pnpm --filter docs check",
+    "check": "pnpm format && eslint . && pnpm docs:check && pnpm typecheck"
   },
   "keywords": [],
   "author": "Chen Yang",

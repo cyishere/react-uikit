@@ -6,5 +6,15 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), mdx()]
+  integrations: [react(), mdx()],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          quietDeps: true,
+          silenceDeprecations: ['import']
+        }
+      }
+    }
+  }
 });
