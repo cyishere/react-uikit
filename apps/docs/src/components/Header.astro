@@ -1,23 +1,14 @@
 ---
-const { pathname } = Astro.url;
-
-const NAV_LINKS = [
-	{
-		label: 'Docs',
-		slug: '',
-	},
-	{
-		label: 'Components',
-		slug: 'accordion',
-	}
-]
+import { MobileNav, Nav } from './Nav';
 ---
 
-<nav class="uk-background-primary uk-light">
-	<div class="uk-container uk-container-expand">
+<header class="uk-background-primary uk-light">
+	<nav class="uk-container uk-container-expand">
 		<div class="uk-navbar">
-			<div class="uik-navbar-left">
-				<button type="button" class="menu-button" aria-label="Open navigation" aria-expanded="false">Menu</button>
+			<div class="uk-navbar-left">
+				<MobileNav client:only="react">
+					<Nav />
+				</MobileNav>
 
 				<a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home">react-uikit</a>
 			</div>
@@ -27,29 +18,20 @@ const NAV_LINKS = [
 					<button class="uk-button uk-button-default">Search</button>
 				</div>
 				<ul class="uk-navbar-nav">
-					{NAV_LINKS.map(({ label, slug }) => (
-						<li class={pathname.slice(1) === slug ? 'uk-active' : ''}>
-							<a href={`/${slug}`}>{label}</a>
-						</li>
-					))}
 					<li>
 						<a href="https://github.com/cyishere/react-uikit" target="_blank" rel="noopener noreferrer">GitHub</a>
 					</li>
 				</ul>
 			</div>
-		</nav>
-	</div>
+		</div>
+	</nav>
 </header>
 
 
 <style>
-	.menu-button {
-		display: none;
-	}
-
 	@media (max-width: 768px) {
-		.menu-button {
-			display: block;
+		nav :global(.uk-navbar-right) {
+			display: none;
 		}
-}
+	}
 </style>

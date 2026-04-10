@@ -1,0 +1,67 @@
+---
+const { pathname } = Astro.url;
+
+const NAV_LINKS = {
+	basic: {
+		label: 'Getting Started',
+		links: [
+			{
+				label: 'Introduction',
+				slug: ''
+			},
+			{
+				label: 'Installation',
+				slug: 'installation'
+			},
+			{
+				label: 'Themes',
+				slug: 'themes'
+			},
+			{
+				label: 'SSR Guide',
+				slug: 'ssr-guide'
+			},
+		]
+	},
+	components: {
+		label: 'Components',
+		links: [
+			{
+				label: 'Accordion',
+				slug: 'accordion',
+			},
+			{
+				label: 'Alert',
+				slug: 'alert',
+			},
+			{
+				label: 'Close',
+				slug: 'close',
+			},
+			{
+				label: 'Icon',
+				slug: 'icon',
+			},
+			{
+				label: 'OffCanvas',
+				slug: 'offcanvas',
+			}
+		]
+	}
+};
+---
+<Fragment>
+	<h2 class="uk-h6 uk-text-uppercase uk-heading-divider">{NAV_LINKS.basic.label}</h2>
+	<ul class="uk-nav uk-nav-default">
+		{NAV_LINKS.basic.links.map(({ label, slug }) => (
+      <li class={pathname.slice(1) === slug ? 'uk-active' : ''}><a href={`/${slug}`}>{label}</a></li>
+		))}
+  </ul>
+
+	<h2 class="uk-h6 uk-text-uppercase uk-heading-divider">{NAV_LINKS.components.label}</h2>
+	<ul class="uk-nav uk-nav-default">
+		{NAV_LINKS.components.links.map(({ label, slug }) => (
+      <li class={pathname.slice(1) === slug ? 'uk-active' : ''}><a href={`/${slug}`}>{label}</a></li>
+		))}
+  </ul>
+</Fragment>
