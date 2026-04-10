@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import FocusLock from 'react-focus-lock';
+import { RemoveScroll } from 'react-remove-scroll';
 import UIkit from 'uikit';
-
-import { OffCanvasContext } from './OffCanvasContext';
 
 export interface OffCanvasProps {
   open: boolean;
@@ -51,15 +51,17 @@ const OffCanvas = ({
   }, [open]);
 
   return createPortal(
-    <OffCanvasContext.Provider value={{ open }}>
-      <div
-        ref={ref}
-        className="uk-offcanvas"
-        data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}`}
-      >
-        {children}
-      </div>
-    </OffCanvasContext.Provider>,
+    <FocusLock disabled={overlay || !open} returnFocus={true}>
+      <RemoveScroll enabled={!overlay && open}>
+        <div
+          ref={ref}
+          className="uk-offcanvas"
+          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}`}
+        >
+          {children}
+        </div>
+      </RemoveScroll>
+    </FocusLock>,
     document.body
   );
 };

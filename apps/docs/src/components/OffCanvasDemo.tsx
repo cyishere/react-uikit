@@ -12,7 +12,7 @@ const OffCanvasDemo = () => {
         Open
       </button>
 
-      <OffCanvas open={isOpen} onClose={handleClose} mode="slide" overlay>
+      <OffCanvas open={isOpen} onClose={handleClose} mode="slide">
         <OffCanvasBar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
@@ -25,6 +25,12 @@ const OffCanvasDemo = () => {
           </p>
         </OffCanvasBar>
       </OffCanvas>
+
+      <div className="uk-padding">
+        <button>Test focus</button>
+        <a href="/#">Test Focus</a>
+        <div style={{ height: '600px' }} />
+      </div>
     </div>
   );
 };
