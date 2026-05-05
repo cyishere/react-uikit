@@ -1,0 +1,13 @@
+---
+import 'react-uikit/styles.css';
+
+import SwitcherDemo from '@/components/SwitcherDemo';
+import BaseLayout from '@/layouts/Base.astro';
+---
+
+<BaseLayout>
+	<div class="uk-section">
+		<h1 class="uk-heading-divider">Switcher</h1>
+		<SwitcherDemo client:load />
+	</div>
+</BaseLayout>

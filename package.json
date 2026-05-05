@@ -11,7 +11,7 @@
     "dev": "concurrently \"pnpm dev:lib\" \"pnpm dev:docs\"",
     "test": "pnpm --filter react-uikit test",
     "test:run": "pnpm --filter react-uikit test:run",
-    "format": "prettier --write .",
+    "format": "prettier --write --experimental-cli .",
     "typecheck": "pnpm --filter react-uikit typecheck && pnpm --filter docs check",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
