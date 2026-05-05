@@ -3,7 +3,7 @@ import { Switcher } from 'react-uikit';
 const SwitcherDemo = () => {
   return (
     <Switcher.Root>
-      <Switcher.List>
+      <Switcher.List className="uk-tab">
         <Switcher.Trigger>Overview</Switcher.Trigger>
         <Switcher.Trigger>API</Switcher.Trigger>
         <Switcher.Trigger disabled>Disabled</Switcher.Trigger>

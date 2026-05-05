@@ -8,6 +8,7 @@ import type {
 
 import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 
+import './Switcher.css';
 import { SwitcherContext, useSwitcherContext } from './SwitcherContext';
 import { cn } from '../../utils';
 
@@ -154,7 +155,7 @@ export interface SwitcherListProps extends HTMLAttributes<HTMLUListElement> {
 
 const SwitcherList = ({ className, children, ...props }: SwitcherListProps) => {
   return (
-    <ul className={cn('uk-tab', className)} role="tablist" {...props}>
+    <ul className={cn(className)} role="tablist" {...props}>
       {children}
     </ul>
   );
@@ -193,6 +194,7 @@ export interface SwitcherTriggerProps extends ButtonHTMLAttributes<HTMLButtonEle
 
 const SwitcherTrigger = ({
   children,
+  className,
   index,
   disabled = false,
   onClick,
@@ -329,6 +331,7 @@ const SwitcherTrigger = ({
         {...props}
         aria-controls={panelId}
         aria-selected={isActive}
+        className={cn('ruk-switcher-trigger-button', className)}
         disabled={disabled}
         id={tabId}
         onClick={handleClick}

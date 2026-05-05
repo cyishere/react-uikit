@@ -1,0 +1,44 @@
+.ruk-switcher-trigger-button {
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  line-height: 1.5;
+}
+
+.ruk-switcher-trigger-button:focus {
+  outline-offset: 2px;
+}
+
+.ruk-switcher-trigger-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.uk-tab .ruk-switcher-trigger-button {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25em;
+  justify-content: center;
+  padding: 5px 10px;
+  color: #999;
+  border-bottom: 1px solid transparent;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  transition: color 0.1s ease-in-out;
+}
+
+.uk-tab > * > button[disabled],
+.uk-subnav > * > button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.uk-tab > .uk-active > .ruk-switcher-trigger-button {
+  color: #333;
+  border-color: #1e87f0;
+}
+
+.uk-subnav-pill > .uk-active > .ruk-switcher-trigger-button {
+  background-color: #1e87f0;
+  color: #fff;
+}
