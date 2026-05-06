@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
-import { BasicUsage } from '@/components/demos/Alert'
+import { Content, frontmatter } from '@/components/demos/Alert/alert.mdx'
+
+const { title, description } = frontmatter;
 ---
 
 <BaseLayout>
 	<div class="uk-section">
-		<h1>Alert</h1>
-		<p class="uk-text-lead">Display success, warning and error messages.</p>
+		<h1>{title}</h1>
+		<p class="uk-text-lead">{description}</p>
 		<hr>
 
-		<h2>Usage</h2>
-		<BasicUsage client:load />
+		<Content />
 	</div>
 </BaseLayout>

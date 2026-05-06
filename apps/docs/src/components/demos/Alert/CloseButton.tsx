@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { Alert, Switcher } from 'react-uikit';
+import { Alert, Switcher, Close } from 'react-uikit';
 
 interface BasicUsageProps {
   children: ReactNode;
@@ -17,6 +17,7 @@ const BasicUsage: FC<BasicUsageProps> = ({ children }) => {
       <Switcher.Container className="uk-margin">
         <Switcher.Panel>
           <Alert>
+            <Close className="uk-alert-close" />
             Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud elit esse
             ut officia sint cupidatat nostrud nulla do aliquip veniam in ut sint culpa.
           </Alert>

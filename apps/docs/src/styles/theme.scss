@@ -5,3 +5,11 @@ $offcanvas-bar-background: #fff;
 $offcanvas-bar-color-mode: dark;
 
 @import 'uikit/src/scss/uikit-theme.scss';
+
+.astro-code {
+  padding: 1rem;
+}
+
+.astro-code .line {
+  text-wrap: auto;
+}
