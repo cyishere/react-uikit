@@ -1,11 +1,18 @@
 ---
-import { Close as UikitClose } from 'react-uikit';
 import BaseLayout from '@/layouts/Base.astro';
+import { Content, frontmatter } from '@/content/close.mdx'
+
+const { title, description } = frontmatter;
 ---
 
 <BaseLayout>
 	<div class="uk-section">
-		<h1 class="uk-heading-divider">Close</h1>
-		<UikitClose />
+		<h1>{title}</h1>
+		<p class="uk-text-lead uk-text-muted">{description}</p>
+		<hr>
+
+		<div class="uk-article">
+			<Content />
+		</div>
 	</div>
 </BaseLayout>

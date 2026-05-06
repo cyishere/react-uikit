@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
-import { Content, frontmatter } from '@/components/demos/Alert/alert.mdx'
+import { Content, frontmatter } from '@/content/alert.mdx'
 
 const { title, description } = frontmatter;
 ---
@@ -8,9 +8,11 @@ const { title, description } = frontmatter;
 <BaseLayout>
 	<div class="uk-section">
 		<h1>{title}</h1>
-		<p class="uk-text-lead">{description}</p>
+		<p class="uk-text-lead uk-text-muted">{description}</p>
 		<hr>
 
-		<Content />
+		<div class="uk-article">
+			<Content />
+		</div>
 	</div>
 </BaseLayout>

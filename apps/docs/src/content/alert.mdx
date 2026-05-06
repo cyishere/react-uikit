@@ -3,10 +3,12 @@ title: Alert
 description: Display success, warning and error messages.
 ---
 
-import BasicUsage from './BasicUsage.tsx';
-import CloseButton from './CloseButton.tsx';
+import BasicUsage from '@/components/Alert/BasicUsage.tsx';
+import CloseButton from '@/components/Alert/CloseButton.tsx';
 
 ## Usage
+
+The `Alert` component is a `div` with `.uk-alert` class. Use it as any `div` element.
 
 <BasicUsage client:load>
   ```jsx
@@ -18,7 +20,7 @@ import CloseButton from './CloseButton.tsx';
 
 ## Close button
 
-Add the [`Close`](/close) component with `.uk-alert-close` to function as close button for the Alert.
+Add the [`Close`](/close) component with `.uk-alert-close` to function as `Alert`'s close button.
 
 ```jsx
 <Alert>
