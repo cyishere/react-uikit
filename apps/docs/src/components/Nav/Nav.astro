@@ -54,7 +54,7 @@ const NAV_LINKS = {
 	}
 };
 ---
-<Fragment>
+<div class="uk-padding-small">
 	<h2 class="uk-h6 uk-text-uppercase uk-heading-divider">{NAV_LINKS.basic.label}</h2>
 	<ul class="uk-nav uk-nav-default">
 		{NAV_LINKS.basic.links.map(({ label, slug }) => (
@@ -68,4 +68,4 @@ const NAV_LINKS = {
       <li class={pathname.slice(1) === slug ? 'uk-active' : ''}><a href={`/${slug}`}>{label}</a></li>
 		))}
   </ul>
-</Fragment>
+</div>

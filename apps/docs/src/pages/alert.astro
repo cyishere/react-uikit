@@ -1,9 +1,15 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
+import { BasicUsage } from '@/components/demos/Alert'
 ---
 
 <BaseLayout>
 	<div class="uk-section">
-		<h1 class="uk-heading-divider">Alert</h1>
+		<h1>Alert</h1>
+		<p class="uk-text-lead">Display success, warning and error messages.</p>
+		<hr>
+
+		<h2>Usage</h2>
+		<BasicUsage client:load />
 	</div>
 </BaseLayout>
