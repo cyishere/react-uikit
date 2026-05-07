@@ -1,25 +1,34 @@
 import * as React from 'react';
+import UIkit from 'uikit';
 
 import { cn } from '../../utils';
 import { Close } from '../Close';
-import './Alert.css';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const Alert: React.FC<AlertProps> = ({ className, children }) => {
-  const [hide, setHide] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const _alertRef = React.useRef<UIkit.UIkitAlertElement>(null);
 
   const handleClose = () => {
-    console.log('hiya');
-    setHide(true);
+    if (_alertRef.current) {
+      _alertRef.current.close();
+    }
   };
 
+  React.useEffect(() => {
+    if (ref.current) {
+      const el = ref.current;
+      _alertRef.current = UIkit.alert(el);
+    }
+  }, []);
+
   return (
-    <div className={cn('uk-alert', className, hide && 'ruk-alert-leave')}>
+    <div ref={ref} className={cn('uk-alert', className)}>
       {children}
-      <Close className="uk-alert-close" onClick={handleClose} />
+      <Close className="uk-alert-close" label="Close alert" onClick={handleClose} />
     </div>
   );
 };
