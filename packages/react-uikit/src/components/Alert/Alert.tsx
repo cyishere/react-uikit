@@ -7,6 +7,11 @@ import { Close } from '../Close';
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   /**
+   * Whether to show the default close button.
+   * Default: true
+   */
+  showCloseButton?: boolean;
+  /**
    * Whether to animate the alert when closing.
    * Default: true
    */
@@ -22,11 +27,13 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   selClose?: string;
   /**
-   * Fires before an item is hidden.
+   * Fires just before the Alert starts its
+     closing animation.
    */
   onBeforeHide?: (event: Event) => void;
   /**
-   * Fires after an item is hidden.
+   * Fires once the Alert has been completely
+     removed from the DOM.
    */
   onHide?: (event: Event) => void;
 }
@@ -37,6 +44,7 @@ export const Alert: React.FC<AlertProps> = ({
   children,
   duration = 150,
   selClose = '.uk-alert-close',
+  showCloseButton = true,
   onBeforeHide,
   onHide,
   ...props
@@ -84,7 +92,9 @@ export const Alert: React.FC<AlertProps> = ({
   return (
     <div ref={ref} className={cn('uk-alert', className)} {...props}>
       {children}
-      <Close className="uk-alert-close" label="Close alert" onClick={handleClose} />
+      {showCloseButton && (
+        <Close className="uk-alert-close" label="Close alert" onClick={handleClose} />
+      )}
     </div>
   );
 };
