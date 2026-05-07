@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { Switcher } from 'react-uikit';
 
 interface BasicUsageProps {
-  preview: ReactNode;
+  preview?: ReactNode;
   children: ReactNode;
 }
 
@@ -16,7 +16,7 @@ const BasicUsage: FC<BasicUsageProps> = ({ preview, children }) => {
       </Switcher.List>
 
       <Switcher.Container className="uk-margin">
-        <Switcher.Panel>{preview}</Switcher.Panel>
+        <Switcher.Panel>{preview || <p>Please refresh.</p>}</Switcher.Panel>
         <Switcher.Panel>{children}</Switcher.Panel>
       </Switcher.Container>
     </Switcher.Root>

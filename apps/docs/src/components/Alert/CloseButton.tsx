@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { Alert, Close } from 'react-uikit';
+import { Alert } from 'react-uikit';
 
 import DemoPreviewCode from '../DemoPreviewCode';
 
@@ -15,7 +15,6 @@ const BasicUsage: FC<BasicUsageProps> = ({ children }) => {
         <Alert>
           Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud elit esse
           ut officia sint cupidatat nostrud nulla do aliquip veniam in ut sint culpa.
-          <Close className="uk-alert-close" />
         </Alert>
       }
     >

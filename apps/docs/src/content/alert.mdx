@@ -3,7 +3,6 @@ title: Alert
 description: Display success, warning and error messages.
 ---
 
-import BasicUsage from '@/components/Alert/BasicUsage.tsx';
 import CloseButton from '@/components/Alert/CloseButton.tsx';
 
 ## Usage
@@ -22,18 +21,10 @@ For purely using UIkit's Alert style, apply the CSS class `.uk-alert` (required)
 
 The `Alert` component of `react-uikit` builds in the **close button**.
 
-<BasicUsage client:load>
+<CloseButton client:load>
   ```jsx
   <Alert>
     Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud elit esse ut.
   </Alert>
   ```
-</BasicUsage>
-
-Add the [`Close`](/close) component with `.uk-alert-close` to function as `Alert`'s close button.
-
-```jsx
-<Alert>
-  <Close className="uk-alert-close" />
-</Alert>
-```
+</CloseButton>

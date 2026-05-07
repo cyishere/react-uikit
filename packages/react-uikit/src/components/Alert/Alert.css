@@ -1,0 +1,15 @@
+.ruk-alert-leave {
+  height: 0px;
+  transition-property:
+    height, margin-top, margin-bottom, padding-top, padding-bottom, border-top, border-bottom,
+    opacity;
+  transition-duration: 170ms;
+  transition-timing-function: ease;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  opacity: 0;
+}
