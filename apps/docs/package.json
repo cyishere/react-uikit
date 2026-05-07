@@ -23,7 +23,7 @@
     "react-dom": "^19.2.4",
     "react-uikit": "workspace:*",
     "typescript": "^6.0.2",
-    "uikit": "^3.25.14"
+    "uikit": "^3.25.16"
   },
   "devDependencies": {
     "sass": "^1.99.0"
