@@ -1,0 +1,19 @@
+.wrapper {
+  text-align: center;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}

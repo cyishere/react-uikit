@@ -13,10 +13,10 @@
     "test:run": "pnpm --filter react-uikit test:run",
     "format": "prettier --write --experimental-cli .",
     "typecheck": "pnpm --filter react-uikit typecheck && pnpm --filter docs check",
-    "lint": "eslint .",
+    "lint": "pnpm format && eslint .",
     "lint:fix": "eslint . --fix",
     "docs:check": "pnpm --filter docs check",
-    "check": "pnpm format && eslint . && pnpm docs:check && pnpm typecheck"
+    "check": "pnpm lint && pnpm docs:check && pnpm typecheck"
   },
   "keywords": [],
   "author": "Chen Yang",

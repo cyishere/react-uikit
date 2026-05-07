@@ -73,6 +73,7 @@ export interface CloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   ref?: Ref<HTMLButtonElement>;
   /** Renders the 20×20 close-large glyph and applies `uk-close-large` instead of `uk-close`. */
   large?: boolean;
+  label?: string;
   /**
    * When `true`, merges all props onto the single child element
    * via Radix `Slot` instead of rendering a `<button>`. The correct
@@ -86,6 +87,7 @@ export const Close = ({
   ref,
   asChild = false,
   className,
+  label = 'Close',
   large = false,
   type,
   children,
@@ -118,7 +120,7 @@ export const Close = ({
   const icon = large ? <CloseLargeIcon /> : <CloseIcon />;
 
   return (
-    <Comp ref={ref} className={classes} aria-label="Close" {...compProps}>
+    <Comp ref={ref} className={classes} aria-label={label} {...compProps}>
       {/*
       In `asChild` mode, clone the child and inject the SVG inside it. This ensures the icon is always rendered even when consumers provide their own element (e.g. an empty <a> or <Link>). In standard `button` mode, render the SVG directly as the only child.
       */}

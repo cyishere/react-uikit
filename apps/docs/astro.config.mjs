@@ -16,5 +16,10 @@ export default defineConfig({
         }
       }
     }
+  },
+  markdown: {
+    shikiConfig: {
+      theme: 'material-theme-lighter'
+    }
   }
 });

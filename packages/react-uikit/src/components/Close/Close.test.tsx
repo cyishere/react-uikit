@@ -69,13 +69,20 @@ describe('Close', () => {
     expect(button).not.toHaveClass('uk-close');
   });
 
-  // --- className and ref ---
+  // --- className, label and ref ---
 
   it('merges custom className onto the element', () => {
     render(<Close className="custom-close-class" />);
     const button = screen.getByRole('button', { name: 'Close' });
 
     expect(button).toHaveClass('uk-icon', 'uk-close', 'custom-close-class');
+  });
+
+  it('use custom label text for the element', () => {
+    render(<Close label="Close the component" />);
+    const button = screen.getByRole('button', { name: 'Close the component' });
+
+    expect(button).toBeInTheDocument();
   });
 
   it('forwards ref to the button element', () => {

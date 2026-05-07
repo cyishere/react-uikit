@@ -1,5 +1,6 @@
 ---
 import '../styles/theme.scss';
+import 'react-uikit/styles.css';
 
 import Header from '@/components/Header.astro';
 import Sidebar from '@/components/Sidebar.astro';
@@ -35,10 +36,10 @@ import Toc from '@/components/Toc.astro';
 <style>
 	.wrapper {
 		position: relative;
-		height: calc(100vh - 80px);
+		min-height: calc(100vh - 80px);
 		display: flex;
 		flex: 1;
-		align-items: stretch;
+		align-items: flex-start;
 	}
 
 	.main {

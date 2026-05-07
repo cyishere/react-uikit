@@ -2,17 +2,20 @@
 import { Nav } from './Nav';
 ---
 
-<nav class="sidebar uk-background-muted uk-padding-small">
+<nav class="sidebar uk-background-muted">
 	<Nav />	
 </nav>
 
 <style>
 	.sidebar {
 		width: 228px;
+		height: 100vh;
 		flex-shrink: 0;
-		overflow-y: auto;
 		transition: transform .25s cubic-bezier(.4,0,.2,1);
 		z-index: 200;
+		position: sticky;
+    top: 0;
+    overflow-y: auto;
 	}
 
 	@media (max-width: 768px) {

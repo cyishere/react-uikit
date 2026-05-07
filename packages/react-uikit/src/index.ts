@@ -16,5 +16,8 @@ export type {
   SwitcherTriggerProps
 } from './components/Switcher';
 
+export { Alert } from './components/Alert';
+export type { AlertProps } from './components/Alert';
+
 // Utils
 export { cn } from './utils/cn';
