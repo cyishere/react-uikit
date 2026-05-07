@@ -1,18 +1,11 @@
 ---
-import BaseLayout from '@/layouts/Base.astro';
-import { Content, frontmatter } from '@/content/close.mdx'
+import ContentLayout from '@/layouts/Content.astro';
+import { Content, frontmatter, components } from '@/content/close.mdx'
+import { customComponents } from '@/components/CustomComponents.astro'
 
 const { title, description } = frontmatter;
 ---
 
-<BaseLayout>
-	<div class="uk-section">
-		<h1>{title}</h1>
-		<p class="uk-text-lead uk-text-muted">{description}</p>
-		<hr>
-
-		<div class="uk-article">
-			<Content />
-		</div>
-	</div>
-</BaseLayout>
+<ContentLayout title={title} description={description}>
+	<Content components={{...components, ...customComponents }} />
+</ContentLayout>
