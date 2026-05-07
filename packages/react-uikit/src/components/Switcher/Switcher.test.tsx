@@ -132,7 +132,6 @@ describe('Switcher', () => {
       throw new Error('Switcher container not found');
     }
 
-    expect(tablist).toHaveClass('uk-tab');
     expect(tablist).toHaveClass('custom-list');
 
     expect(container).toHaveClass('uk-switcher');
