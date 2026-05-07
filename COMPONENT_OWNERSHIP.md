@@ -8,6 +8,8 @@ This document tracks the implementation responsibilities for each component in t
 | Icon      | UIkit CSS | React    | React | Safe     | None        | ARIA Hidden          |
 | OffCanvas | UIkit CSS | UIkit JS | React | Needs JS | `useEffect` | ARIA Modal           |
 | Switcher  | UIkit CSS | React    | React | Safe     | None        | WAI-ARIA Tab Pattern |
+| Alert     | UIkit CSS |          |       |          |             |                      |
+| Tooltip   | UIkit CSS |          |       |          |             |                      |
 
 ## Column Definitions
 

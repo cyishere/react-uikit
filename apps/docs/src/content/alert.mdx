@@ -8,7 +8,19 @@ import CloseButton from '@/components/Alert/CloseButton.tsx';
 
 ## Usage
 
-The `Alert` component is a `div` with `.uk-alert` class. Use it as any `div` element.
+For purely using UIkit's Alert style, apply the CSS class `.uk-alert` (required) or combine it with `.uk-alert-primary`, `.uk-alert-success`, `.uk-alert-warning` and `.uk-alert-danger`.
+
+```html
+<div class="uk-alert"></div>
+<div class="uk-alert uk-alert-primary"></div>
+<div class="uk-alert uk-alert-success"></div>
+<div class="uk-alert uk-alert-warning"></div>
+<div class="uk-alert uk-alert-danger"></div>
+```
+
+## Close button
+
+The `Alert` component of `react-uikit` builds in the **close button**.
 
 <BasicUsage client:load>
   ```jsx
@@ -18,8 +30,6 @@ The `Alert` component is a `div` with `.uk-alert` class. Use it as any `div` ele
   ```
 </BasicUsage>
 
-## Close button
-
 Add the [`Close`](/close) component with `.uk-alert-close` to function as `Alert`'s close button.
 
 ```jsx
@@ -27,13 +37,3 @@ Add the [`Close`](/close) component with `.uk-alert-close` to function as `Alert
   <Close className="uk-alert-close" />
 </Alert>
 ```
-
-<CloseButton client:load>
-  ```jsx
-  <Alert>
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud elit esse ut
-    officia sint cupidatat nostrud nulla do aliquip veniam in ut sint culpa.
-    <Close className="uk-alert-close" />
-  </Alert>
-  ```
-</CloseButton>

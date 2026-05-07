@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
-import { Content, frontmatter } from '@/content/alert.mdx'
+import { Content, frontmatter, components } from '@/content/alert.mdx'
+import CodeBlock from '@/components/CodeBlock.astro'
 
 const { title, description } = frontmatter;
 ---
@@ -12,7 +13,7 @@ const { title, description } = frontmatter;
 		<hr>
 
 		<div class="uk-article">
-			<Content />
+			<Content components={{...components, pre: CodeBlock }} />
 		</div>
 	</div>
 </BaseLayout>
