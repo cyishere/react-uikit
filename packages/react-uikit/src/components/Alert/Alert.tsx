@@ -21,6 +21,14 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
    * Default: `.uk-alert-close`
    */
   selClose?: string;
+  /**
+   * Fires before an item is hidden.
+   */
+  onBeforeHide?: (event: Event) => void;
+  /**
+   * Fires after an item is hidden.
+   */
+  onHide?: (event: Event) => void;
 }
 
 export const Alert: React.FC<AlertProps> = ({
@@ -28,22 +36,17 @@ export const Alert: React.FC<AlertProps> = ({
   className,
   children,
   duration = 150,
-  selClose = '.uk-alert-close'
+  selClose = '.uk-alert-close',
+  onBeforeHide,
+  onHide,
+  ...props
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const _alertRef = React.useRef<UIkit.UIkitAlertElement>(null);
 
   const handleClose = () => {
     if (_alertRef.current) {
-      if (animation) {
-        // Use UIkit's close (which is currently hardcoded to animate)
-        _alertRef.current.close();
-      } else {
-        // Bypassing UIkit's bug:
-        // Manually destroy the component and remove the element immediately
-        // TODO: update when UIkit fixes this bug
-        _alertRef.current.$destroy(true);
-      }
+      _alertRef.current.close();
     }
   };
 
@@ -52,14 +55,34 @@ export const Alert: React.FC<AlertProps> = ({
       const el = ref.current;
       _alertRef.current = UIkit.alert(el, {
         animation,
-        duration,
+        // Workaround: UIkit Alert ignore `animation: false`,
+        // so we force duration to 0 to simulate it.
+        // TODO: update this when UIkit fixes this bug
+        duration: animation ? duration : 0,
         selClose
       });
     }
   }, [animation, duration, selClose]);
 
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // UIkit triggers these as native DOM events
+    const handleBeforeHide = (e: Event) => onBeforeHide?.(e);
+    const handleHide = (e: Event) => onHide?.(e);
+
+    el.addEventListener('beforehide', handleBeforeHide);
+    el.addEventListener('hide', handleHide);
+
+    return () => {
+      el.removeEventListener('beforehide', handleBeforeHide);
+      el.removeEventListener('hide', handleHide);
+    };
+  }, [onBeforeHide, onHide]);
+
   return (
-    <div ref={ref} className={cn('uk-alert', className)}>
+    <div ref={ref} className={cn('uk-alert', className)} {...props}>
       {children}
       <Close className="uk-alert-close" label="Close alert" onClick={handleClose} />
     </div>
