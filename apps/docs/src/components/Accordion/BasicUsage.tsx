@@ -12,7 +12,7 @@ const BasicUsage: FC<BasicUsageProps> = ({ children }) => {
   return (
     <DemoPreviewCode
       preview={
-        <Accordion.Root>
+        <Accordion.Root showIcon>
           <Accordion.Item>
             <Accordion.Trigger>Item 1</Accordion.Trigger>
             <Accordion.Panel>
