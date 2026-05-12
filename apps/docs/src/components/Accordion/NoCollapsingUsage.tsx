@@ -4,15 +4,15 @@ import { Accordion } from 'react-uikit';
 
 import DemoPreviewCode from '../DemoPreviewCode';
 
-interface IconUsageProps {
+interface NoCollapsingUsageProps {
   children: ReactNode;
 }
 
-const IconUsage: FC<IconUsageProps> = ({ children }) => {
+const NoCollapsingUsage: FC<NoCollapsingUsageProps> = ({ children }) => {
   return (
     <DemoPreviewCode
       preview={
-        <Accordion.Root showIcon>
+        <Accordion.Root defaultOpen={[0]} collapsible={false}>
           <Accordion.Item>
             <Accordion.Trigger>Item 1</Accordion.Trigger>
             <Accordion.Panel>
@@ -48,4 +48,4 @@ const IconUsage: FC<IconUsageProps> = ({ children }) => {
   );
 };
 
-export default IconUsage;
+export default NoCollapsingUsage;

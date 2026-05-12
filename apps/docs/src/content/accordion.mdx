@@ -5,9 +5,38 @@ description: Create a list of items that can be shown individually by clicking a
 
 import BasicUsage from '@/components/Accordion/BasicUsage.tsx';
 import IconUsage from '@/components/Accordion/IconUsage.tsx';
+import DefaultOpenUsage from '@/components/Accordion/DefaultOpenUsage';
+import MultipleOpenUsage from '@/components/Accordion/MultipleOpenUsage';
+import NoCollapsingUsage from '@/components/Accordion/NoCollapsingUsage';
 import AnimationUsage from '@/components/Accordion/AnimationUsage.tsx';
 
+## Overall
+
+While the `Accordion` component provided by `react-uikit` leverages the robust visual styling of UIkit, it manages its own state and DOM logic tailored specifically for React.
+
+```jsx
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Trigger>...</Accordion.Trigger>
+    <Accordion.Panel>...</Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+These compound components map directly to the underlying HTML structure required by UIkit:
+
+| React Component     | HTML tag |
+| ------------------- | -------- |
+| `Accordion.Root`    | `ul`     |
+| `Accordion.Item`    | `li`     |
+| `Accordion.Trigger` | `button` |
+| `Accordion.Panel`   | `div`    |
+
+<span class="uk-label">Note</span> Unlike UIkit, which typically uses an `a` tag with `href="#"`, `react-uikit` renders `Accordion.Trigger` as a native `<button>` element to ensure better out-of-the-box accessibility.
+
 ## Basic Usage
+
+By default, all accordion panels are initially collapsed, and neither icons nor animations are enabled.
 
 <BasicUsage client:load>
   ```jsx
@@ -43,17 +72,146 @@ import AnimationUsage from '@/components/Accordion/AnimationUsage.tsx';
   ```
 </BasicUsage>
 
-We can set default open panel and icon for an accordion by set an array to `defaultOpen` and set `showIcon` to `true`.
+### Icon
+
+To display a toggle icon (plus/minus) on the right side of the accordion title, add the `showIcon` prop to `<Accordion.Root>`.
 
 <IconUsage client:load>
   ```jsx
-  <Accordion.Root defaultOpen={[1]} showIcon>
-    {/* ... */}
-  </Accordion.Root>
+  <Accordion.Root showIcon>{/* ... */}</Accordion.Root>
   ```
 </IconUsage>
 
+## Multiple Open Items
+
+To allow multiple content sections to remain open simultaneously without collapsing the others, add the `multiple` prop to `<Accordion.Root>`.
+
+```jsx
+<Accordion.Root defaultOpen={[0]} multiple>
+  ...
+</Accordion.Root>
+```
+
+<MultipleOpenUsage client:load>
+  ```jsx
+  <Accordion.Root defaultOpen={[0]} multiple showIcon>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 1</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 2</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 3</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+  </Accordion.Root>
+  ```
+</MultipleOpenUsage>
+
+## Set Open Items
+
+To specify which items should be open initially, pass an array of zero-based item indexes to the `defaultOpen` prop on `<Accordion.Root>`. You can combine this with the `multiple` prop to open several items at once.
+
+<span class="uk-label">Note</span> Even if you only want to open a single item, you must provide it
+inside an array: `defaultOpen={[1]}`.
+
+<DefaultOpenUsage client:load>
+  ```jsx
+  <Accordion.Root defaultOpen={[1]} showIcon>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 1</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 2</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 3</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+  </Accordion.Root>
+  ```
+</DefaultOpenUsage>
+
+## No Collapsing
+
+By default, all accordion items can be collapsed. To prevent this behavior and ensure that at least one item remains open at all times, set `collapsible={false}`.
+
+```jsx
+<Accordion.Root collapsible={false}>...</Accordion.Root>
+```
+
+<NoCollapsingUsage client:load>
+  ```jsx
+  <Accordion.Root defaultOpen={[0]} collapsible={false}>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 1</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 2</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 3</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+  </Accordion.Root>
+  ```
+</NoCollapsingUsage>
+
 ## Animation
+
+To enable smooth height transitions when expanding and collapsing panels, add the `animation` prop to `<Accordion.Root>`.
 
 <AnimationUsage client:load>
   ```jsx
@@ -88,3 +246,43 @@ We can set default open panel and icon for an accordion by set an array to `defa
   </Accordion.Root>
   ```
 </AnimationUsage>
+
+## Controlled Component
+
+If you need to manage the state of the accordion externally (for example, to synchronize it with other parts of your UI or fetch data when a specific panel opens), you can use the `value` and `onValueChange` props instead of `defaultOpen`.
+
+```jsx
+import { useState } from 'react';
+
+const ControlledAccordion = () => {
+  const [openItems, setOpenItems] = useState([0]);
+
+  return (
+    <Accordion.Root value={openItems} onValueChange={setOpenItems}>
+      {/* Accordion Items */}
+    </Accordion.Root>
+  );
+};
+```
+
+## API Reference
+
+The `Accordion` is a compound component, but all its behavior options need to be set to `Accordion.Root`.
+
+| Prop            | Type                            | Default     | Description                                                                  |
+| --------------- | ------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| `defaultOpen`   | `number[]`                      | `[]`        | Initially open item indices (uncontrolled).                                  |
+| `multiple`      | `boolean`                       | `false`     | Allow multiple items to be open at the same time.                            |
+| `collapsible`   | `boolean`                       | `true`      | Allow all items to be collapsed. When `false`, at least one item stays open. |
+| `showIcon`      | `boolean`                       | `false`     | Show the accordion plus/minus icon on every trigger.                         |
+| `animation`     | `boolean`                       | `false`     | Whether to animate the accordion panel expansion and collapse.               |
+| `value`         | `number[]`                      | `undefined` | Controlled open item indices.                                                |
+| `onValueChange` | `(openItems: number[]) => void` | `undefined` | Callback when open items change.                                             |
+
+## Roadmap
+
+While the current `Accordion` implementation covers all core UI/UX and accessibility requirements from UIkit, a few advanced options from the original UIkit library are currently omitted and planned for future releases:
+
+- **Custom Animation Duration and Easing**: Currently hardcoded to `200ms` and `ease`.
+- **Scroll Offset**: Auto-scrolling the window to keep the header visible when an item expands and pushes it out of the viewport.
+- **Lifecycle Events**: Fine-grained transition events like `beforeshow`, `shown`, `beforehide`, and `hidden` (currently state changes are handled collectively via `onValueChange`).
