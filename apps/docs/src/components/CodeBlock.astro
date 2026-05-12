@@ -1,36 +1,36 @@
 ---
-import CopyButton from '@/components/CopyButton'
+import CopyButton from '@/components/CopyButton';
 
 const props = Astro.props;
 const id = `code-${crypto.randomUUID()}`;
 ---
 
-<div class="wrapper">
-	<div class="uk-flex uk-flex-between uk-flex-middle uk-text-muted uk-text-uppercase controlls">
-		<span>{props['data-language']}</span>
-		<CopyButton targetId={id} client:load />
-	</div>
-	<pre {...props} id={id}><slot /></pre>
+<div class="wrapper uk-margin">
+  <div class="uk-flex uk-flex-between uk-flex-middle uk-text-muted uk-text-uppercase controlls">
+    <span>{props['data-language']}</span>
+    <CopyButton targetId={id} client:load />
+  </div>
+  <pre {...props} id={id}><slot /></pre>
 </div>
 
 <style lang="scss">
-	@import 'uikit/src/scss/variables.scss';
+  @import 'uikit/src/scss/variables.scss';
 
-	.wrapper {
-		border: 1px solid $global-border;
-	}
+  .wrapper {
+    border: 1px solid $global-border;
+  }
 
-	.controlls {
-		padding: 0.25rem 0.5rem;
-		border-bottom: 1px solid $global-border;
-	}
-	
-	:global(.astro-code) {
-	  padding: 1rem;
-	}
+  .controlls {
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid $global-border;
+  }
 
-	pre {
-		border: none;
-		margin: 0;
-	}
+  :global(.astro-code) {
+    padding: 1rem;
+  }
+
+  pre {
+    border: none;
+    margin: 0;
+  }
 </style>

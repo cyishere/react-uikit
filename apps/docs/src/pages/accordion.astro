@@ -1,9 +1,11 @@
 ---
-import BaseLayout from '@/layouts/Base.astro';
+import ContentLayout from '@/layouts/Content.astro';
+import { Content, frontmatter, components } from '@/content/accordion.mdx';
+import { customComponents } from '@/components/CustomComponents.astro';
+
+const { title, description } = frontmatter;
 ---
 
-<BaseLayout>
-	<div class="uk-section">
-		<h1 class="uk-heading-divider">Accordion</h1>
-	</div>
-</BaseLayout>
+<ContentLayout title={title} description={description}>
+  <Content components={{ ...components, ...customComponents }} />
+</ContentLayout>

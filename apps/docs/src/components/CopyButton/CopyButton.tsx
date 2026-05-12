@@ -31,7 +31,15 @@ const CopyButton: React.FC<CopyButtonProps> = ({ targetId }) => {
       aria-label={copied ? 'Copied' : 'Copy the code'}
       data-copy-button
     >
-      {copied ? <Icon name="check" /> : <Icon name="copy" />}
+      {copied ? (
+        <>
+          Copied <Icon name="check" />
+        </>
+      ) : (
+        <>
+          Copy <Icon name="copy" />
+        </>
+      )}
     </button>
   );
 };

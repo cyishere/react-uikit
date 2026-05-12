@@ -19,5 +19,13 @@ export type {
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
 
+export { Accordion } from './components/Accordion';
+export type {
+  AccordionRootProps,
+  AccordionItemProps,
+  AccordionTriggerProps,
+  AccordionPanelProps
+} from './components/Accordion';
+
 // Utils
 export { cn } from './utils/cn';
