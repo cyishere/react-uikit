@@ -6,9 +6,10 @@ import {
   useAccordionContext,
   useAccordionItemContext
 } from './AccordionContext';
+import AccordionIcon from './Icon';
 import { cn } from '../../utils';
-import { Icon } from '../Icon';
 import UnstyledButton from '../UnstyledButton';
+import './Accordion.css';
 
 // ---------------------------------------------------------------------------
 // AccordionRoot
@@ -180,20 +181,12 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
       {...props}
       aria-controls={panelId}
       aria-expanded={isOpen}
-      className={cn('uk-accordion-title', className)}
+      className={cn('uk-accordion-title', 'ruk-accordion-trigger', className)}
       id={triggerId}
       onClick={handleClick}
     >
       <span>{children}</span>
-      {showIcon && (
-        <>
-          {isOpen ? (
-            <Icon name="minus" className="uk-accordion-icon" />
-          ) : (
-            <Icon name="plus" className="uk-accordion-icon" />
-          )}
-        </>
-      )}
+      {showIcon && <AccordionIcon />}
     </UnstyledButton>
   );
 };

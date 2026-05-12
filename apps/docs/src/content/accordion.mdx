@@ -4,6 +4,7 @@ description: Create a list of items that can be shown individually by clicking a
 ---
 
 import BasicUsage from '@/components/Accordion/BasicUsage.tsx';
+import IconUsage from '@/components/Accordion/IconUsage.tsx';
 import AnimationUsage from '@/components/Accordion/AnimationUsage.tsx';
 
 ## Basic Usage
@@ -41,6 +42,16 @@ import AnimationUsage from '@/components/Accordion/AnimationUsage.tsx';
   </Accordion.Root>
   ```
 </BasicUsage>
+
+We can set default open panel and icon for an accordion by set an array to `defaultOpen` and set `showIcon` to `true`.
+
+<IconUsage client:load>
+  ```jsx
+  <Accordion.Root defaultOpen={[1]} showIcon>
+    {/* ... */}
+  </Accordion.Root>
+  ```
+</IconUsage>
 
 ## Animation
 
