@@ -1,0 +1,16 @@
+---
+import { Code } from 'astro:components';
+import CodeBlock from './CodeBlock.astro';
+import DemoPreviewCode from './DemoPreviewCode';
+
+const { codeSnippet, lang } = Astro.props;
+---
+
+<DemoPreviewCode client:load>
+  <div slot="preview">
+    <slot />
+  </div>
+  <CodeBlock data-language={lang} notInMDX={true}>
+    <Code code={codeSnippet} lang={lang} theme="material-theme-lighter" />
+  </CodeBlock>
+</DemoPreviewCode>
