@@ -3,7 +3,7 @@ title: Alert
 description: Displays success, warning, and error messages.
 ---
 
-import BasicUsage from '@/components/Alert/BasicUsage.tsx';
+import BasicUsage from '@/components/Alert/BasicUsage.astro';
 
 ## Basic Usage
 
@@ -30,25 +30,7 @@ While you can use CSS classes for styling, the `Alert` component provided by `re
 
 Just like with a standard `div`, you can use the `className` prop to apply modifier classes such as `.uk-alert-primary` or `.uk-alert-danger`.
 
-<BasicUsage client:load>
-  ```jsx
-  <Alert>
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud esse.
-  </Alert>
-  <Alert className="uk-alert-primary">
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud esse.
-  </Alert>
-  <Alert className="uk-alert-success">
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud esse.
-  </Alert>
-  <Alert className="uk-alert-warning">
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud esse.
-  </Alert>
-  <Alert className="uk-alert-danger">
-    Eu eu cillum duis in officia aliquip enim qui sunt officia eu pariatur nostrud esse.
-  </Alert>
-  ```
-</BasicUsage>
+<BasicUsage />
 
 ## Custom Close Button
 
