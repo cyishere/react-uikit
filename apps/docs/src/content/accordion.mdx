@@ -1,16 +1,79 @@
 ---
 title: Accordion
-description: Displays success, warning, and error messages.
+description: Create a list of items that can be shown individually by clicking an item's header.
 ---
 
 import BasicUsage from '@/components/Accordion/BasicUsage.tsx';
+import AnimationUsage from '@/components/Accordion/AnimationUsage.tsx';
 
 ## Basic Usage
 
 <BasicUsage client:load>
   ```jsx
-  <Accordion>
-    <p>To be continue...</p>
-  </Accordion>
+  <Accordion.Root>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 1</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 2</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 3</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+  </Accordion.Root>
   ```
 </BasicUsage>
+
+## Animation
+
+<AnimationUsage client:load>
+  ```jsx
+  <Accordion.Root defaultOpen={[0]} animation showIcon>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 1</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 2</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+    <Accordion.Item>
+      <Accordion.Trigger>Item 3</Accordion.Trigger>
+      <Accordion.Panel>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </Accordion.Panel>
+    </Accordion.Item>
+  </Accordion.Root>
+  ```
+</AnimationUsage>

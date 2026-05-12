@@ -217,4 +217,26 @@ describe('Accordion', () => {
 
     consoleError.mockRestore();
   });
+
+  it('renders with animation wrapper when animation is true', () => {
+    renderAccordion({ animation: true });
+
+    const panel = screen.getByText('Content 1').closest('.uk-accordion-content');
+    expect(panel).toBeTruthy();
+
+    // Check if the parent is the animation wrapper
+    const wrapper = panel?.parentElement;
+    expect(wrapper?.style.overflow).toBe('hidden');
+  });
+
+  it('renders without animation wrapper when animation is false', () => {
+    renderAccordion({ animation: false });
+
+    const panel = screen.getByText('Content 1').closest('.uk-accordion-content');
+    expect(panel).toBeTruthy();
+
+    // The parent should NOT be the animation wrapper, it should be the Accordion.Item (li)
+    const parent = panel?.parentElement;
+    expect(parent?.tagName.toLowerCase()).toBe('li');
+  });
 });

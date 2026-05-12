@@ -5,6 +5,7 @@ export interface AccordionContextValue {
   toggle: (index: number) => void;
   showIcon: boolean;
   baseId: string;
+  animation: boolean;
 }
 
 export const AccordionContext = React.createContext<AccordionContextValue | null>(null);

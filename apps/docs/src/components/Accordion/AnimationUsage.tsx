@@ -4,15 +4,15 @@ import { Accordion } from 'react-uikit';
 
 import DemoPreviewCode from '../DemoPreviewCode';
 
-interface BasicUsageProps {
+interface AnimationUsageProps {
   children: ReactNode;
 }
 
-const BasicUsage: FC<BasicUsageProps> = ({ children }) => {
+const AnimationUsage: FC<AnimationUsageProps> = ({ children }) => {
   return (
     <DemoPreviewCode
       preview={
-        <Accordion.Root>
+        <Accordion.Root defaultOpen={[0]} animation showIcon>
           <Accordion.Item>
             <Accordion.Trigger>Item 1</Accordion.Trigger>
             <Accordion.Panel>
@@ -48,4 +48,4 @@ const BasicUsage: FC<BasicUsageProps> = ({ children }) => {
   );
 };
 
-export default BasicUsage;
+export default AnimationUsage;

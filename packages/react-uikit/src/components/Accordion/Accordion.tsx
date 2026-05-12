@@ -36,6 +36,10 @@ export interface AccordionRootProps extends React.ComponentPropsWithoutRef<'ul'>
    * Default: false
    */
   showIcon?: boolean;
+  /** Whether to animate the accordion panel.
+   * Default: false
+   */
+  animation?: boolean;
 }
 
 const AccordionRoot: React.FC<AccordionRootProps> = ({
@@ -47,6 +51,7 @@ const AccordionRoot: React.FC<AccordionRootProps> = ({
   value,
   onValueChange,
   showIcon = false,
+  animation = false,
   ...props
 }) => {
   const [uncontrolledItems, setUncontrolledItems] = React.useState<Set<number>>(
@@ -96,9 +101,10 @@ const AccordionRoot: React.FC<AccordionRootProps> = ({
       openItems,
       toggle,
       showIcon,
-      baseId
+      baseId,
+      animation
     }),
-    [openItems, toggle, showIcon, baseId]
+    [openItems, toggle, showIcon, baseId, animation]
   );
 
   return (
@@ -201,23 +207,109 @@ export interface AccordionPanelProps extends React.ComponentPropsWithoutRef<'div
 }
 
 const AccordionPanel: React.FC<AccordionPanelProps> = ({ children, className, ...props }) => {
-  const { openItems, baseId } = useAccordionContext();
+  const { openItems, baseId, animation } = useAccordionContext();
   const { index } = useAccordionItemContext();
   const isOpen = openItems.has(index);
 
   const triggerId = `${baseId}-trigger-${index}`;
   const panelId = `${baseId}-panel-${index}`;
 
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  const [height, setHeight] = React.useState<number | 'auto'>(isOpen ? 'auto' : 0);
+  const [isHidden, setIsHidden] = React.useState(!isOpen);
+
+  const isInitialMount = React.useRef(true);
+
+  React.useLayoutEffect(() => {
+    if (!animation) {
+      setHeight(isOpen ? 'auto' : 0);
+      setIsHidden(!isOpen);
+      return;
+    }
+
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    if (!contentRef.current) return;
+    const content = contentRef.current;
+
+    if (isOpen) {
+      setIsHidden(false);
+      setHeight(0);
+
+      requestAnimationFrame(() => {
+        if (!contentRef.current) return;
+        const style = window.getComputedStyle(contentRef.current);
+        const marginTop = parseFloat(style.marginTop) || 0;
+        const marginBottom = parseFloat(style.marginBottom) || 0;
+        const targetHeight = contentRef.current.offsetHeight + marginTop + marginBottom;
+
+        setHeight(targetHeight);
+      });
+    } else {
+      const style = window.getComputedStyle(content);
+      const marginTop = parseFloat(style.marginTop) || 0;
+      const marginBottom = parseFloat(style.marginBottom) || 0;
+      const currentHeight = content.offsetHeight + marginTop + marginBottom;
+
+      setHeight(currentHeight);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setHeight(0);
+        });
+      });
+    }
+  }, [isOpen, animation]);
+
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (!animation || e.target !== e.currentTarget) return;
+
+    if (isOpen) {
+      setHeight('auto');
+    } else {
+      setIsHidden(true);
+    }
+  };
+
+  if (!animation) {
+    return (
+      <div
+        {...props}
+        aria-labelledby={triggerId}
+        className={cn('uk-accordion-content', className)}
+        hidden={!isOpen}
+        id={panelId}
+        role="region"
+      >
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
-      {...props}
-      aria-labelledby={triggerId}
-      className={cn('uk-accordion-content', className)}
-      hidden={!isOpen}
-      id={panelId}
-      role="region"
+      onTransitionEnd={handleTransitionEnd}
+      style={{
+        overflow: 'hidden',
+        height: height === 'auto' ? 'auto' : `${height}px`,
+        transition: 'height 200ms ease'
+      }}
     >
-      {children}
+      <div
+        {...props}
+        ref={contentRef}
+        aria-labelledby={triggerId}
+        className={cn('uk-accordion-content', className)}
+        hidden={isHidden}
+        id={panelId}
+        role="region"
+      >
+        {children}
+      </div>
     </div>
   );
 };
