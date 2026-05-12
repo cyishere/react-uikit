@@ -40,7 +40,12 @@ export interface AccordionRootProps extends React.ComponentPropsWithoutRef<'ul'>
   /** Whether to animate the accordion panel.
    * Default: false
    */
-  animation?: boolean;
+  animation?:
+    | boolean
+    | {
+        duration?: number;
+        transition?: string;
+      };
 }
 
 const AccordionRoot: React.FC<AccordionRootProps> = ({
@@ -289,7 +294,7 @@ const AccordionPanel: React.FC<AccordionPanelProps> = ({ children, className, ..
       style={{
         overflow: 'hidden',
         height: height === 'auto' ? 'auto' : `${height}px`,
-        transition: 'height 200ms ease'
+        transition: `height ${(typeof animation === 'object' && animation.duration) || 200}ms ${(typeof animation === 'object' && animation.transition) || 'ease'}`
       }}
     >
       <div
