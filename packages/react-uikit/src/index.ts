@@ -27,5 +27,8 @@ export type {
   AccordionPanelProps
 } from './components/Accordion';
 
+export { Grid } from './components/Grid';
+export type { GridProps } from './components/Grid';
+
 // Utils
 export { cn } from './utils/cn';
