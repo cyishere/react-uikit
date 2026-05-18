@@ -1,17 +1,18 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
 
-const { title, description } = Astro.props;
+const { title, tagline, description } = Astro.props;
 ---
 
 <BaseLayout>
-	<div class="uk-section">
-		<h1>{title}</h1>
-		<p class="uk-text-lead uk-text-muted">{description}</p>
-		<hr>
+  <div class="uk-section">
+    <h1>{title}</h1>
+    {tagline && <p class="uk-text-lead uk-text-muted">{tagline}</p>}
+    {description && <p>{description}</p>}
+    <hr />
 
-		<div class="uk-article">
-			<slot />
-		</div>
-	</div>
+    <div class="uk-article">
+      <slot />
+    </div>
+  </div>
 </BaseLayout>
