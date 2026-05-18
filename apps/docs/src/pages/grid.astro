@@ -1,0 +1,11 @@
+---
+import ContentLayout from '@/layouts/Content.astro';
+import { Content, frontmatter, components } from '@/content/grid.mdx';
+import { customComponents } from '@/components/CustomComponents.astro';
+
+const { title, description } = frontmatter;
+---
+
+<ContentLayout title={title} description={description}>
+  <Content components={{ ...components, ...customComponents }} />
+</ContentLayout>

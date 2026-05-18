@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useGridRowClasses } from '../../hooks/useGridRowClasses';
 import { cn, isDev } from '../../utils';
 
 const VALID_GRID_ELEMENTS = new Set([
@@ -18,6 +19,8 @@ export interface GridProps extends React.ComponentProps<'div'> {
 }
 
 export const Grid: React.FC<GridProps> = ({ as: Comp = 'div', className, children, ...props }) => {
+  const ref = React.useRef<HTMLElement>(null);
+
   if (isDev && typeof Comp === 'string' && !VALID_GRID_ELEMENTS.has(Comp)) {
     console.warn(
       `[react-uikit] Grid: "${Comp}" is not a recommended element for Grid. ` +
@@ -25,8 +28,10 @@ export const Grid: React.FC<GridProps> = ({ as: Comp = 'div', className, childre
     );
   }
 
+  useGridRowClasses(ref);
+
   return (
-    <Comp className={cn('uk-grid', className)} {...props}>
+    <Comp ref={ref} className={cn('uk-grid', className)} {...props}>
       {children}
     </Comp>
   );
