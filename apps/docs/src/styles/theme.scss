@@ -5,3 +5,11 @@ $offcanvas-bar-background: #fff;
 $offcanvas-bar-color-mode: dark;
 
 @import 'uikit/src/scss/uikit-theme.scss';
+
+.flow > * + * {
+  margin-block-start: var(--flow-space, 1em);
+}
+
+.flow > * {
+  margin-block-end: 0;
+}

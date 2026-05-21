@@ -1,0 +1,21 @@
+---
+import { AlertTriangle } from 'react-feather';
+---
+
+<div class="wrapper uk-alert uk-alert-warning">
+  <div class="icon">
+    <AlertTriangle />
+  </div>
+  <div class="flow">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    grid-template-rows: 1fr;
+    gap: 1rem;
+  }
+</style>

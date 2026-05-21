@@ -7,6 +7,8 @@ import BasicUsage from '@/components/Grid/BasicUsage.astro';
 import GapModifier from '@/components/Grid/GapModifier.astro';
 import NestedGrid from '@/components/Grid/NestedGrid.astro';
 import DividerModifier from '@/components/Grid/DividerModifier.astro';
+import MatchHeight from '@/components/Grid/MatchHeight.astro';
+import Warning from '@/components/Warning.astro';
 
 ## Usage
 
@@ -54,3 +56,21 @@ Same as og UIkit, add the `.uk-grid-divider` class to separate grid cells with l
 <DividerModifier />
 
 ## Match Height
+
+In `react-uikit`, for matching the height of grid cells, we need to apply `matchHeight` prop to `Grid`, by default height match apply to the direct children of `Grid`.
+
+```jsx
+<Grid matchHeight></Grid>
+```
+
+We can target explicit children by applying the target CSS class to `matchHeight`.
+
+<Warning>
+  Don't forget to put the dot `.` in front of the class name — `.uk-card-body`.
+</Warning>
+
+```jsx
+<Grid matchHeight=".uk-card-body"></Grid>
+```
+
+<MatchHeight />
