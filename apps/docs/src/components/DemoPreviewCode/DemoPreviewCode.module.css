@@ -1,0 +1,13 @@
+.demoPanel {
+  --demo-panel-bg: #ffffff;
+  --demo-panel-line: #f8f8f8;
+
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--demo-panel-bg),
+    var(--demo-panel-bg) 13px,
+    var(--demo-panel-line) 13px,
+    var(--demo-panel-line) 14px
+  );
+  background-size: 40px 40px;
+}
