@@ -11,6 +11,7 @@ This document tracks the implementation responsibilities for each component in t
 | Alert     | UIkit CSS | UIkit JS | UIkit JS | Safe     | `useEffect` | WAI-ARIA Alert       |
 | Accordion | UIkit CSS | React    | React    | Safe     | None        | WAI-ARIA Accordion   |
 | Tooltip   | UIkit CSS |          |          |          |             |                      |
+| Grid      | UIkit CSS | UIkit JS + React | React | Safe  | `useEffect` | None (layout primitive) |
 
 ## Column Definitions
 
