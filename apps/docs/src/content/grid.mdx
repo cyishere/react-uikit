@@ -4,7 +4,53 @@ description: Create a fully responsive, fluid and nestable grid layout.
 ---
 
 import BasicUsage from '@/components/Grid/BasicUsage.astro';
+import GapModifier from '@/components/Grid/GapModifier.astro';
+import NestedGrid from '@/components/Grid/NestedGrid.astro';
+import DividerModifier from '@/components/Grid/DividerModifier.astro';
+
+## Usage
 
 Coming soon.
 
 <BasicUsage />
+
+### Gap Modifier
+
+For modifying the gap, use the needed UIkit CSS classes, just like the og UIkit.
+
+<GapModifier />
+
+### Nested Grid
+
+You can easily extend your grid layout with nested grids.
+
+```jsx
+<Grid>
+  <div>
+    <Grid>
+      <div></div>
+      <div></div>
+    </Grid>
+  </div>
+  <div>
+    <Grid>
+      <div></div>
+      <div></div>
+    </Grid>
+  </div>
+</Grid>
+```
+
+<NestedGrid />
+
+### Divider Modifier
+
+Same as og UIkit, add the `.uk-grid-divider` class to separate grid cells with lines.
+
+```jsx
+<Grid className="uk-grid-divider"></Grid>
+```
+
+<DividerModifier />
+
+## Match Height
