@@ -2,16 +2,16 @@
 
 This document tracks the implementation responsibilities for each component in the `react-uikit` library.
 
-| Component | Styling   | Behavior | State    | SSR      | Cleanup     | Accessible Pattern   |
-| --------- | --------- | -------- | -------- | -------- | ----------- | -------------------- |
-| Close     | UIkit CSS | React    | React    | Safe     | None        | WAI-ARIA Close       |
-| Icon      | UIkit CSS | React    | React    | Safe     | None        | ARIA Hidden          |
-| OffCanvas | UIkit CSS | UIkit JS | React    | Needs JS | `useEffect` | ARIA Modal           |
-| Switcher  | UIkit CSS | React    | React    | Safe     | None        | WAI-ARIA Tab Pattern |
-| Alert     | UIkit CSS | UIkit JS | UIkit JS | Safe     | `useEffect` | WAI-ARIA Alert       |
-| Accordion | UIkit CSS | React    | React    | Safe     | None        | WAI-ARIA Accordion   |
-| Tooltip   | UIkit CSS |          |          |          |             |                      |
-| Grid      | UIkit CSS | UIkit JS + React | React | Safe  | `useEffect` | None (layout primitive) |
+| Component | Styling   | Behavior         | State    | SSR      | Cleanup     | Accessible Pattern      |
+| --------- | --------- | ---------------- | -------- | -------- | ----------- | ----------------------- |
+| Close     | UIkit CSS | React            | React    | Safe     | None        | WAI-ARIA Close          |
+| Icon      | UIkit CSS | React            | React    | Safe     | None        | ARIA Hidden             |
+| OffCanvas | UIkit CSS | UIkit JS         | React    | Needs JS | `useEffect` | ARIA Modal              |
+| Switcher  | UIkit CSS | React            | React    | Safe     | None        | WAI-ARIA Tab Pattern    |
+| Alert     | UIkit CSS | UIkit JS         | UIkit JS | Safe     | `useEffect` | WAI-ARIA Alert          |
+| Accordion | UIkit CSS | React            | React    | Safe     | None        | WAI-ARIA Accordion      |
+| Tooltip   | UIkit CSS |                  |          |          |             |                         |
+| Grid      | UIkit CSS | UIkit JS + React | React    | Safe     | `useEffect` | None (layout primitive) |
 
 ## Column Definitions
 

@@ -12,6 +12,7 @@ import Warning from '@/components/Warning.astro';
 import GridWithWidth from '@/components/Grid/GridWithWidth.astro';
 import ChildWidth from '@/components/Grid/ChildWidth.astro';
 import GridAndFlex from '@/components/Grid/GridAndFlex.astro';
+import Masonry from '@/components/Grid/Masonry.astro';
 
 ## Usage
 
@@ -107,3 +108,14 @@ If the grid columns are evenly split, you can add one of the `.uk-child-width-*`
 You can easily combine the `Grid` with the [Flex component](https://getuikit.com/docs/flex) by using the `.uk-flex-*` classes.
 
 <GridAndFlex />
+
+## Masonry
+
+Set the `masonry` prop to either `"pack"` or `"next"` can create masonry layout for `Grid`.
+
+| Masonry | Description |
+|---------|-------------|
+| `"pack"` | Sorts items into columns with the most room to make column heights as equal as possible. |
+| `"next"` | Uses the natural item order. |
+
+<Masonry />

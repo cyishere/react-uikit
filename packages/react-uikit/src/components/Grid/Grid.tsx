@@ -18,6 +18,12 @@ const VALID_GRID_ELEMENTS = new Set([
 export interface GridProps extends React.ComponentProps<'div'> {
   as?: React.ElementType;
   /**
+   * Enable UIkit masonry layout for this grid.
+   * - `"pack"`: sorts items into the column with the most room to equalise column heights.
+   * - `"next"`: uses the natural item order.
+   */
+  masonry?: 'pack' | 'next';
+  /**
    * Enable UIkit height-match on the grid cells.
    * - `true`: uses the default target `"> *"` (direct children of each cell).
    * - `string`: a custom CSS selector passed as the `target` option.
@@ -34,6 +40,7 @@ export const Grid: React.FC<GridProps> = ({
   as: Comp = 'div',
   className,
   children,
+  masonry,
   matchHeight,
   matchRow = true,
   ...props
@@ -48,6 +55,16 @@ export const Grid: React.FC<GridProps> = ({
   }
 
   useGridRowClasses(ref);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!masonry || !ref.current) return;
+
+    const instance = uikit.grid(ref.current, { masonry });
+
+    return () => {
+      instance.$destroy();
+    };
+  }, [masonry]);
 
   useIsomorphicLayoutEffect(() => {
     if (!matchHeight || !ref.current) return;
