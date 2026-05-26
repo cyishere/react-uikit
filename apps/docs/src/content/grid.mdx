@@ -9,6 +9,9 @@ import NestedGrid from '@/components/Grid/NestedGrid.astro';
 import DividerModifier from '@/components/Grid/DividerModifier.astro';
 import MatchHeight from '@/components/Grid/MatchHeight.astro';
 import Warning from '@/components/Warning.astro';
+import GridWithWidth from '@/components/Grid/GridWithWidth.astro';
+import ChildWidth from '@/components/Grid/ChildWidth.astro';
+import GridAndFlex from '@/components/Grid/GridAndFlex.astro';
 
 ## Usage
 
@@ -74,3 +77,33 @@ We can target explicit children by applying the target CSS class to `matchHeight
 ```
 
 <MatchHeight />
+
+## Grid with Width
+
+As in the original UIkit, `Grid` is also used in combination with the [Width component](https://getuikit.com/docs/width).
+
+```jsx
+<Grid>
+  <div className="uk-width-auto@m"></div>
+  <div className="uk-width-1-3@m"></div>
+  <div className="uk-width-expand@m"></div>
+</Grid>
+```
+
+<GridWithWidth />
+
+### Child Width
+
+If the grid columns are evenly split, you can add one of the `.uk-child-width-*` classes to `Grid` instead of adding a class to each of the items.
+
+```jsx
+<Grid className="uk-child-width-1-2@s uk-child-width-1-3@m"></Grid>
+```
+
+<ChildWidth />
+
+## Grid and Flex
+
+You can easily combine the `Grid` with the [Flex component](https://getuikit.com/docs/flex) by using the `.uk-flex-*` classes.
+
+<GridAndFlex />
