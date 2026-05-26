@@ -13,6 +13,8 @@ import GridWithWidth from '@/components/Grid/GridWithWidth.astro';
 import ChildWidth from '@/components/Grid/ChildWidth.astro';
 import GridAndFlex from '@/components/Grid/GridAndFlex.astro';
 import Masonry from '@/components/Grid/Masonry.astro';
+import Parallax from '@/components/Grid/Parallax.astro';
+import ParallaxJustify from '@/components/Grid/ParallaxJustify.astro';
 
 ## Usage
 
@@ -119,3 +121,37 @@ Set the `masonry` prop to either `"pack"` or `"next"` can create masonry layout 
 | `"next"` | Uses the natural item order. |
 
 <Masonry />
+
+## Parallax
+
+To move single columns of a `Grid` at different speeds while scrolling, add a number to `parallax` prop. The number sets the parallax translation in pixels.
+
+```jsx
+<Grid parallax={150}></Grid>
+```
+
+<Parallax />
+
+To adjust the `Grid` parallax duration, set the `parallaxStart` and `parallaxEnd` props.
+
+| Prop | Default | Description |
+|------|---------|-------------|
+| `parallaxStart` | `0` | Defines when the animation starts. |
+| `parallaxEnd` | `0` | Defines when the animation ends. |
+
+- For `parallaxStart`, the default value `0` means that the `Grid`'s top border and the viewport's bottom border intersect.
+- For `parallaxEnd`, the default value `0` means that the `Grid`'s bottom border and the viewport's top border intersect.
+- Values can be set in any dimension units, namely `vh`, `%` and `px`. The `%` unit relates to the `Grid`'s height.
+- Both options allow basic mathematics operands, `+` and `-`.
+
+```jsx
+<Grid parallax={150} parallaxStart="100%" parallaxEnd="100%"></Grid>
+```
+
+To justify the `Grid` parallax if columns have different heights, for example in masonry grids, set value `true` to the `parallaxJustify` prop so all grid columns reach the bottom at the same time. Set `parallax` prop to `0` to only move the columns by their height until they justify. But of course an additional parallax translation value can be set as well.
+
+```jsx
+<Grid parallax={0} parallaxJustify={true} masonry="pack"></Grid>
+```
+
+<ParallaxJustify />

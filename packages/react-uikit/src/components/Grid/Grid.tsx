@@ -1,5 +1,5 @@
 import * as React from 'react';
-import uikit from 'uikit';
+import UIkit from 'uikit';
 
 import { useGridRowClasses, useIsomorphicLayoutEffect } from '../../hooks';
 import { cn, isDev } from '../../utils';
@@ -34,6 +34,27 @@ export interface GridProps extends React.ComponentProps<'div'> {
    * Default: `true`.
    */
   matchRow?: boolean;
+  /**
+   * Parallax translation value in pixels. Falsy disables the effect.
+   * The value can also be set in `vh`, `%` and `px` (as a string).
+   */
+  parallax?: number;
+  /**
+   * Start offset for the parallax animation.
+   * Accepts `vh`, `%` and `px` units and basic `+`/`-` math.
+   * `"0"` means the grid's top border and the viewport's bottom border intersect.
+   */
+  parallaxStart?: string;
+  /**
+   * End offset for the parallax animation.
+   * Accepts `vh`, `%` and `px` units and basic `+`/`-` math.
+   * `"0"` means the grid's bottom border and the viewport's top border intersect.
+   */
+  parallaxEnd?: string;
+  /**
+   * With parallax enabled, all columns will reach the bottom at the same time.
+   */
+  parallaxJustify?: boolean;
 }
 
 export const Grid: React.FC<GridProps> = ({
@@ -43,6 +64,10 @@ export const Grid: React.FC<GridProps> = ({
   masonry,
   matchHeight,
   matchRow = true,
+  parallax,
+  parallaxStart,
+  parallaxEnd,
+  parallaxJustify,
   ...props
 }) => {
   const ref = React.useRef<HTMLElement>(null);
@@ -57,20 +82,26 @@ export const Grid: React.FC<GridProps> = ({
   useGridRowClasses(ref);
 
   useIsomorphicLayoutEffect(() => {
-    if (!masonry || !ref.current) return;
+    if ((!masonry && !parallax) || !ref.current) return;
 
-    const instance = uikit.grid(ref.current, { masonry });
+    const instance = UIkit.grid(ref.current, {
+      ...(masonry && { masonry }),
+      ...(parallax != null && { parallax }),
+      ...(parallaxStart != null && { 'parallax-start': parallaxStart }),
+      ...(parallaxEnd != null && { 'parallax-end': parallaxEnd }),
+      ...(parallaxJustify != null && { 'parallax-justify': parallaxJustify })
+    });
 
     return () => {
       instance.$destroy();
     };
-  }, [masonry]);
+  }, [masonry, parallax, parallaxStart, parallaxEnd, parallaxJustify]);
 
   useIsomorphicLayoutEffect(() => {
     if (!matchHeight || !ref.current) return;
 
     const target = typeof matchHeight === 'string' ? matchHeight : '> *';
-    const instance = uikit.heightMatch(ref.current, { target, row: matchRow });
+    const instance = UIkit.heightMatch(ref.current, { target, row: matchRow });
 
     return () => {
       instance.$destroy();
