@@ -1,0 +1,12 @@
+---
+import GapModifierReact from './GapModifier';
+import rawCode from './GapModifier.tsx?raw';
+import PreviewSection from '../PreviewSection.astro';
+import { extractComponentCode } from '../../utils/code';
+
+const codeSnippet = extractComponentCode(rawCode, 'Grid');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <GapModifierReact client:load />
+</PreviewSection>

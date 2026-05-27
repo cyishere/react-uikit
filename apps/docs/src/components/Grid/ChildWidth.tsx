@@ -1,0 +1,19 @@
+import { Grid } from 'react-uikit';
+
+const ChildWidth = () => {
+  return (
+    <Grid className="uk-child-width-1-2@s uk-child-width-1-3@m uk-text-center">
+      <div>
+        <div className="uk-card uk-card-default uk-card-body">Item</div>
+      </div>
+      <div>
+        <div className="uk-card uk-card-default uk-card-body">Item</div>
+      </div>
+      <div>
+        <div className="uk-card uk-card-default uk-card-body">Item</div>
+      </div>
+    </Grid>
+  );
+};
+
+export default ChildWidth;

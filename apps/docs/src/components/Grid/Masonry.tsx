@@ -1,0 +1,82 @@
+import { Grid } from 'react-uikit';
+
+const Masonry = () => {
+  return (
+    <Grid className="uk-child-width-1-2@s uk-child-width-1-3@m" masonry="pack">
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '100px' }}
+        >
+          Item 1
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '150px' }}
+        >
+          Item 2
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '300px' }}
+        >
+          Item 3
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '120px' }}
+        >
+          Item 4
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '180px' }}
+        >
+          Item 5
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '250px' }}
+        >
+          Item 6
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '140px' }}
+        >
+          Item 7
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '210px' }}
+        >
+          Item 8
+        </div>
+      </div>
+      <div>
+        <div
+          className="uk-card uk-card-default uk-flex uk-flex-center uk-flex-middle"
+          style={{ height: '200px' }}
+        >
+          Item 9
+        </div>
+      </div>
+    </Grid>
+  );
+};
+
+export default Masonry;

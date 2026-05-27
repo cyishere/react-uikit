@@ -1,0 +1,12 @@
+---
+import ParallaxJustifyReact from './ParallaxJustify';
+import rawCode from './ParallaxJustify.tsx?raw';
+import PreviewSection from '../PreviewSection.astro';
+import { extractComponentCode } from '../../utils/code';
+
+const codeSnippet = extractComponentCode(rawCode, 'Grid');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <ParallaxJustifyReact client:load />
+</PreviewSection>
