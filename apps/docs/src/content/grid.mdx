@@ -1,6 +1,7 @@
 ---
 title: Grid
-description: Create a fully responsive, fluid and nestable grid layout.
+tagline: Create a fully responsive, fluid and nestable grid layout.
+description: The `Grid` component recreate the UIkit's grid system, allows you to arrange block elements in columns. It works closely together with the [Width component](https://getuikit.com/docs/width) to determine how much space of the container each item will take up, and it can also be combined with the [Flex component](https://getuikit.com/docs/flex) to align and order grid items.
 ---
 
 import BasicUsage from '@/components/Grid/BasicUsage.astro';
@@ -18,7 +19,22 @@ import ParallaxJustify from '@/components/Grid/ParallaxJustify.astro';
 
 ## Usage
 
-Coming soon.
+In `react-uikit`, we provide a `Grid` component to enable UIkit's grid features. By default `Grid` is a `div`, but you can change it to suit your needs with the `as` prop. To see all the features of `Grid` component, please check [the API Reference](#api-reference).
+
+The `Grid` component works with any UIkit's CSS classes.
+
+Add child `<div>` to create the cells. By default, all grid cells are stacked. To place them side by side, add one of the classes from the UIkit's [Width component](https://getuikit.com/docs/width). Using `.uk-child-width-expand` will automatically apply equal width to items, regardless of how many there are.
+
+<span class="uk-label">Note</span> These's no need to add `.uk-grid` class to `Grid`, it's already be handled.
+
+```jsx
+<Grid>
+  <div></div>
+  <div></div>
+</Grid>
+```
+
+As the original UIkit's grid component, `Grid` also works with [Card component](https://getuikit.com/docs/card).
 
 <BasicUsage />
 
@@ -156,4 +172,17 @@ To justify the `Grid` parallax if columns have different heights, for example in
 
 <ParallaxJustify />
 
-<div style="height: 1000px" />
+## API Reference
+
+In addition to all standard `div` HTML attributes, `Grid` accepts the following props.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `as` | `React.ElementType` | `"div"` | The HTML element to render as the grid container. Recommended values: `div`, `ul`, `ol`, `section`, `article`, `main`, `aside`, `nav`. |
+| `masonry` | `"pack" \| "next"` | `undefined` | Enables UIkit masonry layout. `"pack"` sorts items into the column with the most room; `"next"` uses natural item order. |
+| `matchHeight` | `boolean \| string` | `undefined` | Enables UIkit height-match on grid cells. `true` targets direct children (`"> *"`); a string is used as a custom CSS selector. |
+| `matchRow` | `boolean` | `true` | When `matchHeight` is enabled, only match heights within the same row. |
+| `parallax` | `number` | `undefined` | Parallax translation value in pixels. Falsy disables the effect. |
+| `parallaxStart` | `string` | `undefined` | Start offset for the parallax animation. Accepts `vh`, `%`, and `px` units and basic `+`/`-` math. `"0"` means the grid's top border and the viewport's bottom border intersect. |
+| `parallaxEnd` | `string` | `undefined` | End offset for the parallax animation. Accepts `vh`, `%`, and `px` units and basic `+`/`-` math. `"0"` means the grid's bottom border and the viewport's top border intersect. |
+| `parallaxJustify` | `boolean` | `undefined` | With parallax enabled, all columns will reach the bottom at the same time. |

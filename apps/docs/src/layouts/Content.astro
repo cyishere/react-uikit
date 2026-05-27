@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
+import { marked } from 'marked';
 
 const { title, tagline, description } = Astro.props;
 ---
@@ -8,7 +9,7 @@ const { title, tagline, description } = Astro.props;
   <div class="uk-section">
     <h1>{title}</h1>
     {tagline && <p class="uk-text-lead uk-text-muted">{tagline}</p>}
-    {description && <p>{description}</p>}
+    {description && <p set:html={marked.parseInline(description)} />}
     <hr />
 
     <div class="uk-article">
@@ -16,3 +17,4 @@ const { title, tagline, description } = Astro.props;
     </div>
   </div>
 </BaseLayout>
+
