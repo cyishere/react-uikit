@@ -5,49 +5,56 @@ import 'react-uikit/styles.css';
 import Header from '@/components/Header.astro';
 import Sidebar from '@/components/Sidebar.astro';
 import Toc from '@/components/Toc.astro';
+
+const { headings } = Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>React for UIkit</title>
-	</head>
-	<body>
-		<Header />
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>React for UIkit</title>
+  </head>
+  <body>
+    <Header />
 
-		<div class="wrapper">
-			<Sidebar />
+    <div class="wrapper">
+      <Sidebar />
 
-			<main class="main">
-				<div class="uk-container">
-					<slot />
-				</div>
-			</main>
+      <main class="main">
+        <div class="uk-container">
+          <slot />
+        </div>
+      </main>
 
-			<Toc />
-		</div>
-	</body>
+      <Toc headings={headings} />
+    </div>
+  </body>
 </html>
 
 <style>
-	.wrapper {
-		position: relative;
-		min-height: calc(100vh - 80px);
-		display: flex;
-		flex: 1;
-		align-items: flex-start;
-	}
+  .wrapper {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+  }
 
-	.main {
-		flex: 1;
-		max-width: 860px;
-	}
+  .main {
+    flex: 1;
+  }
 
-	@media (max-width: 1100px) {
-	  .main { max-width: 100%; }
-	}
+  .main .uk-container {
+    max-width: 860px;
+  }
 </style>

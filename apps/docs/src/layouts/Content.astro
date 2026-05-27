@@ -2,10 +2,10 @@
 import BaseLayout from '@/layouts/Base.astro';
 import { marked } from 'marked';
 
-const { title, tagline, description } = Astro.props;
+const { title, tagline, description, headings } = Astro.props;
 ---
 
-<BaseLayout>
+<BaseLayout headings={headings}>
   <div class="uk-section">
     <h1>{title}</h1>
     {tagline && <p class="uk-text-lead uk-text-muted">{tagline}</p>}

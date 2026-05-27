@@ -3,8 +3,25 @@
 
 $offcanvas-bar-background: #fff;
 $offcanvas-bar-color-mode: dark;
+$toc-active-color: $global-link-color;
+$toc-text-color: $global-color;
+$toc-text-hover-color: $global-emphasis-color;
 
 @import 'uikit/src/scss/uikit-theme.scss';
+
+:root {
+  --ff-primary: 'Poppins', sans-serif;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  font-family: var(--ff-primary);
+  font-weight: 400;
+  font-style: normal;
+}
 
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
@@ -12,4 +29,47 @@ $offcanvas-bar-color-mode: dark;
 
 .flow > * {
   margin-block-end: 0;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  border-left: 1px solid $global-border;
+}
+
+.toc-item {
+  padding: 2px 0 2px 12px;
+  border-left: 1px solid transparent;
+  margin-left: -1px;
+  transition: border-color 0.2s;
+}
+
+.toc-item.active {
+  border-left-color: $toc-active-color;
+}
+
+.toc-item a {
+  color: $toc-text-color;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.7;
+  display: block;
+  transition: color 0.2s;
+}
+
+.toc-item a:hover {
+  color: $toc-text-hover-color;
+}
+
+.toc-item.active a {
+  color: $toc-active-color;
+  font-weight: 600;
+}
+
+.toc-depth-3 {
+  padding-left: 24px;
+}
+
+.toc-depth-3 a {
+  font-size: 14px;
 }
