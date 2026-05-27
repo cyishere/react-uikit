@@ -100,17 +100,20 @@ const getRows = (elements: Element[]): Element[][] => {
  * layout changes.
  *
  * @param ref - Ref to the grid container element
+ * @param skip - If true, skip setting up observers and class management
+ *   (e.g. when UIkit.grid() manages these classes via its Margin mixin)
  * @param marginClass - Class to add to non-first-row children (default: 'uk-grid-margin')
  * @param firstColumnClass - Class to add to first-in-row children (default: 'uk-first-column')
  */
 export const useGridRowClasses = (
   ref: React.RefObject<HTMLElement | null>,
+  skip = false,
   marginClass = 'uk-grid-margin',
   firstColumnClass = 'uk-first-column'
 ) => {
   useIsomorphicLayoutEffect(() => {
     const container = ref.current;
-    if (!container) return;
+    if (!container || skip) return;
 
     function update() {
       if (!container) return;
@@ -164,5 +167,5 @@ export const useGridRowClasses = (
         child.classList.remove(marginClass, firstColumnClass);
       }
     };
-  }, [ref, marginClass, firstColumnClass]);
+  }, [ref, skip, marginClass, firstColumnClass]);
 };

@@ -79,23 +79,27 @@ export const Grid: React.FC<GridProps> = ({
     );
   }
 
-  useGridRowClasses(ref);
+  const needsUikitGrid = !!(masonry || parallax || parallaxJustify);
+
+  // When UIkit.grid() is active, it manages row classes (uk-grid-margin, uk-first-column)
+  // via its own Margin mixin. Only use our custom hook for plain grids.
+  useGridRowClasses(ref, needsUikitGrid);
 
   useIsomorphicLayoutEffect(() => {
-    if ((!masonry && !parallax) || !ref.current) return;
+    if (!needsUikitGrid || !ref.current) return;
 
     const instance = UIkit.grid(ref.current, {
       ...(masonry && { masonry }),
       ...(parallax != null && { parallax }),
-      ...(parallaxStart != null && { 'parallax-start': parallaxStart }),
-      ...(parallaxEnd != null && { 'parallax-end': parallaxEnd }),
-      ...(parallaxJustify != null && { 'parallax-justify': parallaxJustify })
+      ...(parallaxStart != null && { parallaxStart }),
+      ...(parallaxEnd != null && { parallaxEnd }),
+      ...(parallaxJustify != null && { parallaxJustify })
     });
 
     return () => {
       instance.$destroy();
     };
-  }, [masonry, parallax, parallaxStart, parallaxEnd, parallaxJustify]);
+  }, [needsUikitGrid, masonry, parallax, parallaxStart, parallaxEnd, parallaxJustify]);
 
   useIsomorphicLayoutEffect(() => {
     if (!matchHeight || !ref.current) return;
