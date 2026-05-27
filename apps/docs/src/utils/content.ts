@@ -1,17 +1,10 @@
+import type { DocsCategory } from '../content.config';
 import type { Docs, DocsForNav } from '@/utils/types';
 
 import { getCollection } from 'astro:content';
-import type { DocsCategory } from '../content.config';
 
 export const getAllDocs = async () => {
-  return ((await getCollection('docs')) as Docs[]).sort((a, b) => {
-    if (a.data.order && b.data.order) {
-      return a.data.order - b.data.order;
-    }
-    if (a.data.order) return -1;
-    if (b.data.order) return 1;
-    return a.data.title.localeCompare(b.data.title);
-  });
+  return (await getCollection('docs')) as Docs[];
 };
 
 export const getDocsForNav = async (): Promise<DocsForNav[]> => {
@@ -27,10 +20,14 @@ export const getDocsForNav = async (): Promise<DocsForNav[]> => {
 };
 
 export const getDocsForNavByCategory = (docs: DocsForNav[], category: DocsCategory) => {
-  return docs
-    .filter((d) => d.category === category)
-    .map((d) => ({
-      label: d.navTitle || d.title,
-      slug: d.id
-    }));
+  let fileterd = docs.filter((d) => d.category === category);
+
+  if (category === 'getting_started') {
+    fileterd = fileterd.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }
+
+  return fileterd.map((d) => ({
+    label: d.navTitle || d.title,
+    slug: d.id === 'introduction' ? '' : d.id
+  }));
 };

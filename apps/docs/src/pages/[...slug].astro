@@ -1,0 +1,23 @@
+---
+import ContentLayout from '@/layouts/Content.astro';
+import { customComponents } from '@/components/CustomComponents.astro';
+import { getAllDocs } from '@/utils/content';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const docs = await getAllDocs();
+
+	return docs.map((d) => ({
+		params: { slug: d.id === 'introduction' ? '' : d.id },
+		props: { docs: d }
+	}));
+}
+
+const { docs } = Astro.props;
+const { title, tagline, description } = docs.data;
+const { Content } = await render(docs);
+---
+
+<ContentLayout title={title} tagline={tagline} description={description}>
+  <Content components={{ ...customComponents }} />
+</ContentLayout>
