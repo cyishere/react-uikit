@@ -5,6 +5,8 @@ import 'react-uikit/styles.css';
 import Header from '@/components/Header.astro';
 import Sidebar from '@/components/Sidebar.astro';
 import Toc from '@/components/Toc.astro';
+
+const { headings } = Astro.props;
 ---
 
 <html lang="en">
@@ -34,7 +36,7 @@ import Toc from '@/components/Toc.astro';
         </div>
       </main>
 
-      <Toc />
+      <Toc headings={headings} />
     </div>
   </body>
 </html>
