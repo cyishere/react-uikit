@@ -12,8 +12,8 @@ const CopyButton: React.FC<CopyButtonProps> = ({ targetId }) => {
 
   const handleCopy = async () => {
     try {
-      const pre = document.getElementById(targetId);
-      const codeString = pre?.textContent || '';
+      const container = document.getElementById(targetId);
+      const codeString = container?.querySelector('code')?.textContent ?? container?.textContent ?? '';
       await navigator.clipboard.writeText(codeString);
       setCopied(true);
       setTimeout(() => {
