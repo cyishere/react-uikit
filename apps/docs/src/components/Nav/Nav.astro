@@ -1,19 +1,17 @@
 ---
-import { getDocsForNav, getDocsForNavByCategory } from "@/utils/content";
+import { getDocsForNavByCategory } from "@/utils/content";
 
 
 const { pathname } = Astro.url;
 
-const docs = await getDocsForNav();
-
 const NAV_LINKS = {
   basic: {
     label: 'Getting Started',
-    links: getDocsForNavByCategory(docs, 'getting_started')
+    links: await getDocsForNavByCategory('getting_started')
   },
   components: {
     label: 'Components',
-    links: getDocsForNavByCategory(docs, 'components')
+    links: await getDocsForNavByCategory('components')
   }
 };
 ---
