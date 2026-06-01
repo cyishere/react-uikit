@@ -1,18 +1,33 @@
 ---
-title: React for UIkit
+title: React Components for UIkit
 navTitle: Introduction
 category: getting_started
 order: 1
 ---
 
-`react-uikit` is a React component library built around UIkit that:
+`react-uikit` is a React component library that integrates with [UIkit](https://getuikit.com). It uses UIkit CSS as the primary visual layer and follows a strict ownership model that defines, for every component, whether React or UIkit JS controls behavior and state.
 
-- Uses UIkit CSS as the primary visual layer across all components.
-- Establishes a strict, documented ownership model — UIkit-JS-enhanced or React-owned — so each component's behavior is predictable.
-- Deliberately excludes React wrappers for purely CSS-driven components (Button, Badge, Label, Alert, Card, etc.). These components add no value over UIkit's CSS classes directly, and wrapping them would create surface area without solving a real problem. The docs site explains this decision and provides copy-ready UIkit class snippets for each.
-- Implements interactive components (Modal, Dropdown, Offcanvas) as fully React-owned: React controls all state and behavior, UIkit CSS handles styling only, and UIkit JS never touches these nodes.
-- Implements DOM-enhancement components (Grid masonry, parallax) by rendering markup in React and initializing UIkit JS in lifecycle hooks with correct cleanup.
-- Ships SSR-safe by default: no browser APIs are required during server render, and client-only initialization is deferred to lifecycle hooks.
-- Is accompanied by an Astro docs site that uses React islands (partial hydration) for live interactive examples, keeping SSR semantics consistent between the docs and the library itself.
-- Is published as a single npm package (`react-uikit`) initially, with the option to split into scoped packages later.
-- Has a testing strategy introduced in Phase 2: Vitest for unit and integration tests of component behavior, Playwright for end-to-end tests of interactive components and SSR hydration.
+## Design principles
+
+### A deliberate boundary between CSS and JS
+
+UIkit ships both a CSS layer and an optional JavaScript layer. Many UIkit components are purely CSS-driven and need no JavaScript at all — `Button`, `Badge`, `Label`, `Card`, and similar elements are complete with a class name. Wrapping these in React components would add indirection without solving a real problem.
+
+`react-uikit` therefore does not provide React wrappers for CSS-only UIkit components.
+
+### A documented ownership model
+
+Every component in the library has a defined ownership row in the [Component Ownership Matrix](/component-ownership). The matrix records who owns styling, behavior, state, SSR safety, cleanup requirements, and the accessible pattern in use.
+
+The two ownership patterns in use are:
+
+- **React-owned** — React controls all state and behavior. UIkit CSS handles styling. UIkit JS never initializes on these nodes. `Accordion`, `Close`, `Icon`, `Switcher`, and `OffCanvas` follow this pattern.
+- **UIkit-JS-enhanced** — React renders the markup and UIkit JS augments it at runtime. `useIsomorphicLayoutEffect` initializes UIkit JS and cleans up on unmount. `Alert` and `Grid` follow this pattern.
+
+## Components
+
+Each component has a dedicated page in the sidebar. A `cn` utility is also exported for composing UIkit class names conditionally.
+
+## SSR
+
+Components marked React-owned are safe to render on the server. Components that depend on UIkit JS (`Alert`, `Grid`) require client-side JavaScript but render their markup on the server without error; UIkit JS initializes after hydration via `useIsomorphicLayoutEffect`.

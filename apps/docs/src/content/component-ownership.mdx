@@ -1,0 +1,35 @@
+---
+title: Component Ownership Matrix
+navTitle: Component Ownership
+category: getting_started
+order: 4
+---
+
+## Matrix
+
+Every component in `react-uikit` has a row in this matrix. The matrix is the source of truth for how each component is built, who owns its behavior, and what accessibility pattern it follows. No component ships without a complete row, and the matrix must be updated whenever a component is added or modified.
+
+| Component | Styling | Behavior | State | SSR | Cleanup | Accessible Pattern |
+| --- | --- | --- | --- | --- | --- | --- |
+| Accordion | UIkit CSS | React | React | Safe | None | WAI-ARIA Accordion |
+| Alert | UIkit CSS | UIkit JS | UIkit JS | Safe | `useIsomorphicLayoutEffect` | WAI-ARIA Alert |
+| Close | UIkit CSS | React | React | Safe | None | WAI-ARIA Close |
+| Grid | UIkit CSS | UIkit JS + React | React | Safe | `useIsomorphicLayoutEffect` | None (layout primitive) |
+| Icon | UIkit CSS | React | React | Safe | None | ARIA Hidden |
+| OffCanvas | UIkit CSS | UIkit JS | React | Needs JS | `useIsomorphicLayoutEffect` | ARIA Modal |
+| Switcher | UIkit CSS | React | React | Safe | None | WAI-ARIA Tab Pattern |
+
+## Column definitions
+
+- **Styling** — Who owns the visual styling. `UIkit CSS` means UIkit class utilities are used directly.
+- **Behavior** — Who controls the interactivity. `UIkit JS` means the component is augmented by UIkit's JavaScript layer. `React` means behavior is managed entirely within React.
+- **State** — Where component state lives. `UIkit JS` means state is internal to UIkit JS. `React` means state is managed via React hooks or props.
+- **SSR** — Whether the component is safe to render on the server. `Safe` means it works without JavaScript. `Needs JS` means it requires client-side hydration.
+- **Cleanup** — Whether the component performs side-effect teardown. `useIsomorphicLayoutEffect` means UIkit JS is initialized and cleaned up via that hook. `None` means no teardown is required.
+- **Accessible Pattern** — The accessibility strategy in use, referencing WAI-ARIA authoring practices where applicable.
+
+## Rules
+
+- No component ships without a complete row in this matrix.
+- Every column must be filled in before a component PR is merged.
+- Update this file when adding or modifying any component.
