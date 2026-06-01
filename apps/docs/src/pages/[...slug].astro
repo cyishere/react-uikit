@@ -1,23 +1,26 @@
 ---
 import ContentLayout from '@/layouts/Content.astro';
 import { customComponents } from '@/components/CustomComponents.astro';
-import { getAllDocs } from '@/utils/content';
+import { getAllDocs, getSlug, getPrevAndNext } from '@/utils/content';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
 	const docs = await getAllDocs();
 
 	return docs.map((d) => ({
-		params: { slug: d.id === 'introduction' ? '' : d.id },
-		props: { docs: d }
+		params: { slug: getSlug(d.id) },
+		props: {
+			docs: d
+		}
 	}));
 }
 
 const { docs } = Astro.props;
 const { title, tagline, description } = docs.data;
 const { Content, headings } = await render(docs);
+const { prev, next } = await getPrevAndNext(docs.id);
 ---
 
-<ContentLayout title={title} tagline={tagline} description={description} headings={headings}>
+<ContentLayout title={title} tagline={tagline} description={description} headings={headings} prev={prev} next={next}>
   <Content components={{ ...customComponents }} />
 </ContentLayout>

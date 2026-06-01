@@ -1,4 +1,4 @@
-import type { DocsCategory, DocsMetadata } from '../content.config';
+import type { DocsMetadata } from '../content.config';
 
 export interface Docs {
   id: string;
@@ -10,10 +10,7 @@ export interface Docs {
   collection: 'docs';
 }
 
-export interface DocsForNav {
-  id: string;
-  title: string;
-  navTitle?: string;
-  category: DocsCategory;
-  order?: number;
+export interface NavItem {
+  slug: string;
+  label: string;
 }
