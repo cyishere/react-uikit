@@ -1,36 +1,29 @@
-import type {
-  ButtonHTMLAttributes,
-  HTMLAttributes,
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode
-} from 'react';
-
-import { useCallback, useEffect, useId, useMemo, useState } from 'react';
+import * as React from 'react';
 
 import './Switcher.css';
 import { SwitcherContext, useSwitcherContext } from './SwitcherContext';
+import { useIsomorphicLayoutEffect } from '../../hooks';
 import { cn } from '../../utils';
 
 export interface SwitcherRootProps {
-  children: ReactNode;
+  children: React.ReactNode;
   defaultValue?: number;
   value?: number;
   onValueChange?: (index: number) => void;
 }
 
 const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: SwitcherRootProps) => {
-  const [uncontrolledIndex, setUncontrolledIndex] = useState(defaultValue);
-  const [triggerOrder, setTriggerOrder] = useState<string[]>([]);
-  const [panelOrder, setPanelOrder] = useState<string[]>([]);
-  const [triggerMeta, setTriggerMeta] = useState<
+  const [uncontrolledIndex, setUncontrolledIndex] = React.useState(defaultValue);
+  const [triggerOrder, setTriggerOrder] = React.useState<string[]>([]);
+  const [panelOrder, setPanelOrder] = React.useState<string[]>([]);
+  const [triggerMeta, setTriggerMeta] = React.useState<
     Record<string, { disabled: boolean; ref: HTMLButtonElement | null }>
   >({});
 
-  const baseId = 'ruk-switcher-' + useId().replace(/:/g, '');
+  const baseId = 'ruk-switcher-' + React.useId().replace(/:/g, '');
   const activeIndex = value ?? uncontrolledIndex;
 
-  const setActiveIndex = useCallback(
+  const setActiveIndex = React.useCallback(
     (nextState: number | ((prev: number) => number)) => {
       const resolvedIndex = typeof nextState === 'function' ? nextState(activeIndex) : nextState;
 
@@ -43,7 +36,7 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
     [activeIndex, onValueChange, value]
   );
 
-  const registerTrigger = useCallback((id: string, disabled: boolean) => {
+  const registerTrigger = React.useCallback((id: string, disabled: boolean) => {
     setTriggerOrder((prev) => (prev.includes(id) ? prev : [...prev, id]));
     setTriggerMeta((prev) => {
       const existing = prev[id];
@@ -58,7 +51,7 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
     });
   }, []);
 
-  const unregisterTrigger = useCallback((id: string) => {
+  const unregisterTrigger = React.useCallback((id: string) => {
     setTriggerOrder((prev) => prev.filter((item) => item !== id));
     setTriggerMeta((prev) => {
       if (!(id in prev)) {
@@ -71,7 +64,7 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
     });
   }, []);
 
-  const setTriggerRef = useCallback((id: string, ref: HTMLButtonElement | null) => {
+  const setTriggerRef = React.useCallback((id: string, ref: HTMLButtonElement | null) => {
     setTriggerMeta((prev) => {
       const existing = prev[id] ?? { disabled: false, ref: null };
 
@@ -89,7 +82,7 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
     });
   }, []);
 
-  const updateTriggerDisabled = useCallback((id: string, disabled: boolean) => {
+  const updateTriggerDisabled = React.useCallback((id: string, disabled: boolean) => {
     setTriggerMeta((prev) => {
       const existing = prev[id] ?? { disabled: false, ref: null };
 
@@ -107,15 +100,15 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
     });
   }, []);
 
-  const registerPanel = useCallback((id: string) => {
+  const registerPanel = React.useCallback((id: string) => {
     setPanelOrder((prev) => (prev.includes(id) ? prev : [...prev, id]));
   }, []);
 
-  const unregisterPanel = useCallback((id: string) => {
+  const unregisterPanel = React.useCallback((id: string) => {
     setPanelOrder((prev) => prev.filter((item) => item !== id));
   }, []);
 
-  const contextValue = useMemo(
+  const contextValue = React.useMemo(
     () => ({
       activeIndex,
       setActiveIndex,
@@ -149,8 +142,8 @@ const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: Swit
   return <SwitcherContext.Provider value={contextValue}>{children}</SwitcherContext.Provider>;
 };
 
-export interface SwitcherListProps extends HTMLAttributes<HTMLUListElement> {
-  children: ReactNode;
+export interface SwitcherListProps extends React.HTMLAttributes<HTMLUListElement> {
+  children: React.ReactNode;
 }
 
 const SwitcherList = ({ className, children, ...props }: SwitcherListProps) => {
@@ -187,8 +180,8 @@ const getNextEnabledIndex = (
   return -1;
 };
 
-export interface SwitcherTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+export interface SwitcherTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
   index?: number;
 }
 
@@ -213,9 +206,9 @@ const SwitcherTrigger = ({
     updateTriggerDisabled
   } = useSwitcherContext();
 
-  const id = 'ruk-switcher-trigger-' + useId();
+  const id = 'ruk-switcher-trigger-' + React.useId();
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     registerTrigger(id, disabled);
 
     return () => {
@@ -223,7 +216,7 @@ const SwitcherTrigger = ({
     };
   }, [disabled, id, registerTrigger, unregisterTrigger]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     updateTriggerDisabled(id, disabled);
   }, [disabled, id, updateTriggerDisabled]);
 
@@ -231,14 +224,14 @@ const SwitcherTrigger = ({
   const isActive = triggerIndex === activeIndex;
   const tabId = `${baseId}-tab-${triggerIndex}`;
   const panelId = `${baseId}-panel-${triggerIndex}`;
-  const handleRef = useCallback(
+  const handleRef = React.useCallback(
     (node: HTMLButtonElement | null) => {
       setTriggerRef(id, node);
     },
     [id, setTriggerRef]
   );
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
 
     if (event.defaultPrevented || disabled || triggerIndex < 0) {
@@ -248,7 +241,7 @@ const SwitcherTrigger = ({
     setActiveIndex(triggerIndex);
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     onKeyDown?.(event);
 
     if (event.defaultPrevented || triggerIndex < 0) {
@@ -347,8 +340,8 @@ const SwitcherTrigger = ({
   );
 };
 
-export interface SwitcherContainerProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
+export interface SwitcherContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
 }
 
 const SwitcherContainer = ({ className, children, ...props }: SwitcherContainerProps) => {
@@ -359,16 +352,16 @@ const SwitcherContainer = ({ className, children, ...props }: SwitcherContainerP
   );
 };
 
-export interface SwitcherPanelProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
+export interface SwitcherPanelProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
   index?: number;
 }
 
 const SwitcherPanel = ({ children, className, index, ...props }: SwitcherPanelProps) => {
   const { activeIndex, baseId, panelOrder, registerPanel, unregisterPanel } = useSwitcherContext();
-  const id = 'ruk-switcher-panel-' + useId();
+  const id = 'ruk-switcher-panel-' + React.useId();
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     registerPanel(id);
 
     return () => {

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { createRef } from 'react';
+import * as React from 'react';
 import { describe, expect, it } from 'vitest';
 
 import { Icon } from './Icon';
@@ -88,7 +88,7 @@ describe('Icon', () => {
   // --- ref forwarding ---
 
   it('forwards ref to the span element', () => {
-    const ref = createRef<HTMLSpanElement>();
+    const ref = React.createRef<HTMLSpanElement>();
     render(<Icon name="heart" ref={ref} />);
     const span = ref.current;
 

@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
-
-import { useEffect, useRef } from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 import UIkit from 'uikit';
+
+import { useIsomorphicLayoutEffect } from '../../hooks';
 
 /**
  * Public props for the OffCanvas component.
@@ -21,7 +21,7 @@ export interface OffCanvasProps {
   /** UIkit off-canvas animation mode. */
   mode?: 'slide' | 'push' | 'reveal' | 'none';
   /** Off-canvas content, usually including OffCanvasBar. */
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const OffCanvas = ({
@@ -32,14 +32,14 @@ const OffCanvas = ({
   mode = 'none',
   children
 }: OffCanvasProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const onCloseRef = useRef(onClose);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const onCloseRef = React.useRef(onClose);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (ref.current) {
       const el = ref.current;
       const _offcanvas = UIkit.offcanvas(el);

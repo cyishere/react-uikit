@@ -9,13 +9,14 @@
  * - `UIkitIconName` is derived from the registry's keys, so invalid icon names produce a TypeScript error at compile time.
  */
 import type { UIkitIconName } from './registry';
-import type { HTMLAttributes, Ref } from 'react';
+
+import * as React from 'react';
 
 import { getIconSvg } from './registry';
 import { cn } from '../../utils';
 
-export interface IconProps extends HTMLAttributes<HTMLSpanElement> {
-  ref?: Ref<HTMLSpanElement>;
+export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
+  ref?: React.Ref<HTMLSpanElement>;
   /** The UIkit icon name to render (e.g. `"heart"`, `"check"`) */
   name: UIkitIconName;
   /**

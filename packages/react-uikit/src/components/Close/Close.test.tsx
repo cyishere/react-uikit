@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { createRef } from 'react';
+import * as React from 'react';
 import { describe, expect, it } from 'vitest';
 
 import { Close } from './Close';
@@ -86,7 +86,7 @@ describe('Close', () => {
   });
 
   it('forwards ref to the button element', () => {
-    const ref = createRef<HTMLButtonElement>();
+    const ref = React.createRef<HTMLButtonElement>();
     render(<Close ref={ref} />);
 
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
