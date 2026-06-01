@@ -11,7 +11,7 @@ const id = `code-${crypto.randomUUID()}`;
     <CopyButton targetId={id} client:load />
   </div>
   {
-    props.notInMDX ? <slot /> : (
+    props.notInMDX ? <div id={id}><slot /></div> : (
 <pre {...props} id={id}><slot /></pre>
     )
   }
