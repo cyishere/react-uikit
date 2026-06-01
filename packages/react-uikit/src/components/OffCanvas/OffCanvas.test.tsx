@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react';
-
 import { render, screen } from '@testing-library/react';
+import * as React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OffCanvas } from './';
@@ -33,7 +32,7 @@ vi.mock('react-focus-lock', () => ({
   }: {
     disabled: boolean;
     returnFocus: boolean;
-    children: ReactNode;
+    children: React.ReactNode;
   }) => (
     <div
       data-testid="focus-lock"
@@ -46,7 +45,7 @@ vi.mock('react-focus-lock', () => ({
 }));
 
 vi.mock('react-remove-scroll', () => ({
-  RemoveScroll: ({ enabled, children }: { enabled: boolean; children: ReactNode }) => (
+  RemoveScroll: ({ enabled, children }: { enabled: boolean; children: React.ReactNode }) => (
     <div data-testid="remove-scroll" data-enabled={String(enabled)}>
       {children}
     </div>

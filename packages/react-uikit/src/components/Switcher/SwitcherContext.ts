@@ -1,6 +1,4 @@
-import type { Dispatch, SetStateAction } from 'react';
-
-import { createContext, useContext } from 'react';
+import * as React from 'react';
 
 interface TriggerMeta {
   disabled: boolean;
@@ -9,7 +7,7 @@ interface TriggerMeta {
 
 export interface SwitcherContextValue {
   activeIndex: number;
-  setActiveIndex: Dispatch<SetStateAction<number>>;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
   baseId: string;
   triggerOrder: string[];
   panelOrder: string[];
@@ -22,10 +20,10 @@ export interface SwitcherContextValue {
   unregisterPanel: (id: string) => void;
 }
 
-export const SwitcherContext = createContext<SwitcherContextValue | null>(null);
+export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);
 
 export const useSwitcherContext = () => {
-  const context = useContext(SwitcherContext);
+  const context = React.useContext(SwitcherContext);
 
   if (!context) {
     throw new Error('Switcher components must be wrapped in <Switcher.Root>');

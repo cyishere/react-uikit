@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { createRef } from 'react';
+import * as React from 'react';
 import UIkit from 'uikit';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
@@ -109,7 +109,7 @@ describe('Grid', () => {
   // --- ref forwarding ---
 
   it('forwards ref to the root element', () => {
-    const ref = createRef<HTMLDivElement>();
+    const ref = React.createRef<HTMLDivElement>();
     render(<Grid ref={ref}>content</Grid>);
 
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
