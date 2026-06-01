@@ -1,0 +1,12 @@
+---
+import ForCustomComponentReact from './ForCustomComponent.tsx';
+import rawCode from './ForCustomComponent.tsx?raw';
+import PreviewSection from '../PreviewSection.astro';
+import { extractComponentCode } from '@/utils/code';
+
+const codeSnippet = extractComponentCode(rawCode, 'Close');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <ForCustomComponentReact client:load />
+</PreviewSection>

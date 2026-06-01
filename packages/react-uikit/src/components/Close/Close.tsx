@@ -28,10 +28,8 @@
  *    category.
  */
 
-import type { ButtonHTMLAttributes, Ref } from 'react';
-
 import { Slot } from '@radix-ui/react-slot';
-import { isValidElement, cloneElement } from 'react';
+import * as React from 'react';
 
 import { cn } from '../../utils';
 
@@ -69,8 +67,8 @@ const CloseLargeIcon = () => (
   </svg>
 );
 
-export interface CloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  ref?: Ref<HTMLButtonElement>;
+export interface CloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  ref?: React.Ref<HTMLButtonElement>;
   /** Renders the 20×20 close-large glyph and applies `uk-close-large` instead of `uk-close`. */
   large?: boolean;
   label?: string;
@@ -114,7 +112,7 @@ export const Close = ({
    * In `asChild` mode the `type` prop is irrelevant (non-button elements ignore it).
    */
   const compProps = !asChild
-    ? ({ type: type ?? 'button', ...props } as ButtonHTMLAttributes<HTMLButtonElement>)
+    ? ({ type: type ?? 'button', ...props } as React.ButtonHTMLAttributes<HTMLButtonElement>)
     : props;
 
   const icon = large ? <CloseLargeIcon /> : <CloseIcon />;
@@ -124,7 +122,7 @@ export const Close = ({
       {/*
       In `asChild` mode, clone the child and inject the SVG inside it. This ensures the icon is always rendered even when consumers provide their own element (e.g. an empty <a> or <Link>). In standard `button` mode, render the SVG directly as the only child.
       */}
-      {asChild && isValidElement(children) ? cloneElement(children, {}, icon) : icon}
+      {asChild && React.isValidElement(children) ? React.cloneElement(children, {}, icon) : icon}
     </Comp>
   );
 };
