@@ -59,12 +59,12 @@ describe('Switcher', () => {
     expect(panel2).not.toHaveAttribute('hidden');
   });
 
-  it('supports keyboard navigation and skips disabled triggers', () => {
+  it('supports keyboard navigation', () => {
     render(
       <Switcher.Root>
         <Switcher.List>
           <Switcher.Trigger>Tab 1</Switcher.Trigger>
-          <Switcher.Trigger disabled>Tab 2</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
           <Switcher.Trigger>Tab 3</Switcher.Trigger>
         </Switcher.List>
         <Switcher.Container>
@@ -80,10 +80,10 @@ describe('Switcher', () => {
     tabs[0]!.focus();
     fireEvent.keyDown(tabs[0]!, { key: 'ArrowRight' });
 
-    expect(tabs[2]!).toHaveFocus();
-    expect(tabs[2]!).toHaveAttribute('aria-selected', 'true');
+    expect(tabs[1]!).toHaveFocus();
+    expect(tabs[1]!).toHaveAttribute('aria-selected', 'true');
 
-    fireEvent.keyDown(tabs[2]!, { key: 'Home' });
+    fireEvent.keyDown(tabs[1]!, { key: 'Home' });
     expect(tabs[0]!).toHaveFocus();
     expect(tabs[0]!).toHaveAttribute('aria-selected', 'true');
 

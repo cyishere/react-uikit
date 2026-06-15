@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import './Switcher.css';
-import { SwitcherContext, useSwitcherContext } from './SwitcherContext';
-import { useIsomorphicLayoutEffect } from '../../hooks';
+import { SwitcherContext, claimIndex, useSwitcherContext } from './SwitcherContext';
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
+
+import './Switcher.css';
 
 export interface SwitcherRootProps {
   children: React.ReactNode;
@@ -12,327 +13,114 @@ export interface SwitcherRootProps {
   onValueChange?: (index: number) => void;
 }
 
-const SwitcherRoot = ({ children, defaultValue = 0, value, onValueChange }: SwitcherRootProps) => {
-  const [uncontrolledIndex, setUncontrolledIndex] = React.useState(defaultValue);
-  const [triggerOrder, setTriggerOrder] = React.useState<string[]>([]);
-  const [panelOrder, setPanelOrder] = React.useState<string[]>([]);
-  const [triggerMeta, setTriggerMeta] = React.useState<
-    Record<string, { disabled: boolean; ref: HTMLButtonElement | null }>
-  >({});
-
+export const SwitcherRoot = ({
+  children,
+  defaultValue = 0,
+  value,
+  onValueChange
+}: SwitcherRootProps) => {
+  const [selectedIndex = 0, setSelectedIndex] = useControllableState({
+    prop: value,
+    defaultProp: defaultValue,
+    onChange: onValueChange
+  });
+  const triggerRegistry: string[] = [];
+  const panelRegistry: string[] = [];
   const baseId = 'ruk-switcher-' + React.useId().replace(/:/g, '');
-  const activeIndex = value ?? uncontrolledIndex;
 
-  const setActiveIndex = React.useCallback(
-    (nextState: number | ((prev: number) => number)) => {
-      const resolvedIndex = typeof nextState === 'function' ? nextState(activeIndex) : nextState;
-
-      if (value === undefined) {
-        setUncontrolledIndex(resolvedIndex);
-      }
-
-      onValueChange?.(resolvedIndex);
-    },
-    [activeIndex, onValueChange, value]
-  );
-
-  const registerTrigger = React.useCallback((id: string, disabled: boolean) => {
-    setTriggerOrder((prev) => (prev.includes(id) ? prev : [...prev, id]));
-    setTriggerMeta((prev) => {
-      const existing = prev[id];
-      if (existing && existing.disabled === disabled) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        [id]: { disabled, ref: existing?.ref ?? null }
-      };
-    });
-  }, []);
-
-  const unregisterTrigger = React.useCallback((id: string) => {
-    setTriggerOrder((prev) => prev.filter((item) => item !== id));
-    setTriggerMeta((prev) => {
-      if (!(id in prev)) {
-        return prev;
-      }
-
-      const next = { ...prev };
-      delete next[id];
-      return next;
-    });
-  }, []);
-
-  const setTriggerRef = React.useCallback((id: string, ref: HTMLButtonElement | null) => {
-    setTriggerMeta((prev) => {
-      const existing = prev[id] ?? { disabled: false, ref: null };
-
-      if (existing.ref === ref) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        [id]: {
-          ...existing,
-          ref
-        }
-      };
-    });
-  }, []);
-
-  const updateTriggerDisabled = React.useCallback((id: string, disabled: boolean) => {
-    setTriggerMeta((prev) => {
-      const existing = prev[id] ?? { disabled: false, ref: null };
-
-      if (existing.disabled === disabled) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        [id]: {
-          ...existing,
-          disabled
-        }
-      };
-    });
-  }, []);
-
-  const registerPanel = React.useCallback((id: string) => {
-    setPanelOrder((prev) => (prev.includes(id) ? prev : [...prev, id]));
-  }, []);
-
-  const unregisterPanel = React.useCallback((id: string) => {
-    setPanelOrder((prev) => prev.filter((item) => item !== id));
-  }, []);
-
-  const contextValue = React.useMemo(
-    () => ({
-      activeIndex,
-      setActiveIndex,
-      baseId,
-      triggerOrder,
-      panelOrder,
-      triggerMeta,
-      registerTrigger,
-      unregisterTrigger,
-      setTriggerRef,
-      updateTriggerDisabled,
-      registerPanel,
-      unregisterPanel
-    }),
-    [
-      activeIndex,
-      baseId,
-      panelOrder,
-      registerPanel,
-      registerTrigger,
-      setActiveIndex,
-      setTriggerRef,
-      triggerMeta,
-      triggerOrder,
-      unregisterPanel,
-      unregisterTrigger,
-      updateTriggerDisabled
-    ]
-  );
-
-  return <SwitcherContext.Provider value={contextValue}>{children}</SwitcherContext.Provider>;
-};
-
-export interface SwitcherListProps extends React.HTMLAttributes<HTMLUListElement> {
-  children: React.ReactNode;
-}
-
-const SwitcherList = ({ className, children, ...props }: SwitcherListProps) => {
   return (
-    <ul className={cn(className)} role="tablist" {...props}>
+    <SwitcherContext.Provider
+      value={{ baseId, triggerRegistry, panelRegistry, selectedIndex, setSelectedIndex }}
+    >
       {children}
-    </ul>
+    </SwitcherContext.Provider>
   );
 };
 
-const getNextEnabledIndex = (
-  current: number,
-  direction: 1 | -1,
-  order: string[],
-  meta: Record<string, { disabled: boolean }>
-) => {
-  if (!order.length) {
-    return -1;
-  }
+export type SwitcherListProps = React.ComponentProps<'ul'>;
 
-  for (let step = 1; step <= order.length; step += 1) {
-    const candidate = (current + direction * step + order.length) % order.length;
-    const id = order[candidate];
+export const SwitcherList = ({ children, className, ref, ...props }: SwitcherListProps) => (
+  <ul ref={ref} role="tablist" className={cn(className)} {...props}>
+    {children}
+  </ul>
+);
 
-    if (!id) {
-      continue;
-    }
+export type SwitcherTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-    if (!meta[id]?.disabled) {
-      return candidate;
-    }
-  }
-
-  return -1;
-};
-
-export interface SwitcherTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  index?: number;
-}
-
-const SwitcherTrigger = ({
+export const SwitcherTrigger = ({
   children,
   className,
-  index,
-  disabled = false,
   onClick,
   onKeyDown,
   ...props
 }: SwitcherTriggerProps) => {
-  const {
-    activeIndex,
-    setActiveIndex,
-    baseId,
-    triggerOrder,
-    triggerMeta,
-    registerTrigger,
-    unregisterTrigger,
-    setTriggerRef,
-    updateTriggerDisabled
-  } = useSwitcherContext();
+  const { baseId, triggerRegistry, selectedIndex, setSelectedIndex } = useSwitcherContext();
+  const id = React.useId();
+  const triggerIndex = claimIndex(triggerRegistry, id);
+  const isActive = triggerIndex === selectedIndex;
 
-  const id = 'ruk-switcher-trigger-' + React.useId();
-
-  useIsomorphicLayoutEffect(() => {
-    registerTrigger(id, disabled);
-
-    return () => {
-      unregisterTrigger(id);
-    };
-  }, [disabled, id, registerTrigger, unregisterTrigger]);
-
-  useIsomorphicLayoutEffect(() => {
-    updateTriggerDisabled(id, disabled);
-  }, [disabled, id, updateTriggerDisabled]);
-
-  const triggerIndex = index ?? triggerOrder.indexOf(id);
-  const isActive = triggerIndex === activeIndex;
   const tabId = `${baseId}-tab-${triggerIndex}`;
   const panelId = `${baseId}-panel-${triggerIndex}`;
-  const handleRef = React.useCallback(
-    (node: HTMLButtonElement | null) => {
-      setTriggerRef(id, node);
-    },
-    [id, setTriggerRef]
-  );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
 
-    if (event.defaultPrevented || disabled || triggerIndex < 0) {
-      return;
-    }
+    if (event.defaultPrevented || props.disabled || triggerIndex < 0) return;
 
-    setActiveIndex(triggerIndex);
+    setSelectedIndex(triggerIndex);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     onKeyDown?.(event);
 
-    if (event.defaultPrevented || triggerIndex < 0) {
-      return;
+    if (event.defaultPrevented || props.disabled || triggerIndex < 0) return;
+
+    const length = triggerRegistry.length;
+    let nextIndex: number | null = null;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        nextIndex = (triggerIndex + 1) % length;
+        break;
+      case 'ArrowLeft':
+        nextIndex = (triggerIndex - 1 + length) % length;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = length - 1;
+        break;
+      case 'Enter':
+      case ' ':
+        setSelectedIndex(triggerIndex);
+        event.preventDefault();
+        return;
+      default:
+        return;
     }
 
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+    if (nextIndex !== null && nextIndex !== triggerIndex) {
       event.preventDefault();
-
-      const nextIndex = getNextEnabledIndex(
-        triggerIndex,
-        event.key === 'ArrowRight' ? 1 : -1,
-        triggerOrder,
-        triggerMeta
-      );
-
-      if (nextIndex >= 0) {
-        const nextId = triggerOrder[nextIndex];
-
-        if (!nextId) {
-          return;
-        }
-
-        triggerMeta[nextId]?.ref?.focus();
-        setActiveIndex(nextIndex);
-      }
-
-      return;
-    }
-
-    if (event.key === 'Home') {
-      event.preventDefault();
-      const firstEnabledIndex = triggerOrder.findIndex(
-        (triggerId) => !triggerMeta[triggerId]?.disabled
-      );
-
-      if (firstEnabledIndex >= 0) {
-        const firstId = triggerOrder[firstEnabledIndex];
-
-        if (!firstId) {
-          return;
-        }
-
-        triggerMeta[firstId]?.ref?.focus();
-        setActiveIndex(firstEnabledIndex);
-      }
-
-      return;
-    }
-
-    if (event.key === 'End') {
-      event.preventDefault();
-
-      for (let i = triggerOrder.length - 1; i >= 0; i -= 1) {
-        const triggerId = triggerOrder[i];
-
-        if (!triggerId) {
-          continue;
-        }
-
-        if (!triggerMeta[triggerId]?.disabled) {
-          triggerMeta[triggerId]?.ref?.focus();
-          setActiveIndex(i);
-          break;
-        }
-      }
-
-      return;
-    }
-
-    if ((event.key === 'Enter' || event.key === ' ') && !disabled) {
-      event.preventDefault();
-      setActiveIndex(triggerIndex);
+      setSelectedIndex(nextIndex);
+      const nextTabId = `${baseId}-tab-${nextIndex}`;
+      document.getElementById(nextTabId)?.focus();
     }
   };
 
   return (
-    <li className={cn(isActive && 'uk-active')} role="presentation">
+    <li role="presentation" className={cn(isActive && 'uk-active')}>
       <button
         {...props}
+        id={tabId}
         aria-controls={panelId}
         aria-selected={isActive}
+        tabIndex={isActive ? 0 : -1}
         className={cn('ruk-switcher-trigger-button', className)}
-        disabled={disabled}
-        id={tabId}
+        role="tab"
+        type={props.type ?? 'button'}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
-        ref={handleRef}
-        role="tab"
-        tabIndex={isActive ? 0 : -1}
-        type={props.type ?? 'button'}
       >
         {children}
       </button>
@@ -340,48 +128,44 @@ const SwitcherTrigger = ({
   );
 };
 
-export interface SwitcherContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
+export type SwitcherContainerProps = React.ComponentProps<'div'>;
 
-const SwitcherContainer = ({ className, children, ...props }: SwitcherContainerProps) => {
-  return (
-    <div className={cn('uk-switcher', className)} {...props}>
-      {children}
-    </div>
-  );
-};
+export const SwitcherContainer = ({
+  children,
+  className,
+  ref,
+  ...props
+}: SwitcherContainerProps) => (
+  <div ref={ref} className={cn('uk-switcher', className)} {...props}>
+    {children}
+  </div>
+);
 
-export interface SwitcherPanelProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  index?: number;
-}
+export type SwitcherPanelProps = React.HTMLAttributes<HTMLDivElement>;
 
-const SwitcherPanel = ({ children, className, index, ...props }: SwitcherPanelProps) => {
-  const { activeIndex, baseId, panelOrder, registerPanel, unregisterPanel } = useSwitcherContext();
-  const id = 'ruk-switcher-panel-' + React.useId();
+export const SwitcherPanel = ({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentProps<'div'>) => {
+  const { baseId, panelRegistry, selectedIndex } = useSwitcherContext();
+  const id = React.useId();
+  const panelIndex = claimIndex(panelRegistry, id);
+  const isActive = panelIndex === selectedIndex;
 
-  useIsomorphicLayoutEffect(() => {
-    registerPanel(id);
-
-    return () => {
-      unregisterPanel(id);
-    };
-  }, [id, registerPanel, unregisterPanel]);
-
-  const panelIndex = index ?? panelOrder.indexOf(id);
-  const isActive = panelIndex === activeIndex;
   const panelId = `${baseId}-panel-${panelIndex}`;
   const tabId = `${baseId}-tab-${panelIndex}`;
 
   return (
     <div
       {...props}
+      ref={ref}
+      role="tabpanel"
       aria-labelledby={tabId}
+      id={panelId}
       className={cn(className, isActive && 'uk-active')}
       hidden={!isActive}
-      id={panelId}
-      role="tabpanel"
       tabIndex={0}
     >
       {children}

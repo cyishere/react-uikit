@@ -1,23 +1,11 @@
 import * as React from 'react';
 
-interface TriggerMeta {
-  disabled: boolean;
-  ref: HTMLButtonElement | null;
-}
-
 export interface SwitcherContextValue {
-  activeIndex: number;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
   baseId: string;
-  triggerOrder: string[];
-  panelOrder: string[];
-  triggerMeta: Record<string, TriggerMeta>;
-  registerTrigger: (id: string, disabled: boolean) => void;
-  unregisterTrigger: (id: string) => void;
-  setTriggerRef: (id: string, ref: HTMLButtonElement | null) => void;
-  updateTriggerDisabled: (id: string, disabled: boolean) => void;
-  registerPanel: (id: string) => void;
-  unregisterPanel: (id: string) => void;
+  triggerRegistry: string[];
+  panelRegistry: string[];
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);
@@ -30,4 +18,12 @@ export const useSwitcherContext = () => {
   }
 
   return context;
+};
+
+export const claimIndex = (registry: string[], id: string) => {
+  if (!registry.includes(id)) {
+    registry.push(id);
+  }
+
+  return registry.indexOf(id);
 };
