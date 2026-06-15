@@ -59,7 +59,7 @@ export const SwitcherTrigger = ({
   const triggerIndex = claimIndex(triggerRegistry, id);
   const isActive = triggerIndex === selectedIndex;
 
-  const tabId = `${baseId}-tab-${triggerIndex}`;
+  const triggerId = `${baseId}-tab-${triggerIndex}`;
   const panelId = `${baseId}-panel-${triggerIndex}`;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -103,8 +103,8 @@ export const SwitcherTrigger = ({
     if (nextIndex !== null && nextIndex !== triggerIndex) {
       event.preventDefault();
       setSelectedIndex(nextIndex);
-      const nextTabId = `${baseId}-tab-${nextIndex}`;
-      document.getElementById(nextTabId)?.focus();
+      const nexttriggerId = `${baseId}-tab-${nextIndex}`;
+      document.getElementById(nexttriggerId)?.focus();
     }
   };
 
@@ -112,7 +112,7 @@ export const SwitcherTrigger = ({
     <li role="presentation" className={cn(isActive && 'uk-active')}>
       <button
         {...props}
-        id={tabId}
+        id={triggerId}
         aria-controls={panelId}
         aria-selected={isActive}
         tabIndex={isActive ? 0 : -1}
@@ -150,14 +150,14 @@ export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPa
   const isActive = panelIndex === selectedIndex;
 
   const panelId = `${baseId}-panel-${panelIndex}`;
-  const tabId = `${baseId}-tab-${panelIndex}`;
+  const triggerId = `${baseId}-tab-${panelIndex}`;
 
   return (
     <div
       {...props}
       ref={ref}
       role="tabpanel"
-      aria-labelledby={tabId}
+      aria-labelledby={triggerId}
       id={panelId}
       className={cn(className, isActive && 'uk-active')}
       hidden={!isActive}
