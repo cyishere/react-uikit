@@ -141,14 +141,9 @@ export const SwitcherContainer = ({
   </div>
 );
 
-export type SwitcherPanelProps = React.HTMLAttributes<HTMLDivElement>;
+export type SwitcherPanelProps = React.ComponentProps<'div'>;
 
-export const SwitcherPanel = ({
-  children,
-  className,
-  ref,
-  ...props
-}: React.ComponentProps<'div'>) => {
+export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPanelProps) => {
   const { baseId, panelRegistry, selectedIndex } = useSwitcherContext();
   const id = React.useId();
   const panelIndex = claimIndex(panelRegistry, id);
