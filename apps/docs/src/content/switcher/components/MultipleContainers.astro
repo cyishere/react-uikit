@@ -1,12 +1,12 @@
 ---
 import { extractComponentCode } from '@/utils/code';
-import BasicUsageReact from './BasicUsage.tsx';
-import rawCode from './BasicUsage.tsx?raw';
+import MultipleContainersReact from './MultipleContainers.tsx';
+import rawCode from './MultipleContainers.tsx?raw';
 import PreviewSection from '@/components/PreviewSection.astro';
 
 const codeSnippet = extractComponentCode(rawCode, 'Switcher.Root');
 ---
 
 <PreviewSection codeSnippet={codeSnippet} lang="jsx">
-  <BasicUsageReact client:load />
+  <MultipleContainersReact client:load />
 </PreviewSection>

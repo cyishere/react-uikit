@@ -187,4 +187,37 @@ describe('Switcher', () => {
 
     consoleError.mockRestore();
   });
+
+  it('supports multiple containers switching simultaneously', () => {
+    render(
+      <Switcher.Root>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>C1-Panel 1</Switcher.Panel>
+          <Switcher.Panel>C1-Panel 2</Switcher.Panel>
+        </Switcher.Container>
+        <Switcher.Container>
+          <Switcher.Panel>C2-Panel 1</Switcher.Panel>
+          <Switcher.Panel>C2-Panel 2</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    // Initially, first panel in each container is visible
+    expect(screen.getByText('C1-Panel 1')).not.toHaveAttribute('hidden');
+    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
+    expect(screen.getByText('C2-Panel 1')).not.toHaveAttribute('hidden');
+    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
+
+    // Click Tab 2 — both containers switch
+    fireEvent.click(screen.getAllByRole('tab')[1]!);
+
+    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
+    expect(screen.getByText('C1-Panel 2')).not.toHaveAttribute('hidden');
+    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
+    expect(screen.getByText('C2-Panel 2')).not.toHaveAttribute('hidden');
+  });
 });

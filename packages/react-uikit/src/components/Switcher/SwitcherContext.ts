@@ -5,7 +5,7 @@ export interface SwitcherContextValue {
   setSelectedIndex: (index: number) => void;
   baseId: string;
   triggerRegistry: string[];
-  panelRegistry: string[];
+  containerRegistry: string[];
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);
@@ -15,6 +15,23 @@ export const useSwitcherContext = () => {
 
   if (!context) {
     throw new Error('Switcher components must be wrapped in <Switcher.Root>');
+  }
+
+  return context;
+};
+
+export interface ContainerContextValue {
+  panelRegistry: string[];
+  containerIndex: number;
+}
+
+export const ContainerContext = React.createContext<ContainerContextValue | null>(null);
+
+export const useContainerContext = () => {
+  const context = React.useContext(ContainerContext);
+
+  if (!context) {
+    throw new Error('Switcher.Panel must be wrapped in <Switcher.Container>');
   }
 
   return context;

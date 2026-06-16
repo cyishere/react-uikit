@@ -1,6 +1,12 @@
 import * as React from 'react';
 
-import { SwitcherContext, claimIndex, useSwitcherContext } from './SwitcherContext';
+import {
+  ContainerContext,
+  SwitcherContext,
+  claimIndex,
+  useContainerContext,
+  useSwitcherContext
+} from './SwitcherContext';
 import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 
@@ -25,15 +31,15 @@ export const SwitcherRoot = ({
     onChange: onValueChange
   });
   const triggerRegistry: string[] = [];
-  const panelRegistry: string[] = [];
+  const containerRegistry: string[] = [];
   const baseId = 'ruk-switcher-' + React.useId().replace(/:/g, '');
 
   return (
-    <SwitcherContext.Provider
-      value={{ baseId, triggerRegistry, panelRegistry, selectedIndex, setSelectedIndex }}
+    <SwitcherContext
+      value={{ baseId, triggerRegistry, containerRegistry, selectedIndex, setSelectedIndex }}
     >
       {children}
-    </SwitcherContext.Provider>
+    </SwitcherContext>
   );
 };
 
@@ -59,8 +65,8 @@ export const SwitcherTrigger = ({
   const triggerIndex = claimIndex(triggerRegistry, id);
   const isActive = triggerIndex === selectedIndex;
 
-  const triggerId = `${baseId}-tab-${triggerIndex}`;
-  const panelId = `${baseId}-panel-${triggerIndex}`;
+  const triggerId = `${baseId}-trigger-${triggerIndex}`;
+  const panelId = `${baseId}-panel-0-${triggerIndex}`;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
@@ -103,7 +109,7 @@ export const SwitcherTrigger = ({
     if (nextIndex !== null && nextIndex !== triggerIndex) {
       event.preventDefault();
       setSelectedIndex(nextIndex);
-      const nexttriggerId = `${baseId}-tab-${nextIndex}`;
+      const nexttriggerId = `${baseId}-trigger-${nextIndex}`;
       document.getElementById(nexttriggerId)?.focus();
     }
   };
@@ -135,22 +141,32 @@ export const SwitcherContainer = ({
   className,
   ref,
   ...props
-}: SwitcherContainerProps) => (
-  <div ref={ref} className={cn('uk-switcher', className)} {...props}>
-    {children}
-  </div>
-);
+}: SwitcherContainerProps) => {
+  const { containerRegistry } = useSwitcherContext();
+  const id = React.useId();
+  const containerIndex = claimIndex(containerRegistry, id);
+  const panelRegistry: string[] = [];
+
+  return (
+    <ContainerContext value={{ panelRegistry, containerIndex }}>
+      <div ref={ref} className={cn('uk-switcher', className)} {...props}>
+        {children}
+      </div>
+    </ContainerContext>
+  );
+};
 
 export type SwitcherPanelProps = React.ComponentProps<'div'>;
 
 export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPanelProps) => {
-  const { baseId, panelRegistry, selectedIndex } = useSwitcherContext();
+  const { baseId, selectedIndex } = useSwitcherContext();
+  const { panelRegistry, containerIndex } = useContainerContext();
   const id = React.useId();
   const panelIndex = claimIndex(panelRegistry, id);
   const isActive = panelIndex === selectedIndex;
 
-  const panelId = `${baseId}-panel-${panelIndex}`;
-  const triggerId = `${baseId}-tab-${panelIndex}`;
+  const panelId = `${baseId}-panel-${containerIndex}-${panelIndex}`;
+  const triggerId = `${baseId}-trigger-${panelIndex}`;
 
   return (
     <div
