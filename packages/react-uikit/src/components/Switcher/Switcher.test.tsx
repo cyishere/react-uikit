@@ -319,4 +319,41 @@ describe('Switcher', () => {
 
     expect(c2p2).toHaveClass('uk-animation-enter');
   });
+
+  it('renders without window.matchMedia (SSR safety)', () => {
+    const original = window.matchMedia;
+    // Simulate an environment where matchMedia is unavailable (e.g. SSR).
+    // @ts-expect-error -- intentionally removing for the test
+    delete window.matchMedia;
+
+    try {
+      expect(() =>
+        render(
+          <Switcher.Root animation="uk-animation-fade">
+            <Switcher.List>
+              <Switcher.Trigger>Tab 1</Switcher.Trigger>
+              <Switcher.Trigger>Tab 2</Switcher.Trigger>
+            </Switcher.List>
+            <Switcher.Container>
+              <Switcher.Panel>Panel 1</Switcher.Panel>
+              <Switcher.Panel>Panel 2</Switcher.Panel>
+            </Switcher.Container>
+          </Switcher.Root>
+        )
+      ).not.toThrow();
+
+      // Without matchMedia we can't detect a reduced-motion preference, so
+      // animation still runs (not skipped) and the sequence proceeds normally.
+      const panel1 = screen.getByText('Panel 1').closest('[role="tabpanel"]');
+      const panel2 = screen.getByText('Panel 2').closest('[role="tabpanel"]');
+
+      fireEvent.click(screen.getAllByRole('tab')[1]!);
+      expect(panel1).toHaveClass('uk-animation-leave');
+
+      fireEvent.animationEnd(panel1!);
+      expect(panel2).toHaveClass('uk-animation-enter', 'uk-active');
+    } finally {
+      window.matchMedia = original;
+    }
+  });
 });

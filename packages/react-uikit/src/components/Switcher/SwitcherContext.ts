@@ -7,6 +7,7 @@ export interface SwitcherContextValue {
   triggerRegistry: string[];
   containerRegistry: string[];
   animation?: string | undefined;
+  duration: number;
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);

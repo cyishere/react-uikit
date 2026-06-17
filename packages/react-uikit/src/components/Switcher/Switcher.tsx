@@ -12,9 +12,9 @@ import { cn } from '../../utils';
 
 import './Switcher.css';
 
-// Matches UIkit's Togglable default duration (src/js/mixin/togglable.js). UIkit
-// applies this inline on every switch, overriding the CSS-default durations.
-const ANIMATION_DURATION_MS = 200;
+// Matches UIkit's Togglable/Switcher default duration (200ms). UIkit applies the
+// duration inline on every switch, overriding the CSS-default durations.
+const DEFAULT_ANIMATION_DURATION_MS = 200;
 
 export const parseAnimation = (animation: string | undefined) => {
   if (!animation) return null;
@@ -33,6 +33,7 @@ export interface SwitcherRootProps {
   value?: number;
   onValueChange?: (index: number) => void;
   animation?: string;
+  duration?: number;
 }
 
 export const SwitcherRoot = ({
@@ -40,7 +41,8 @@ export const SwitcherRoot = ({
   defaultValue = 0,
   value,
   onValueChange,
-  animation
+  animation,
+  duration = DEFAULT_ANIMATION_DURATION_MS
 }: SwitcherRootProps) => {
   const [selectedIndex = 0, setSelectedIndex] = useControllableState({
     prop: value,
@@ -59,7 +61,8 @@ export const SwitcherRoot = ({
         containerRegistry,
         selectedIndex,
         setSelectedIndex,
-        animation
+        animation,
+        duration
       }}
     >
       {children}
@@ -192,7 +195,7 @@ export type SwitcherPanelProps = React.ComponentProps<'div'>;
 type AnimationPhase = 'idle' | 'animating-out' | 'waiting-in' | 'animating-in';
 
 export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPanelProps) => {
-  const { baseId, selectedIndex, animation } = useSwitcherContext();
+  const { baseId, selectedIndex, animation, duration } = useSwitcherContext();
   const { panelRegistry, containerIndex, animationGeneration, notifyOutComplete } =
     useContainerContext();
   const id = React.useId();
@@ -254,10 +257,10 @@ export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPa
     animClass = cn(effectiveAnimConfig.in, 'uk-animation', 'uk-animation-enter');
   }
 
-  // UIkit forces a 200ms animation-duration inline (Togglable's default), which
-  // overrides the slower per-animation CSS defaults (e.g. uk-animation-fade is
-  // 0.8s). Match that so transitions run at the same speed as UIkit's own.
-  const animStyle = isAnimating ? { animationDuration: ANIMATION_DURATION_MS + 'ms' } : undefined;
+  // UIkit forces the animation-duration inline on every switch, overriding the
+  // slower per-animation CSS defaults (e.g. uk-animation-fade is 0.8s). Match
+  // that so transitions run at the configured speed (default 200ms).
+  const animStyle = isAnimating ? { animationDuration: duration + 'ms' } : undefined;
 
   // Hidden while 'waiting-in' so the incoming panel stays invisible until the
   // outgoing panel finishes (sequential out→in), then appears with its enter
