@@ -6,6 +6,7 @@ export interface SwitcherContextValue {
   baseId: string;
   triggerRegistry: string[];
   containerRegistry: string[];
+  triggerCount: number;
   animation?: string | undefined;
   duration: number;
   swiping: boolean;
@@ -29,6 +30,7 @@ export const useSwitcherContext = () => {
 export interface ContainerContextValue {
   panelRegistry: string[];
   containerIndex: number;
+  panelCount: number;
   animationGeneration: number;
   notifyOutComplete: () => void;
 }
@@ -44,6 +46,13 @@ export const useContainerContext = () => {
 
   return context;
 };
+
+// Resolve a possibly-negative index as an offset from the end of the set,
+// matching UIkit's getIndex wrap. Read-only: never written back to state, so
+// controlled values aren't fought. Falls back to the raw index until the count
+// is known (registries fill during render).
+export const resolveIndex = (index: number, count: number) =>
+  index < 0 && count > 0 ? ((index % count) + count) % count : index;
 
 export const claimIndex = (registry: string[], id: string) => {
   if (!registry.includes(id)) {

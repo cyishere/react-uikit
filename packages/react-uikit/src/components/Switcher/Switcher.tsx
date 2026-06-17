@@ -4,6 +4,7 @@ import {
   ContainerContext,
   SwitcherContext,
   claimIndex,
+  resolveIndex,
   useContainerContext,
   useSwitcherContext
 } from './SwitcherContext';
@@ -66,12 +67,22 @@ export const SwitcherRoot = ({
   const containerRegistry: string[] = [];
   const baseId = 'ruk-switcher-' + React.useId().replace(/:/g, '');
 
+  const [triggerCount, setTriggerCount] = React.useState(0);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useLayoutEffect(() => {
+    if (triggerCount !== triggerRegistry.length) {
+      setTriggerCount(triggerRegistry.length);
+    }
+  });
+
   return (
     <SwitcherContext
       value={{
         baseId,
         triggerRegistry,
         containerRegistry,
+        triggerCount,
         selectedIndex,
         setSelectedIndex,
         animation,
@@ -112,12 +123,17 @@ export const SwitcherTrigger = ({
     setSelectedIndex,
     followFocus,
     focusedIndex,
-    setFocusedIndex
+    setFocusedIndex,
+    triggerCount
   } = useSwitcherContext();
   const id = React.useId();
   const triggerIndex = claimIndex(triggerRegistry, id);
-  const isActive = triggerIndex === selectedIndex;
-  const isFocusable = (focusedIndex ?? selectedIndex) === triggerIndex;
+
+  // Resolve negative indices (e.g. -1 for the last tab) using the final trigger count.
+  const resolvedSelectedIndex = resolveIndex(selectedIndex, triggerCount);
+
+  const isActive = triggerIndex === resolvedSelectedIndex;
+  const isFocusable = (focusedIndex ?? resolvedSelectedIndex) === triggerIndex;
 
   const triggerId = `${baseId}-trigger-${triggerIndex}`;
   const panelId = `${baseId}-panel-0-${triggerIndex}`;
@@ -210,6 +226,14 @@ export const SwitcherContainer = ({
   const containerIndex = claimIndex(containerRegistry, id);
   const panelRegistry: string[] = [];
 
+  const [panelCount, setPanelCount] = React.useState(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useLayoutEffect(() => {
+    if (panelCount !== panelRegistry.length) {
+      setPanelCount(panelRegistry.length);
+    }
+  });
+
   const [animGen, setAnimGen] = React.useState(0);
   const notifyOutComplete = React.useCallback(() => {
     setAnimGen((g) => g + 1);
@@ -222,18 +246,24 @@ export const SwitcherContainer = ({
     onSwipeLeft: () => {
       const length = triggerRegistry.length;
       if (length === 0) return;
-      setSelectedIndex((selectedIndex + 1) % length);
+      setSelectedIndex((resolveIndex(selectedIndex, length) + 1) % length);
     },
     onSwipeRight: () => {
       const length = triggerRegistry.length;
       if (length === 0) return;
-      setSelectedIndex((selectedIndex - 1 + length) % length);
+      setSelectedIndex((resolveIndex(selectedIndex, length) - 1 + length) % length);
     }
   });
 
   return (
     <ContainerContext
-      value={{ panelRegistry, containerIndex, animationGeneration: animGen, notifyOutComplete }}
+      value={{
+        panelRegistry,
+        containerIndex,
+        panelCount,
+        animationGeneration: animGen,
+        notifyOutComplete
+      }}
     >
       <div
         {...props}
@@ -242,7 +272,7 @@ export const SwitcherContainer = ({
           if (typeof ref === 'function') {
             ref(node);
           } else if (ref) {
-            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+            (ref as React.RefObject<HTMLDivElement | null>).current = node;
           }
         }}
         className={cn('uk-switcher', className)}
@@ -260,11 +290,14 @@ type AnimationPhase = 'idle' | 'animating-out' | 'waiting-in' | 'animating-in';
 
 export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPanelProps) => {
   const { baseId, selectedIndex, animation, duration } = useSwitcherContext();
-  const { panelRegistry, containerIndex, animationGeneration, notifyOutComplete } =
+  const { panelRegistry, containerIndex, panelCount, animationGeneration, notifyOutComplete } =
     useContainerContext();
   const id = React.useId();
   const panelIndex = claimIndex(panelRegistry, id);
-  const isActive = panelIndex === selectedIndex;
+
+  const resolvedSelectedIndex = resolveIndex(selectedIndex, panelCount);
+
+  const isActive = panelIndex === resolvedSelectedIndex;
 
   // Stable identity so the out-coordination effect below only re-runs on real
   // phase changes — recreating this object each render would make the effect's

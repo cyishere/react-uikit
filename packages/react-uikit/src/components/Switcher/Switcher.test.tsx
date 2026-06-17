@@ -482,6 +482,34 @@ describe('Switcher', () => {
     expect(tabs[0]!).toHaveAttribute('aria-selected', 'true'); // Still Tab 1
   });
 
+  it('resolves negative indices relative to the end', () => {
+    render(
+      <Switcher.Root defaultValue={-1}>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+          <Switcher.Trigger>Tab 3</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+          <Switcher.Panel>Panel 3</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const panels = screen.getAllByRole('tabpanel', { hidden: true });
+
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'false');
+    expect(tabs[1]!).toHaveAttribute('aria-selected', 'false');
+    expect(tabs[2]!).toHaveAttribute('aria-selected', 'true');
+
+    expect(panels[0]!).not.toHaveClass('uk-active');
+    expect(panels[1]!).not.toHaveClass('uk-active');
+    expect(panels[2]!).toHaveClass('uk-active');
+  });
+
   it('renders without window.matchMedia (SSR safety)', () => {
     const original = window.matchMedia;
     // Simulate an environment where matchMedia is unavailable (e.g. SSR).
