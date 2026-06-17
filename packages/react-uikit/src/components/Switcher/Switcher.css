@@ -42,3 +42,7 @@
   background-color: #1e87f0;
   color: #fff;
 }
+
+.ruk-switcher-item.ruk-unstyled-button {
+  display: inline;
+}

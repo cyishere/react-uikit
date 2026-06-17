@@ -54,6 +54,23 @@ export const useContainerContext = () => {
 export const resolveIndex = (index: number, count: number) =>
   index < 0 && count > 0 ? ((index % count) + count) % count : index;
 
+export type SwitcherItemTarget = number | 'next' | 'previous';
+
+// Resolve a Switcher.Item target ('next' | 'previous' | index) to a concrete,
+// in-range index. Wraps like UIkit's getIndex. Returns null when the count is
+// not yet known (count === 0) so callers can no-op.
+export const resolveTarget = (
+  target: SwitcherItemTarget,
+  current: number,
+  count: number
+): number | null => {
+  if (count <= 0) return null;
+  const base = resolveIndex(current, count);
+  if (target === 'next') return (base + 1) % count;
+  if (target === 'previous') return (base - 1 + count) % count;
+  return resolveIndex(target, count); // numeric, supports negative
+};
+
 export const claimIndex = (registry: string[], id: string) => {
   if (!registry.includes(id)) {
     registry.push(id);

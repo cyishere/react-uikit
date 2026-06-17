@@ -546,4 +546,142 @@ describe('Switcher', () => {
       window.matchMedia = original;
     }
   });
+
+  describe('Switcher.Item (Navigation Controls)', () => {
+    it('switches to a specific panel by index', () => {
+      render(
+        <Switcher.Root>
+          <Switcher.List>
+            <Switcher.Trigger>Tab 1</Switcher.Trigger>
+            <Switcher.Trigger>Tab 2</Switcher.Trigger>
+            <Switcher.Trigger>Tab 3</Switcher.Trigger>
+          </Switcher.List>
+          <Switcher.Container>
+            <Switcher.Panel>Panel 1</Switcher.Panel>
+            <Switcher.Panel>
+              <Switcher.Item to={2}>Go to Tab 3</Switcher.Item>
+            </Switcher.Panel>
+            <Switcher.Panel>Panel 3</Switcher.Panel>
+          </Switcher.Container>
+        </Switcher.Root>
+      );
+
+      const tabs = screen.getAllByRole('tab');
+      fireEvent.click(tabs[1]!); // Go to Panel 2
+
+      const item = screen.getByText('Go to Tab 3');
+      expect(item).not.toHaveAttribute('role', 'tab');
+      expect(item).not.toHaveAttribute('aria-selected');
+
+      fireEvent.click(item);
+
+      expect(tabs[2]!).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('switches to the next/previous panel and wraps', () => {
+      render(
+        <Switcher.Root>
+          <Switcher.List>
+            <Switcher.Trigger>Tab 1</Switcher.Trigger>
+            <Switcher.Trigger>Tab 2</Switcher.Trigger>
+            <Switcher.Trigger>Tab 3</Switcher.Trigger>
+          </Switcher.List>
+          <Switcher.Container>
+            <Switcher.Panel>
+              <Switcher.Item to="previous">Prev</Switcher.Item>
+            </Switcher.Panel>
+            <Switcher.Panel>Panel 2</Switcher.Panel>
+            <Switcher.Panel>
+              <Switcher.Item to="next">Next</Switcher.Item>
+            </Switcher.Panel>
+          </Switcher.Container>
+        </Switcher.Root>
+      );
+
+      const tabs = screen.getAllByRole('tab');
+
+      // Click "Prev" on the first panel should wrap to the last panel
+      fireEvent.click(screen.getByText('Prev'));
+      expect(tabs[2]!).toHaveAttribute('aria-selected', 'true');
+
+      // Click "Next" on the last panel should wrap to the first panel
+      fireEvent.click(screen.getByText('Next'));
+      expect(tabs[0]!).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('resolves negative index correctly', () => {
+      render(
+        <Switcher.Root>
+          <Switcher.List>
+            <Switcher.Trigger>Tab 1</Switcher.Trigger>
+            <Switcher.Trigger>Tab 2</Switcher.Trigger>
+            <Switcher.Trigger>Tab 3</Switcher.Trigger>
+          </Switcher.List>
+          <Switcher.Container>
+            <Switcher.Panel>
+              <Switcher.Item to={-1}>Go to Last</Switcher.Item>
+            </Switcher.Panel>
+            <Switcher.Panel>Panel 2</Switcher.Panel>
+            <Switcher.Panel>Panel 3</Switcher.Panel>
+          </Switcher.Container>
+        </Switcher.Root>
+      );
+
+      const tabs = screen.getAllByRole('tab');
+      fireEvent.click(screen.getByText('Go to Last'));
+      expect(tabs[2]!).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('no-ops when disabled or default prevented', () => {
+      const onValueChange = vi.fn();
+      render(
+        <Switcher.Root onValueChange={onValueChange}>
+          <Switcher.List>
+            <Switcher.Trigger>Tab 1</Switcher.Trigger>
+            <Switcher.Trigger>Tab 2</Switcher.Trigger>
+            <Switcher.Trigger>Tab 3</Switcher.Trigger>
+          </Switcher.List>
+          <Switcher.Container>
+            <Switcher.Panel>
+              <Switcher.Item to={1} disabled>
+                Disabled
+              </Switcher.Item>
+              <Switcher.Item to={1} onClick={(e) => e.preventDefault()}>
+                Prevented
+              </Switcher.Item>
+            </Switcher.Panel>
+            <Switcher.Panel>Panel 2</Switcher.Panel>
+            <Switcher.Panel>Panel 3</Switcher.Panel>
+          </Switcher.Container>
+        </Switcher.Root>
+      );
+
+      fireEvent.click(screen.getByText('Disabled'));
+      expect(onValueChange).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByText('Prevented'));
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it('works in controlled mode', () => {
+      const onValueChange = vi.fn();
+      render(
+        <Switcher.Root value={0} onValueChange={onValueChange}>
+          <Switcher.List>
+            <Switcher.Trigger>Tab 1</Switcher.Trigger>
+            <Switcher.Trigger>Tab 2</Switcher.Trigger>
+          </Switcher.List>
+          <Switcher.Container>
+            <Switcher.Panel>
+              <Switcher.Item to={1}>Go to Tab 2</Switcher.Item>
+            </Switcher.Panel>
+            <Switcher.Panel>Panel 2</Switcher.Panel>
+          </Switcher.Container>
+        </Switcher.Root>
+      );
+
+      fireEvent.click(screen.getByText('Go to Tab 2'));
+      expect(onValueChange).toHaveBeenCalledWith(1);
+    });
+  });
 });

@@ -1,3 +1,5 @@
+import type { SwitcherItemTarget } from './SwitcherContext';
+
 import * as React from 'react';
 
 import {
@@ -5,11 +7,13 @@ import {
   SwitcherContext,
   claimIndex,
   resolveIndex,
+  resolveTarget,
   useContainerContext,
   useSwitcherContext
 } from './SwitcherContext';
 import { useControllableState, useSwipe } from '../../hooks';
 import { cn } from '../../utils';
+import UnstyledButton from '../UnstyledButton/UnstyledButton';
 
 import './Switcher.css';
 
@@ -244,14 +248,12 @@ export const SwitcherContainer = ({
   useSwipe(localRef, {
     enabled: swiping,
     onSwipeLeft: () => {
-      const length = triggerRegistry.length;
-      if (length === 0) return;
-      setSelectedIndex((resolveIndex(selectedIndex, length) + 1) % length);
+      const nextIndex = resolveTarget('next', selectedIndex, triggerRegistry.length);
+      if (nextIndex !== null) setSelectedIndex(nextIndex);
     },
     onSwipeRight: () => {
-      const length = triggerRegistry.length;
-      if (length === 0) return;
-      setSelectedIndex((resolveIndex(selectedIndex, length) - 1 + length) % length);
+      const prevIndex = resolveTarget('previous', selectedIndex, triggerRegistry.length);
+      if (prevIndex !== null) setSelectedIndex(prevIndex);
     }
   });
 
@@ -390,10 +392,36 @@ export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPa
   );
 };
 
+export interface SwitcherItemProps extends React.ComponentProps<'button'> {
+  to: SwitcherItemTarget;
+}
+
+export const SwitcherItem = ({ to, className, onClick, ref, ...props }: SwitcherItemProps) => {
+  const { selectedIndex, setSelectedIndex, triggerCount } = useSwitcherContext();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented || props.disabled) return;
+    const nextIndex = resolveTarget(to, selectedIndex, triggerCount);
+    if (nextIndex !== null) setSelectedIndex(nextIndex);
+  };
+
+  return (
+    <UnstyledButton
+      {...props}
+      type={props.type ?? 'button'}
+      className={cn('ruk-switcher-item', className)}
+      onClick={handleClick}
+      ref={ref}
+    />
+  );
+};
+
 export const Switcher = {
   Root: SwitcherRoot,
   List: SwitcherList,
   Trigger: SwitcherTrigger,
   Container: SwitcherContainer,
-  Panel: SwitcherPanel
+  Panel: SwitcherPanel,
+  Item: SwitcherItem
 };

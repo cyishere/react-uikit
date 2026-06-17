@@ -13,7 +13,8 @@ export type {
   SwitcherListProps,
   SwitcherPanelProps,
   SwitcherRootProps,
-  SwitcherTriggerProps
+  SwitcherTriggerProps,
+  SwitcherItemProps
 } from './components/Switcher';
 
 export { Alert } from './components/Alert';
