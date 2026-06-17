@@ -8,6 +8,9 @@ export interface SwitcherContextValue {
   containerRegistry: string[];
   animation?: string | undefined;
   duration: number;
+  followFocus: boolean;
+  focusedIndex: number | null;
+  setFocusedIndex: (index: number | null) => void;
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);

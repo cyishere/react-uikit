@@ -34,6 +34,7 @@ export interface SwitcherRootProps {
   onValueChange?: (index: number) => void;
   animation?: string;
   duration?: number;
+  followFocus?: boolean;
 }
 
 export const SwitcherRoot = ({
@@ -42,13 +43,23 @@ export const SwitcherRoot = ({
   value,
   onValueChange,
   animation,
-  duration = DEFAULT_ANIMATION_DURATION_MS
+  duration = DEFAULT_ANIMATION_DURATION_MS,
+  followFocus = false
 }: SwitcherRootProps) => {
   const [selectedIndex = 0, setSelectedIndex] = useControllableState({
     prop: value,
     defaultProp: defaultValue,
     onChange: onValueChange
   });
+  const [focusedIndex, setFocusedIndex] = React.useState<number | null>(null);
+
+  // Reset roving focus to the active tab when selection changes outside of focus
+  // (e.g. controlled value or click), so the active tab becomes the tabbable one.
+  // Focus-driven changes already set focusedIndex via the trigger's onFocus.
+  React.useEffect(() => {
+    setFocusedIndex(null);
+  }, [selectedIndex]);
+
   const triggerRegistry: string[] = [];
   const containerRegistry: string[] = [];
   const baseId = 'ruk-switcher-' + React.useId().replace(/:/g, '');
@@ -62,7 +73,10 @@ export const SwitcherRoot = ({
         selectedIndex,
         setSelectedIndex,
         animation,
-        duration
+        duration,
+        followFocus,
+        focusedIndex,
+        setFocusedIndex
       }}
     >
       {children}
@@ -85,12 +99,22 @@ export const SwitcherTrigger = ({
   className,
   onClick,
   onKeyDown,
+  onFocus,
   ...props
 }: SwitcherTriggerProps) => {
-  const { baseId, triggerRegistry, selectedIndex, setSelectedIndex } = useSwitcherContext();
+  const {
+    baseId,
+    triggerRegistry,
+    selectedIndex,
+    setSelectedIndex,
+    followFocus,
+    focusedIndex,
+    setFocusedIndex
+  } = useSwitcherContext();
   const id = React.useId();
   const triggerIndex = claimIndex(triggerRegistry, id);
   const isActive = triggerIndex === selectedIndex;
+  const isFocusable = (focusedIndex ?? selectedIndex) === triggerIndex;
 
   const triggerId = `${baseId}-trigger-${triggerIndex}`;
   const panelId = `${baseId}-panel-0-${triggerIndex}`;
@@ -135,10 +159,17 @@ export const SwitcherTrigger = ({
 
     if (nextIndex !== null && nextIndex !== triggerIndex) {
       event.preventDefault();
-      setSelectedIndex(nextIndex);
-      const nexttriggerId = `${baseId}-trigger-${nextIndex}`;
-      document.getElementById(nexttriggerId)?.focus();
+      if (followFocus) {
+        setSelectedIndex(nextIndex);
+      }
+      const nextTriggerId = `${baseId}-trigger-${nextIndex}`;
+      document.getElementById(nextTriggerId)?.focus();
     }
+  };
+
+  const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
+    onFocus?.(event);
+    setFocusedIndex(triggerIndex);
   };
 
   return (
@@ -148,12 +179,13 @@ export const SwitcherTrigger = ({
         id={triggerId}
         aria-controls={panelId}
         aria-selected={isActive}
-        tabIndex={isActive ? 0 : -1}
+        tabIndex={isFocusable ? 0 : -1}
         className={cn('ruk-switcher-trigger-button', className)}
         role="tab"
         type={props.type ?? 'button'}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
       >
         {children}
       </button>

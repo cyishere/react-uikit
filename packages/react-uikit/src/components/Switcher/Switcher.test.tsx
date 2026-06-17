@@ -59,9 +59,89 @@ describe('Switcher', () => {
     expect(panel2).toHaveClass('uk-active');
   });
 
-  it('supports keyboard navigation', () => {
+  it('supports keyboard navigation (manual activation by default)', () => {
     render(
       <Switcher.Root>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+          <Switcher.Trigger>Tab 3</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+          <Switcher.Panel>Panel 3</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+
+    tabs[0]!.focus();
+    fireEvent.keyDown(tabs[0]!, { key: 'ArrowRight' });
+
+    expect(tabs[1]!).toHaveFocus();
+    expect(tabs[1]!).toHaveAttribute('aria-selected', 'false'); // Not activated yet
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'true');
+
+    // Roving tabindex follows focus, not the active tab: the focused-but-inactive
+    // tab is the tabbable one so Tab/Shift+Tab return to it, not the active tab.
+    expect(tabs[1]!).toHaveAttribute('tabindex', '0');
+    expect(tabs[0]!).toHaveAttribute('tabindex', '-1');
+
+    // Activate focused tab with Enter
+    fireEvent.keyDown(tabs[1]!, { key: 'Enter' });
+    expect(tabs[1]!).toHaveAttribute('aria-selected', 'true');
+
+    fireEvent.keyDown(tabs[1]!, { key: 'Home' });
+    expect(tabs[0]!).toHaveFocus();
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'false');
+
+    fireEvent.keyDown(tabs[0]!, { key: ' ' }); // Space activates
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'true');
+
+    fireEvent.keyDown(tabs[0]!, { key: 'End' });
+    expect(tabs[2]!).toHaveFocus();
+    expect(tabs[2]!).toHaveAttribute('aria-selected', 'false');
+  });
+
+  it('resets roving tabindex to the active tab after activation', () => {
+    render(
+      <Switcher.Root>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+          <Switcher.Trigger>Tab 3</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+          <Switcher.Panel>Panel 3</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+
+    // Move focus to tab 3 without activating, then activate it.
+    tabs[0]!.focus();
+    fireEvent.keyDown(tabs[0]!, { key: 'End' });
+    expect(tabs[2]!).toHaveAttribute('tabindex', '0');
+    fireEvent.keyDown(tabs[2]!, { key: 'Enter' });
+
+    // Once activated, the active tab is the tabbable one and stale focus tracking
+    // is cleared so a click elsewhere correctly hands off the roving tabindex.
+    expect(tabs[2]!).toHaveAttribute('tabindex', '0');
+    expect(tabs[0]!).toHaveAttribute('tabindex', '-1');
+
+    fireEvent.click(tabs[0]!);
+    expect(tabs[0]!).toHaveAttribute('tabindex', '0');
+    expect(tabs[2]!).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('supports keyboard navigation (automatic activation with followFocus)', () => {
+    render(
+      <Switcher.Root followFocus>
         <Switcher.List>
           <Switcher.Trigger>Tab 1</Switcher.Trigger>
           <Switcher.Trigger>Tab 2</Switcher.Trigger>
