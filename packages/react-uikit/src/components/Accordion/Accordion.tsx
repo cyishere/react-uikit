@@ -186,7 +186,7 @@ const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
       {...props}
       aria-controls={panelId}
       aria-expanded={isOpen}
-      className={cn('uk-accordion-title', 'ruk-accordion-trigger', className)}
+      className={cn('uk-width-1-1 uk-accordion-title', 'ruk-accordion-trigger', className)}
       id={triggerId}
       onClick={handleClick}
     >
