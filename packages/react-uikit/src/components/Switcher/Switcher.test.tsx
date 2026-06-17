@@ -36,8 +36,8 @@ describe('Switcher', () => {
     expect(tabs[0]!.closest('li')).toHaveClass('uk-active');
     expect(tabs[1]!.closest('li')).not.toHaveClass('uk-active');
 
-    expect(panel1).not.toHaveAttribute('hidden');
-    expect(panel2).toHaveAttribute('hidden');
+    expect(panel1).toHaveClass('uk-active');
+    expect(panel2).not.toHaveClass('uk-active');
   });
 
   it('switches active tab and panel on click', () => {
@@ -55,8 +55,8 @@ describe('Switcher', () => {
     expect(tabs[0]!.closest('li')).not.toHaveClass('uk-active');
     expect(tabs[1]!.closest('li')).toHaveClass('uk-active');
 
-    expect(panel1).toHaveAttribute('hidden');
-    expect(panel2).not.toHaveAttribute('hidden');
+    expect(panel1).not.toHaveClass('uk-active');
+    expect(panel2).toHaveClass('uk-active');
   });
 
   it('supports keyboard navigation', () => {
@@ -207,17 +207,116 @@ describe('Switcher', () => {
     );
 
     // Initially, first panel in each container is visible
-    expect(screen.getByText('C1-Panel 1')).not.toHaveAttribute('hidden');
-    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
-    expect(screen.getByText('C2-Panel 1')).not.toHaveAttribute('hidden');
-    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
+    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).toHaveClass('uk-active');
+    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
 
     // Click Tab 2 — both containers switch
     fireEvent.click(screen.getAllByRole('tab')[1]!);
 
-    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
-    expect(screen.getByText('C1-Panel 2')).not.toHaveAttribute('hidden');
-    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).toHaveAttribute('hidden');
-    expect(screen.getByText('C2-Panel 2')).not.toHaveAttribute('hidden');
+    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).toHaveClass('uk-active');
+  });
+
+  it('applies single animation classes on switch', () => {
+    render(
+      <Switcher.Root animation="uk-animation-fade">
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const panel1 = screen.getByText('Panel 1').closest('[role="tabpanel"]');
+    const panel2 = screen.getByText('Panel 2').closest('[role="tabpanel"]');
+
+    fireEvent.click(tabs[1]!);
+
+    expect(panel1).toHaveClass('uk-animation-fade', 'uk-animation-reverse');
+    expect(panel2).not.toHaveClass('uk-animation-fade');
+
+    fireEvent.animationEnd(panel1!);
+
+    expect(panel1).not.toHaveClass('uk-active');
+    expect(panel2).toHaveClass('uk-animation-fade', 'uk-animation-enter');
+
+    fireEvent.animationEnd(panel2!);
+
+    expect(panel2).not.toHaveClass('uk-animation-fade');
+  });
+
+  it('supports dual animation mode', () => {
+    render(
+      <Switcher.Root animation="uk-animation-slide-left, uk-animation-slide-right">
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const panel1 = screen.getByText('Panel 1').closest('[role="tabpanel"]');
+    const panel2 = screen.getByText('Panel 2').closest('[role="tabpanel"]');
+
+    fireEvent.click(tabs[1]!);
+
+    expect(panel1).toHaveClass('uk-animation-slide-right', 'uk-animation-reverse');
+    
+    fireEvent.animationEnd(panel1!);
+
+    expect(panel2).toHaveClass('uk-animation-slide-left', 'uk-animation-enter');
+  });
+
+  it('coordinates animation sequentially within container', () => {
+    render(
+      <Switcher.Root animation="uk-animation-fade">
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>C1-P1</Switcher.Panel>
+          <Switcher.Panel>C1-P2</Switcher.Panel>
+        </Switcher.Container>
+        <Switcher.Container>
+          <Switcher.Panel>C2-P1</Switcher.Panel>
+          <Switcher.Panel>C2-P2</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const c1p1 = screen.getByText('C1-P1').closest('[role="tabpanel"]');
+    const c1p2 = screen.getByText('C1-P2').closest('[role="tabpanel"]');
+    const c2p1 = screen.getByText('C2-P1').closest('[role="tabpanel"]');
+    const c2p2 = screen.getByText('C2-P2').closest('[role="tabpanel"]');
+
+    fireEvent.click(tabs[1]!);
+
+    expect(c1p1).toHaveClass('uk-animation-leave');
+    expect(c2p1).toHaveClass('uk-animation-leave');
+
+    fireEvent.animationEnd(c1p1!);
+
+    expect(c1p2).toHaveClass('uk-animation-enter');
+    expect(c2p2).not.toHaveClass('uk-animation-enter');
+
+    fireEvent.animationEnd(c2p1!);
+
+    expect(c2p2).toHaveClass('uk-animation-enter');
   });
 });

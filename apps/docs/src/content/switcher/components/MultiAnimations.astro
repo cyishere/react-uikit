@@ -1,0 +1,12 @@
+---
+import { extractComponentCode } from '@/utils/code';
+import MultiAnimationsReact from './MultiAnimations.tsx';
+import rawCode from './MultiAnimations.tsx?raw';
+import PreviewSection from '@/components/PreviewSection.astro';
+
+const codeSnippet = extractComponentCode(rawCode, 'Switcher.Root');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <MultiAnimationsReact client:load />
+</PreviewSection>

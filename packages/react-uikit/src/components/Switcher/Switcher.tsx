@@ -12,18 +12,35 @@ import { cn } from '../../utils';
 
 import './Switcher.css';
 
+// Matches UIkit's Togglable default duration (src/js/mixin/togglable.js). UIkit
+// applies this inline on every switch, overriding the CSS-default durations.
+const ANIMATION_DURATION_MS = 200;
+
+export const parseAnimation = (animation: string | undefined) => {
+  if (!animation) return null;
+
+  const parts = animation.split(',').map((s) => s.trim());
+
+  return {
+    in: parts[0]!, // e.g. "uk-animation-fade"
+    out: parts[1] ?? parts[0]! // falls back to same class for single-animation mode
+  };
+};
+
 export interface SwitcherRootProps {
   children: React.ReactNode;
   defaultValue?: number;
   value?: number;
   onValueChange?: (index: number) => void;
+  animation?: string;
 }
 
 export const SwitcherRoot = ({
   children,
   defaultValue = 0,
   value,
-  onValueChange
+  onValueChange,
+  animation
 }: SwitcherRootProps) => {
   const [selectedIndex = 0, setSelectedIndex] = useControllableState({
     prop: value,
@@ -36,7 +53,14 @@ export const SwitcherRoot = ({
 
   return (
     <SwitcherContext
-      value={{ baseId, triggerRegistry, containerRegistry, selectedIndex, setSelectedIndex }}
+      value={{
+        baseId,
+        triggerRegistry,
+        containerRegistry,
+        selectedIndex,
+        setSelectedIndex,
+        animation
+      }}
     >
       {children}
     </SwitcherContext>
@@ -147,8 +171,15 @@ export const SwitcherContainer = ({
   const containerIndex = claimIndex(containerRegistry, id);
   const panelRegistry: string[] = [];
 
+  const [animGen, setAnimGen] = React.useState(0);
+  const notifyOutComplete = React.useCallback(() => {
+    setAnimGen((g) => g + 1);
+  }, []);
+
   return (
-    <ContainerContext value={{ panelRegistry, containerIndex }}>
+    <ContainerContext
+      value={{ panelRegistry, containerIndex, animationGeneration: animGen, notifyOutComplete }}
+    >
       <div ref={ref} className={cn('uk-switcher', className)} {...props}>
         {children}
       </div>
@@ -158,12 +189,80 @@ export const SwitcherContainer = ({
 
 export type SwitcherPanelProps = React.ComponentProps<'div'>;
 
+type AnimationPhase = 'idle' | 'animating-out' | 'waiting-in' | 'animating-in';
+
 export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPanelProps) => {
-  const { baseId, selectedIndex } = useSwitcherContext();
-  const { panelRegistry, containerIndex } = useContainerContext();
+  const { baseId, selectedIndex, animation } = useSwitcherContext();
+  const { panelRegistry, containerIndex, animationGeneration, notifyOutComplete } =
+    useContainerContext();
   const id = React.useId();
   const panelIndex = claimIndex(panelRegistry, id);
   const isActive = panelIndex === selectedIndex;
+
+  // Stable identity so the out-coordination effect below only re-runs on real
+  // phase changes — recreating this object each render would make the effect's
+  // cleanup fire notifyOutComplete() on incidental re-renders mid-animation.
+  const animConfig = React.useMemo(() => parseAnimation(animation), [animation]);
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const effectiveAnimConfig = prefersReducedMotion ? null : animConfig;
+
+  const [phase, setPhase] = React.useState<AnimationPhase>('idle');
+  const [prevIsActive, setPrevIsActive] = React.useState(isActive);
+  const [targetGen, setTargetGen] = React.useState(animationGeneration);
+
+  if (isActive !== prevIsActive) {
+    setPrevIsActive(isActive);
+    if (!effectiveAnimConfig) {
+      // No animation (or reduced motion): switch instantly, never enter an
+      // animating phase so there is no hidden/flash frame.
+      setPhase('idle');
+    } else if (!prevIsActive && isActive) {
+      setPhase('waiting-in');
+      setTargetGen(animationGeneration);
+    } else {
+      setPhase('animating-out');
+    }
+  }
+
+  React.useEffect(() => {
+    if (phase === 'animating-out') {
+      return () => {
+        notifyOutComplete();
+      };
+    }
+  }, [phase, notifyOutComplete]);
+
+  React.useEffect(() => {
+    if (phase === 'waiting-in' && animationGeneration > targetGen) {
+      setPhase('animating-in');
+    }
+  }, [phase, animationGeneration, targetGen]);
+
+  let animClass = '';
+  const isAnimating = phase === 'animating-out' || phase === 'animating-in';
+  if (phase === 'animating-out' && effectiveAnimConfig) {
+    animClass = cn(
+      effectiveAnimConfig.out,
+      'uk-animation',
+      'uk-animation-leave',
+      'uk-animation-reverse'
+    );
+  } else if (phase === 'animating-in' && effectiveAnimConfig) {
+    animClass = cn(effectiveAnimConfig.in, 'uk-animation', 'uk-animation-enter');
+  }
+
+  // UIkit forces a 200ms animation-duration inline (Togglable's default), which
+  // overrides the slower per-animation CSS defaults (e.g. uk-animation-fade is
+  // 0.8s). Match that so transitions run at the same speed as UIkit's own.
+  const animStyle = isAnimating ? { animationDuration: ANIMATION_DURATION_MS + 'ms' } : undefined;
+
+  // Hidden while 'waiting-in' so the incoming panel stays invisible until the
+  // outgoing panel finishes (sequential out→in), then appears with its enter
+  // animation.
+  const isVisible = (isActive && phase !== 'waiting-in') || phase === 'animating-out';
 
   const panelId = `${baseId}-panel-${containerIndex}-${panelIndex}`;
   const triggerId = `${baseId}-trigger-${panelIndex}`;
@@ -175,9 +274,16 @@ export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPa
       role="tabpanel"
       aria-labelledby={triggerId}
       id={panelId}
-      className={cn(className, isActive && 'uk-active')}
-      hidden={!isActive}
+      className={cn(className, isVisible && 'uk-active', animClass)}
+      style={{ ...props.style, ...animStyle }}
       tabIndex={0}
+      onAnimationEnd={(e) => {
+        if (e.target !== e.currentTarget) return;
+        if (phase === 'animating-out' || phase === 'animating-in') {
+          setPhase('idle');
+        }
+        props.onAnimationEnd?.(e);
+      }}
     >
       {children}
     </div>

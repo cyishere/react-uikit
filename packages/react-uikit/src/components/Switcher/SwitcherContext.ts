@@ -6,6 +6,7 @@ export interface SwitcherContextValue {
   baseId: string;
   triggerRegistry: string[];
   containerRegistry: string[];
+  animation?: string | undefined;
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);
@@ -23,6 +24,8 @@ export const useSwitcherContext = () => {
 export interface ContainerContextValue {
   panelRegistry: string[];
   containerIndex: number;
+  animationGeneration: number;
+  notifyOutComplete: () => void;
 }
 
 export const ContainerContext = React.createContext<ContainerContextValue | null>(null);
