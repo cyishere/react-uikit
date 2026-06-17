@@ -8,7 +8,7 @@ const BasicUsage = () => {
         <Switcher.Trigger>Item 2</Switcher.Trigger>
         <Switcher.Trigger>Item 3</Switcher.Trigger>
       </Switcher.List>
-      <Switcher.Container>
+      <Switcher.Container className="uk-margin">
         <Switcher.Panel>Hello from panel 1</Switcher.Panel>
         <Switcher.Panel>Hello from panel 2</Switcher.Panel>
         <Switcher.Panel>Hello from panel 3</Switcher.Panel>

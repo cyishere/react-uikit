@@ -9,7 +9,32 @@ import MultipleContainers from './components/MultipleContainers.astro';
 import Animations from './components/Animations.astro';
 import MultiAnimations from './components/MultiAnimations.astro';
 
-## Basic Usage
+## Usage
+
+The `Switcher` component consist of a number of toggles and their related content items. It uses a compound structure to co-response to UIkit Switcher.
+
+<span class="uk-label">Note</span> In UIkit's Switcher component, it uses `a` tag with `href="#"` inside the `li` element as the trigger, but in `react-uikit`, we replace `a` with `button`.
+
+- `<Switcher.Root>` equivalent to the wrapper with `uk-switcher` attribute—`<div uk-switcher>`.
+- `<Switcher.List>` equivalent to the `ul` inside the wrapper `div`.
+- `<Switcher.Trigger>` equivalent to each trigger item inside `ul`, co-responding to `<li><a href="#" /></li>`.
+- `<Switcher.Container>` equivalent to the wrapper `div` for the content panels.
+- `<Switcher.Panel>` equivalent to the `div` which contains the actual content.
+
+```jsx
+<Switcher.Root>
+  <Switcher.List className="uk-subnav uk-subnav-pill">
+    <Switcher.Trigger>Tab 1</Switcher.Trigger>
+    <Switcher.Trigger>Tab 2</Switcher.Trigger>
+  </Switcher.List>
+  <Switcher.Container>
+    <Switcher.Panel>Content of panel 1</Switcher.Panel>
+    <Switcher.Panel>Content of panel 2</Switcher.Panel>
+  </Switcher.Container>
+</Switcher.Root>
+```
+
+Same as UIkit Switcher, this component are styled through other components, such as the example below, it uses the _Subnav component_.
 
 <BasicUsage />
 
