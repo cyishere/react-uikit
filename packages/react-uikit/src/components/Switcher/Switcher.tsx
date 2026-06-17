@@ -7,7 +7,7 @@ import {
   useContainerContext,
   useSwitcherContext
 } from './SwitcherContext';
-import { useControllableState } from '../../hooks';
+import { useControllableState, useSwipe } from '../../hooks';
 import { cn } from '../../utils';
 
 import './Switcher.css';
@@ -35,6 +35,7 @@ export interface SwitcherRootProps {
   animation?: string;
   duration?: number;
   followFocus?: boolean;
+  swiping?: boolean;
 }
 
 export const SwitcherRoot = ({
@@ -44,7 +45,8 @@ export const SwitcherRoot = ({
   onValueChange,
   animation,
   duration = DEFAULT_ANIMATION_DURATION_MS,
-  followFocus = false
+  followFocus = false,
+  swiping = true
 }: SwitcherRootProps) => {
   const [selectedIndex = 0, setSelectedIndex] = useControllableState({
     prop: value,
@@ -74,6 +76,7 @@ export const SwitcherRoot = ({
         setSelectedIndex,
         animation,
         duration,
+        swiping,
         followFocus,
         focusedIndex,
         setFocusedIndex
@@ -201,7 +204,8 @@ export const SwitcherContainer = ({
   ref,
   ...props
 }: SwitcherContainerProps) => {
-  const { containerRegistry } = useSwitcherContext();
+  const { containerRegistry, swiping, triggerRegistry, selectedIndex, setSelectedIndex } =
+    useSwitcherContext();
   const id = React.useId();
   const containerIndex = claimIndex(containerRegistry, id);
   const panelRegistry: string[] = [];
@@ -211,11 +215,39 @@ export const SwitcherContainer = ({
     setAnimGen((g) => g + 1);
   }, []);
 
+  const localRef = React.useRef<HTMLDivElement>(null);
+
+  useSwipe(localRef, {
+    enabled: swiping,
+    onSwipeLeft: () => {
+      const length = triggerRegistry.length;
+      if (length === 0) return;
+      setSelectedIndex((selectedIndex + 1) % length);
+    },
+    onSwipeRight: () => {
+      const length = triggerRegistry.length;
+      if (length === 0) return;
+      setSelectedIndex((selectedIndex - 1 + length) % length);
+    }
+  });
+
   return (
     <ContainerContext
       value={{ panelRegistry, containerIndex, animationGeneration: animGen, notifyOutComplete }}
     >
-      <div ref={ref} className={cn('uk-switcher', className)} {...props}>
+      <div
+        {...props}
+        ref={(node) => {
+          localRef.current = node;
+          if (typeof ref === 'function') {
+            ref(node);
+          } else if (ref) {
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          }
+        }}
+        className={cn('uk-switcher', className)}
+        style={{ touchAction: swiping ? 'pan-y pinch-zoom' : undefined, ...props.style }}
+      >
         {children}
       </div>
     </ContainerContext>

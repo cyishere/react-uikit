@@ -288,16 +288,24 @@ describe('Switcher', () => {
 
     // Initially, first panel in each container is visible
     expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).toHaveClass('uk-active');
-    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass(
+      'uk-active'
+    );
     expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).toHaveClass('uk-active');
-    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).not.toHaveClass(
+      'uk-active'
+    );
 
     // Click Tab 2 — both containers switch
     fireEvent.click(screen.getAllByRole('tab')[1]!);
 
-    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C1-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass(
+      'uk-active'
+    );
     expect(screen.getByText('C1-Panel 2').closest('[role="tabpanel"]')).toHaveClass('uk-active');
-    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass('uk-active');
+    expect(screen.getByText('C2-Panel 1').closest('[role="tabpanel"]')).not.toHaveClass(
+      'uk-active'
+    );
     expect(screen.getByText('C2-Panel 2').closest('[role="tabpanel"]')).toHaveClass('uk-active');
   });
 
@@ -355,7 +363,7 @@ describe('Switcher', () => {
     fireEvent.click(tabs[1]!);
 
     expect(panel1).toHaveClass('uk-animation-slide-right', 'uk-animation-reverse');
-    
+
     fireEvent.animationEnd(panel1!);
 
     expect(panel2).toHaveClass('uk-animation-slide-left', 'uk-animation-enter');
@@ -398,6 +406,80 @@ describe('Switcher', () => {
     fireEvent.animationEnd(c2p1!);
 
     expect(c2p2).toHaveClass('uk-animation-enter');
+  });
+
+  it('supports swiping to change panels', () => {
+    render(
+      <Switcher.Root>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+          <Switcher.Trigger>Tab 3</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+          <Switcher.Panel>Panel 3</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const container = screen.getByText('Panel 1').closest('.uk-switcher');
+
+    if (!container) throw new Error('Container not found');
+
+    const swipe = (element: Element, target: Window | Element, dx: number) => {
+      const downEvent = new Event('pointerdown', { bubbles: true });
+      Object.assign(downEvent, { pointerType: 'touch', clientX: 200, clientY: 100 });
+      fireEvent(element, downEvent);
+
+      const upEvent = new Event('pointerup', { bubbles: true });
+      Object.assign(upEvent, { pointerType: 'touch', clientX: 200 + dx, clientY: 100 });
+      fireEvent(target, upEvent);
+    };
+
+    // Swipe left (next)
+    swipe(container, window, -150);
+    expect(tabs[1]!).toHaveAttribute('aria-selected', 'true');
+
+    // Swipe right (previous)
+    swipe(container, window, 150);
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('disables swiping when swiping={false}', () => {
+    render(
+      <Switcher.Root swiping={false}>
+        <Switcher.List>
+          <Switcher.Trigger>Tab 1</Switcher.Trigger>
+          <Switcher.Trigger>Tab 2</Switcher.Trigger>
+        </Switcher.List>
+        <Switcher.Container>
+          <Switcher.Panel>Panel 1</Switcher.Panel>
+          <Switcher.Panel>Panel 2</Switcher.Panel>
+        </Switcher.Container>
+      </Switcher.Root>
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    const container = screen.getByText('Panel 1').closest('.uk-switcher');
+
+    if (!container) throw new Error('Container not found');
+
+    const swipe = (element: Element, target: Window | Element, dx: number) => {
+      const downEvent = new Event('pointerdown', { bubbles: true });
+      Object.assign(downEvent, { pointerType: 'touch', clientX: 200, clientY: 100 });
+      fireEvent(element, downEvent);
+
+      const upEvent = new Event('pointerup', { bubbles: true });
+      Object.assign(upEvent, { pointerType: 'touch', clientX: 200 + dx, clientY: 100 });
+      fireEvent(target, upEvent);
+    };
+
+    // Attempt swipe left
+    swipe(container, window, -150);
+    expect(tabs[0]!).toHaveAttribute('aria-selected', 'true'); // Still Tab 1
   });
 
   it('renders without window.matchMedia (SSR safety)', () => {

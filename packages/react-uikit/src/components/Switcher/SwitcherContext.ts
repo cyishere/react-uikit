@@ -8,6 +8,7 @@ export interface SwitcherContextValue {
   containerRegistry: string[];
   animation?: string | undefined;
   duration: number;
+  swiping: boolean;
   followFocus: boolean;
   focusedIndex: number | null;
   setFocusedIndex: (index: number | null) => void;
