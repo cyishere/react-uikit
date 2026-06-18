@@ -105,7 +105,7 @@ export const SwitcherRoot = ({
 export type SwitcherListProps = React.ComponentProps<'ul'>;
 
 export const SwitcherList = ({ children, className, ref, ...props }: SwitcherListProps) => (
-  <ul ref={ref} role="tablist" className={cn(className)} {...props}>
+  <ul ref={ref} role="tablist" className={cn('ruk-switcher-list', className)} {...props}>
     {children}
   </ul>
 );
@@ -120,6 +120,9 @@ export const SwitcherTrigger = ({
   onFocus,
   ...props
 }: SwitcherTriggerProps) => {
+  const useButtonStyle = className?.includes('uk-button');
+  const Comp = useButtonStyle ? 'button' : UnstyledButton;
+
   const {
     baseId,
     triggerRegistry,
@@ -197,13 +200,17 @@ export const SwitcherTrigger = ({
 
   return (
     <li role="presentation" className={cn(isActive && 'uk-active')}>
-      <button
+      <Comp
         {...props}
         id={triggerId}
         aria-controls={panelId}
         aria-selected={isActive}
         tabIndex={isFocusable ? 0 : -1}
-        className={cn('ruk-switcher-trigger-button', className)}
+        className={cn(
+          'ruk-switcher-trigger-button',
+          useButtonStyle && isActive ? 'uk-active' : '',
+          className
+        )}
         role="tab"
         type={props.type ?? 'button'}
         onClick={handleClick}
@@ -211,7 +218,7 @@ export const SwitcherTrigger = ({
         onFocus={handleFocus}
       >
         {children}
-      </button>
+      </Comp>
     </li>
   );
 };
