@@ -1,6 +1,6 @@
 import { Grid, Switcher } from 'react-uikit';
 
-const VerticleTab = () => {
+const VerticalTab = () => {
   return (
     <Grid className="uk-child-width-1-2@s">
       <div>
@@ -65,4 +65,4 @@ const VerticleTab = () => {
   );
 };
 
-export default VerticleTab;
+export default VerticalTab;

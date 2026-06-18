@@ -1,6 +1,6 @@
 import { Switcher } from 'react-uikit';
 
-const NavigationControlls = () => {
+const NavigationControls = () => {
   return (
     <Switcher.Root>
       <Switcher.List className="uk-subnav uk-subnav-pill">
@@ -32,4 +32,4 @@ const NavigationControlls = () => {
   );
 };
 
-export default NavigationControlls;
+export default NavigationControls;
