@@ -9,6 +9,11 @@ import NavigationControlls from './components/NavigationControlls.astro';
 import MultipleContainers from './components/MultipleContainers.astro';
 import Animations from './components/Animations.astro';
 import MultiAnimations from './components/MultiAnimations.astro';
+import Subnav from './components/Subnav.astro';
+import Tab from './components/Tab.astro';
+import VerticleTab from './components/VerticleTab.astro';
+import Button from './components/Button.astro';
+import ButtonGap from './components/ButtonGap.astro';
 
 ## Usage
 
@@ -41,16 +46,121 @@ Same as UIkit Switcher, this component are styled through other components, such
 
 ## Navigation Controlls
 
+In some cases you want to switch to another content section from within the active content. This is possible using the `Switcher.Item` component. To target the items, you need set the `to` prop with the number of the respective content items. The order number of the content items starts with `0`.
+
+Setting `to` prop to `next` and `previous` will switch to the adjacent items.
+
+`Switcher.Item` is an unstyled `button` element, you can add UIkit's text or other CSS classes to style it as needed.
+
+```jsx
+<Switcher.Item className="uk-text-primary" to={2}>
+  Go to the third panel
+</Switcher.Item>
+```
+
 <NavigationControlls />
 
 ## Connect Multiple Containers
+
+It is also possible to connect multiple content containers. Just add extra `Switcher.Container` blocks.
+
+```jsx
+<Switcher.Root>
+  <Switcher.List>...</Switcher.List>
+  
+  {/* These are the containers of the content items */}
+  <Switcher.Container>...</Switcher.Container>
+
+  <Switcher.Container>...</Switcher.Container>
+</Switcher.Root>
+```
 
 <MultipleContainers />
 
 ## Animations
 
+You can apply all animation CSS classes from [UIkit's Animation component](https://getuikit.com/docs/animation) to switcher items. To do so, set an `animation` prop to `Switcher.Root`.
+
+```jsx
+<Switcher.Root animation="uk-animation-fade">...</Switcher.Root>
+```
+
 <Animations />
 
 ### Multiple Animations
 
+You can also apply multiple animations by using two animation CSS classes. That way you can add different **in** and **out** animations. The two CSS classes need to be separated by comma.
+
+```jsx
+<Switcher.Root
+  animation="uk-animation-slide-left-medium, uk-animation-slide-right-medium"
+>
+  ...
+</Switcher.Root>
+```
+
 <MultiAnimations />
+
+## Switcher and Subnav
+
+The switcher is easily applied to the Subnav component. To do so, add Subnav related CSS classes to `Switcher.List`.
+
+```jsx
+<Switcher.List className="uk-subnav uk-subnav-pill">...</Switcher.List>
+```
+
+<Subnav />
+
+## Switcher and Tab
+
+To use UIkit's Tab style, add `uk-tab` CSS class to `Switcher.List`.
+
+```jsx
+<Switcher.List className="uk-tab">...</Switcher.List>
+```
+
+<Tab />
+
+### Verticle Tabs
+
+Use the [Grid component](/grid) and UIkit's width CSS classes to display content correctly with a verticle tabbed navigation.
+
+```jsx
+<Switcher.Root>
+  <Grid>
+    <div className="uk-width-auto">
+      <Switcher.List className="uk-tab uk-tab-left">...</Switcher.List>
+    </div>
+    <div className="uk-width-expand">
+      <Switcher.Container>...</Switcher.Container>
+    </div>
+  </Grid>
+</Switcher.Root>
+```
+
+<VerticleTab />
+
+## Switcher and Button
+
+In `react-uikit`, the Switcher's trigger by default is a unstyled `button` element. So, you could use UIkit's button CSS classes to style it.
+
+```jsx
+<Switcher.Trigger className="uk-button uk-button-default">...</Switcher.Trigger>
+```
+
+By default, `Switcher.List > Switcher.Trigger` is an unorder list: `ul > li > button`. If you don't combine Switcher with Tab or Subnav CSS classes, you need to add `.uk-list` to remove the default list style from browser, and add `.uk-flex` or any other CSS rules to style it.
+
+
+```jsx
+<Switcher.List className="uk-list uk-flex">
+  <Switcher.Trigger className="uk-button uk-button-default">Item 1</Switcher.Trigger>
+  <Switcher.Trigger className="uk-button uk-button-default">Item 2</Switcher.Trigger>
+</Switcher.List>
+```
+
+<Button />
+
+
+And if combine it with `.uk-flex`, the default gap between triggers is `5px`. You can adjust it with `--switcher-trigger-gutter` CSS variable.
+
+<ButtonGap />
