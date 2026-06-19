@@ -31,6 +31,12 @@ body {
   margin-block-end: 0;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--layout-grid-min, 30ch), 100%), 1fr));
+  gap: var(--layout-grid-gap, 1rem);
+}
+
 .toc-list {
   list-style: none;
   padding: 0;
