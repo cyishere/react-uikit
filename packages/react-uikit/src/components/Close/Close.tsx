@@ -69,14 +69,22 @@ const CloseLargeIcon = () => (
 
 export interface CloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   ref?: React.Ref<HTMLButtonElement>;
-  /** Renders the 20×20 close-large glyph and applies `uk-close-large` instead of `uk-close`. */
+  /**
+   * Renders the 20×20 close-large glyph and applies `uk-close-large` instead of `uk-close`.
+   * @defaultValue false
+   */
   large?: boolean;
+  /**
+   * Accessible label for the close button.
+   * @defaultValue 'Close'
+   */
   label?: string;
   /**
    * When `true`, merges all props onto the single child element
    * via Radix `Slot` instead of rendering a `<button>`. The correct
    * SVG is automatically injected inside the child via
    * `React.cloneElement`.
+   * @defaultValue false
    */
   asChild?: boolean;
 }
@@ -91,26 +99,20 @@ export const Close = ({
   children,
   ...props
 }: CloseProps) => {
-  /**
-   * Use Radix Slot when asChild is true so consumers can swap the
-   * root element (e.g. <a>, <Link>) while still receiving all
-   * classes, attributes, and ref.
-   */
+  // Use Radix Slot when asChild is true so consumers can swap the
+  // root element (e.g. <a>, <Link>) while still receiving all
+  // classes, attributes, and ref.
   const Comp = asChild ? Slot : 'button';
 
-  /**
-   * UIkit requires both `uk-icon` (base icon reset) and the variant
-   * class (`uk-close` or `uk-close-large`) to be present on the same
-   * element.
-   */
+  // UIkit requires both `uk-icon` (base icon reset) and the variant
+  // class (`uk-close` or `uk-close-large`) to be present on the same
+  // element.
   const classes = cn('uk-icon', large ? 'uk-close-large' : 'uk-close', className);
 
-  /**
-   * Default to type="button" in standard button mode to prevent
-   * accidental form submissions. We cast explicitly because `Slot`
-   * changes the inferred type.
-   * In `asChild` mode the `type` prop is irrelevant (non-button elements ignore it).
-   */
+  // Default to type="button" in standard button mode to prevent
+  // accidental form submissions. We cast explicitly because `Slot`
+  // changes the inferred type.
+  // In `asChild` mode the `type` prop is irrelevant (non-button elements ignore it).
   const compProps = !asChild
     ? ({ type: type ?? 'button', ...props } as React.ButtonHTMLAttributes<HTMLButtonElement>)
     : props;

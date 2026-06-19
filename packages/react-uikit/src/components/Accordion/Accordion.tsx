@@ -17,28 +17,33 @@ import './Accordion.css';
 
 export interface AccordionRootProps extends React.ComponentPropsWithoutRef<'ul'> {
   className?: string;
-  /** Allow multiple items to be open at the same time.
-   * Default: false
+  /**
+   * Allow multiple items to be open at the same time.
+   * @defaultValue false
    */
   multiple?: boolean;
-  /** Allow all items to be collapsed. When false, at least one item stays open.
-   * Default: true
+  /**
+   * Allow all items to be collapsed. When false, at least one item stays open.
+   * @defaultValue true
    */
   collapsible?: boolean;
-  /** Initially open item indices (uncontrolled).
-   * Default: []
+  /**
+   * Initially open item indices (uncontrolled).
+   * @defaultValue []
    */
   defaultOpen?: number[];
   /** Controlled open item indices. */
   value?: number[];
   /** Callback when open items change. */
   onValueChange?: (openItems: number[]) => void;
-  /** Show the accordion icon on every trigger.
-   * Default: false
+  /**
+   * Show the accordion icon on every trigger.
+   * @defaultValue false
    */
   showIcon?: boolean;
-  /** Whether to animate the accordion panel.
-   * Default: false
+  /**
+   * Whether to animate the accordion panel.
+   * @defaultValue false
    */
   animation?:
     | boolean

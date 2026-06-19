@@ -35,7 +35,7 @@ const getRows = (elements: Element[]): Element[][] => {
 
   for (const el of elements) {
     const currentElement = el as HTMLElement;
-    // Skip invisible elements
+    // Skip invisible elements.
     if (currentElement.offsetWidth === 0 && currentElement.offsetHeight === 0) {
       continue;
     }
@@ -52,7 +52,7 @@ const getRows = (elements: Element[]): Element[][] => {
 
       const currentRowFirstElementOffset = getOffset(currentRow[0] as HTMLElement, withOffset);
 
-      // Element is below the current row
+      // Element is below the current row.
       if (
         currentElementOffset.top >= currentRowFirstElementOffset.bottom - 1 &&
         currentElementOffset.top !== currentRowFirstElementOffset.top
@@ -61,12 +61,12 @@ const getRows = (elements: Element[]): Element[][] => {
         break;
       }
 
-      // Element overlaps or is on the same row
+      // Element overlaps or is on the same row.
       if (
         currentElementOffset.bottom - 1 > currentRowFirstElementOffset.top ||
         currentElementOffset.top === currentRowFirstElementOffset.top
       ) {
-        // Insert in left-to-right order
+        // Insert in left-to-right order.
         let j = currentRow.length - 1;
         for (; j >= 0; j--) {
           const rowItemOffset = getOffset(currentRow[j] as HTMLElement, withOffset);
@@ -79,7 +79,7 @@ const getRows = (elements: Element[]): Element[][] => {
         break;
       }
 
-      // Element is above all existing rows
+      // Element is above all existing rows.
       if (i === 0) {
         sortedInRows.unshift([el]);
         break;
@@ -131,10 +131,10 @@ export const useGridRowClasses = (
       }
     }
 
-    // Initial measurement after mount
+    // Initial measurement after mount.
     update();
 
-    // Re-measure on resize of the container or any child
+    // Re-measure on resize of the container or any child.
     const targets = [container, ...Array.from(container.children)];
 
     const resizeObs = new ResizeObserver(update);
@@ -143,9 +143,9 @@ export const useGridRowClasses = (
       resizeObs.observe(target);
     }
 
-    // Also observe child list changes (items added/removed)
+    // Also observe child list changes (items added/removed).
     const mutationObs = new MutationObserver(() => {
-      // Update observer targets when children change
+      // Update observer targets when children change.
       resizeObs.disconnect();
 
       const newTargets = [container, ...Array.from(container.children)];
@@ -162,7 +162,7 @@ export const useGridRowClasses = (
       resizeObs.disconnect();
       mutationObs.disconnect();
 
-      // Clean up classes on unmount
+      // Clean up classes on unmount.
       for (const child of Array.from(container.children)) {
         child.classList.remove(marginClass, firstColumnClass);
       }

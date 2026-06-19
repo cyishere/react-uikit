@@ -31,7 +31,7 @@ export interface GridProps extends React.ComponentProps<'div'> {
   matchHeight?: boolean | string;
   /**
    * When `matchHeight` is enabled, only match heights within the same row.
-   * Default: `true`.
+   * @defaultValue true
    */
   matchRow?: boolean;
   /**
