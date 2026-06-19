@@ -38,6 +38,7 @@
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.2"
   }
 }

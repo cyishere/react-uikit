@@ -1,6 +1,6 @@
 ---
 interface Props {
-	headings: { depth: number; slug: string; text: string }[];
+  headings: { depth: number; slug: string; text: string }[];
 }
 const { headings = [] } = Astro.props as Props;
 
@@ -13,13 +13,11 @@ const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     tocItems.length > 0 && (
       <nav>
         <ul class="toc-list">
-          {
-            tocItems.map((item) => (
-              <li class={`toc-item toc-depth-${item.depth}`}>
-                <a href={`#${item.slug}`}>{item.text}</a>
-              </li>
-            ))
-          }
+          {tocItems.map((item) => (
+            <li class={`toc-item toc-depth-${item.depth}`}>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
         </ul>
       </nav>
     )
@@ -36,7 +34,9 @@ const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
   }
 
   @media (max-width: 1100px) {
-    .toc { display: none; }
+    .toc {
+      display: none;
+    }
   }
 </style>
 
@@ -78,11 +78,11 @@ const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
       const link = tocLinks[i].querySelector('a');
 
       if (!link) continue;
-      
+
       const href = link.getAttribute('href');
 
       if (!href) continue;
-      
+
       const id = href.slice(1);
       const heading = document.getElementById(id);
 

@@ -13,23 +13,27 @@ const CATEGORY_LABELS: Record<IconCategory, string> = {
   editor: 'Editor',
   brands: 'Brands'
 };
-const order: IconCategory[] = ['app', 'devices', 'storage',
-'direction', 'editor', 'brands'];
+const order: IconCategory[] = ['app', 'devices', 'storage', 'direction', 'editor', 'brands'];
 ---
 
-{order.filter((cat) => grouped[cat]?.length).map((cat) => (
-  <>
-    <h4
-class="uk-heading-line"><span>{CATEGORY_LABELS[cat]}</span></h4>
-    <ul class="uk-list grid">
-      {grouped[cat]?.map((name) => (
-        <li>
-          <Icon name={name} label={name} client:visible /> {name}
-        </li>
-      ))}
-    </ul>
-  </>
-))}
+{
+  order
+    .filter((cat) => grouped[cat]?.length)
+    .map((cat) => (
+      <>
+        <h4 class="uk-heading-line">
+          <span>{CATEGORY_LABELS[cat]}</span>
+        </h4>
+        <ul class="uk-list grid">
+          {grouped[cat]?.map((name) => (
+            <li>
+              <Icon name={name} label={name} client:visible /> {name}
+            </li>
+          ))}
+        </ul>
+      </>
+    ))
+}
 
 <style>
   :global(.grid) {

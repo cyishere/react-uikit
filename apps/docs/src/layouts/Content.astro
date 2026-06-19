@@ -22,24 +22,31 @@ const { title, tagline, description, headings, prev, next } = Astro.props;
 
     <div class="uk-margin uk-flex uk-flex-between uk-padding-large uk-padding-remove-horizontal">
       <div>
-        {prev && <a href={`/${prev.slug}`} class="uk-flex uk-flex-left uk-flex-middle uk-text-emphasis">
-          <Icon name="chevron-left" client:load />
-          <div class="uk-flex uk-flex-column uk-margin-small-left">
-            <span class="uk-text-muted uk-text-uppercase">Prev</span>
-            <span>{prev.label}</span>
-          </div>
-        </a>}
+        {
+          prev && (
+            <a href={`/${prev.slug}`} class="uk-flex uk-flex-left uk-flex-middle uk-text-emphasis">
+              <Icon name="chevron-left" client:load />
+              <div class="uk-flex uk-flex-column uk-margin-small-left">
+                <span class="uk-text-muted uk-text-uppercase">Prev</span>
+                <span>{prev.label}</span>
+              </div>
+            </a>
+          )
+        }
       </div>
       <div>
-        {next && <a href={`/${next.slug}`} class="uk-flex uk-flex-right uk-flex-middle uk-text-emphasis">
-          <div class="uk-flex uk-flex-column uk-flex-bottom uk-margin-small-right">
-            <span class="uk-text-muted uk-text-uppercase">Next</span>
-            <span>{next.label}</span>
-          </div>
-          <Icon name="chevron-right" client:load />
-        </a>}
+        {
+          next && (
+            <a href={`/${next.slug}`} class="uk-flex uk-flex-right uk-flex-middle uk-text-emphasis">
+              <div class="uk-flex uk-flex-column uk-flex-bottom uk-margin-small-right">
+                <span class="uk-text-muted uk-text-uppercase">Next</span>
+                <span>{next.label}</span>
+              </div>
+              <Icon name="chevron-right" client:load />
+            </a>
+          )
+        }
       </div>
     </div>
   </div>
 </BaseLayout>
-

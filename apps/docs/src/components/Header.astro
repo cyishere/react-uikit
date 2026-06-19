@@ -1,37 +1,44 @@
 ---
+import { Icon } from 'react-uikit';
+
 import { MobileNav, Nav } from './Nav';
 ---
 
 <header class="uk-background-primary uk-light">
-	<nav class="uk-container uk-container-expand">
-		<div class="uk-navbar">
-			<div class="uk-navbar-left">
-				<MobileNav client:only="react">
-					<Nav />
-				</MobileNav>
+  <nav class="uk-container uk-container-expand">
+    <div class="uk-navbar">
+      <div class="uk-navbar-left">
+        <MobileNav client:only="react">
+          <Nav />
+        </MobileNav>
 
-				<a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home">react-uikit</a>
-			</div>
+        <a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home">react-uikit</a>
+      </div>
 
-			<div class="uk-navbar-right">
-				<div class="uk-navbar-item">
-					<button class="uk-button uk-button-default">Search</button>
-				</div>
-				<ul class="uk-navbar-nav">
-					<li>
-						<a href="https://github.com/cyishere/react-uikit" target="_blank" rel="noopener noreferrer">GitHub</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item">
+          <button class="uk-button uk-button-default">Search</button>
+        </div>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a
+              href="https://github.com/cyishere/react-uikit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="github" ratio={1.5} label="Code on GitHub" client:visible />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>
 
-
 <style>
-	@media (max-width: 768px) {
-		nav :global(.uk-navbar-right) {
-			display: none;
-		}
-	}
+  @media (max-width: 768px) {
+    nav :global(.uk-navbar-right) {
+      display: none;
+    }
+  }
 </style>
