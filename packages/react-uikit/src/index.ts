@@ -11,8 +11,8 @@ export { Alert } from './components/Alert';
 export { Close } from './components/Close';
 export type { GridProps } from './components/Grid';
 export { Grid } from './components/Grid';
-export type { IconProps, UIkitIconName } from './components/Icon';
-export { Icon } from './components/Icon';
+export type { IconCategory, IconProps, UIkitIconName } from './components/Icon';
+export { getIconCategory, getIconsByCategory, Icon } from './components/Icon';
 export type { OffCanvasBarProps, OffCanvasProps } from './components/OffCanvas';
 export { OffCanvas, OffCanvasBar } from './components/OffCanvas';
 export type {

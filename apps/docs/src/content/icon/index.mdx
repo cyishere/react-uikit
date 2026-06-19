@@ -4,3 +4,78 @@ tagline: Place scalable vector icons anywhere in your content.
 description: UIkit comes with its own SVG icon system and a comprehensive library, which comprises a growing number of elegant outline icons. This component injects SVGs into the site, so that they adopt color and can be styled with CSS.
 category: components
 ---
+
+import BasicUsage from './components/BasicUsage.astro';
+import Ratio from './components/Ratio.astro';
+import LinkModifier from './components/LinkModifier.astro';
+import ButtonModifier from './components/ButtonModifier.astro';
+import OverlayModifier from './components/OverlayModifier.astro';
+import IconLibrary from './components/Library.astro';
+
+## Usage
+
+With the following syntax, the `react-uikit` `Icon` component renders an inline `<svg>` inside a `<span class="uk-icon">` wrapper.
+
+```jsx
+<Icon name="heart" />
+```
+
+When using an icon inside an `<a>` tag, unlike the original UIkit approach of adding the `uk-icon` attribute directly to the `<a>` element, `react-uikit` requires developers to place the `<Icon />` component inside the `<a>` tag:
+
+```jsx
+<a>
+  <Icon name="heart" />
+</a>
+```
+
+<BasicUsage />
+
+## Ratio
+
+Pass a number to the `ratio` prop to multiply the icon's size.
+
+```jsx
+<Icon name="check" ratio={2} />
+```
+
+<Ratio />
+
+## Link Modifier
+
+To reset the default link styling to a more muted color when using an icon inside an anchor, add the `.uk-icon-link` class.
+
+```jsx
+<Icon name="heart" className="uk-icon-link" />
+```
+
+<LinkModifier />
+
+## Button Modifier
+
+Use the modifier `.uk-icon-button` class on an `<a>` element to create an icon button, which can be used for social icons.
+
+<ButtonModifier />
+
+## Overlay Modifier
+
+<OverlayModifier />
+
+## Accessibility
+
+By default, the `Icon` component is considered decorative and is hidden from screen readers (`aria-hidden="true"`). To make the icon accessible, provide a string to the `label` prop. This will set `role="img"` and use your string as the `aria-label`.
+
+```jsx
+<Icon name="copy" label="Copy the code" />
+```
+
+## API Reference
+
+| Prop    | Type            | Default     | Description                                                                                             |
+| ------- | --------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
+| `name`  | `UIkitIconName` | -           | The UIkit icon name to render (e.g., `"heart"`, `"check"`).                                             |
+| `label` | `string`        | `undefined` | Accessible label for the icon. If omitted, the icon is considered decorative and hidden (`aria-hidden`).|
+| `ratio` | `number`        | `1`         | Scales the icon by this multiplier. For example: `ratio={2}` renders the icon at 2x its natural size.   |
+
+## Library
+
+<IconLibrary />
