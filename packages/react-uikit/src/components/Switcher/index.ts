@@ -4,5 +4,6 @@ export type {
   SwitcherListProps,
   SwitcherPanelProps,
   SwitcherRootProps,
-  SwitcherTriggerProps
+  SwitcherTriggerProps,
+  SwitcherItemProps
 } from './Switcher';

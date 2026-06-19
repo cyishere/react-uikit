@@ -1,0 +1,12 @@
+---
+import { extractComponentCode } from '@/utils/code';
+import VerticalTabReact from './VerticalTab.tsx';
+import rawCode from './VerticalTab.tsx?raw';
+import PreviewSection from '@/components/PreviewSection.astro';
+
+const codeSnippet = extractComponentCode(rawCode, 'Grid');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <VerticalTabReact client:load />
+</PreviewSection>

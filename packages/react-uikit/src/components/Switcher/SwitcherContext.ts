@@ -1,23 +1,18 @@
 import * as React from 'react';
 
-interface TriggerMeta {
-  disabled: boolean;
-  ref: HTMLButtonElement | null;
-}
-
 export interface SwitcherContextValue {
-  activeIndex: number;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
   baseId: string;
-  triggerOrder: string[];
-  panelOrder: string[];
-  triggerMeta: Record<string, TriggerMeta>;
-  registerTrigger: (id: string, disabled: boolean) => void;
-  unregisterTrigger: (id: string) => void;
-  setTriggerRef: (id: string, ref: HTMLButtonElement | null) => void;
-  updateTriggerDisabled: (id: string, disabled: boolean) => void;
-  registerPanel: (id: string) => void;
-  unregisterPanel: (id: string) => void;
+  triggerRegistry: string[];
+  containerRegistry: string[];
+  triggerCount: number;
+  animation?: string | undefined;
+  duration: number;
+  swiping: boolean;
+  followFocus: boolean;
+  focusedIndex: number | null;
+  setFocusedIndex: (index: number | null) => void;
 }
 
 export const SwitcherContext = React.createContext<SwitcherContextValue | null>(null);
@@ -30,4 +25,56 @@ export const useSwitcherContext = () => {
   }
 
   return context;
+};
+
+export interface ContainerContextValue {
+  panelRegistry: string[];
+  containerIndex: number;
+  panelCount: number;
+  animationGeneration: number;
+  notifyOutComplete: () => void;
+}
+
+export const ContainerContext = React.createContext<ContainerContextValue | null>(null);
+
+export const useContainerContext = () => {
+  const context = React.useContext(ContainerContext);
+
+  if (!context) {
+    throw new Error('Switcher.Panel must be wrapped in <Switcher.Container>');
+  }
+
+  return context;
+};
+
+// Resolve a possibly-negative index as an offset from the end of the set,
+// matching UIkit's getIndex wrap. Read-only: never written back to state, so
+// controlled values aren't fought. Falls back to the raw index until the count
+// is known (registries fill during render).
+export const resolveIndex = (index: number, count: number) =>
+  index < 0 && count > 0 ? ((index % count) + count) % count : index;
+
+export type SwitcherItemTarget = number | 'next' | 'previous';
+
+// Resolve a Switcher.Item target ('next' | 'previous' | index) to a concrete,
+// in-range index. Wraps like UIkit's getIndex. Returns null when the count is
+// not yet known (count === 0) so callers can no-op.
+export const resolveTarget = (
+  target: SwitcherItemTarget,
+  current: number,
+  count: number
+): number | null => {
+  if (count <= 0) return null;
+  const base = resolveIndex(current, count);
+  if (target === 'next') return (base + 1) % count;
+  if (target === 'previous') return (base - 1 + count) % count;
+  return resolveIndex(target, count); // numeric, supports negative
+};
+
+export const claimIndex = (registry: string[], id: string) => {
+  if (!registry.includes(id)) {
+    registry.push(id);
+  }
+
+  return registry.indexOf(id);
 };

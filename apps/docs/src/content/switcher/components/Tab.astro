@@ -1,0 +1,12 @@
+---
+import { extractComponentCode } from '@/utils/code';
+import TabReact from './Tab.tsx';
+import rawCode from './Tab.tsx?raw';
+import PreviewSection from '@/components/PreviewSection.astro';
+
+const codeSnippet = extractComponentCode(rawCode, 'Switcher.Root');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <TabReact client:load />
+</PreviewSection>

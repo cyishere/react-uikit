@@ -1,0 +1,180 @@
+---
+title: Switcher
+tagline: Dynamically transition through different content panes.
+category: components
+---
+
+import BasicUsage from './components/BasicUsage.astro';
+import NavigationControls from './components/NavigationControls.astro';
+import MultipleContainers from './components/MultipleContainers.astro';
+import Animations from './components/Animations.astro';
+import MultiAnimations from './components/MultiAnimations.astro';
+import Subnav from './components/Subnav.astro';
+import Tab from './components/Tab.astro';
+import VerticalTab from './components/VerticalTab.astro';
+import Button from './components/Button.astro';
+import ButtonGap from './components/ButtonGap.astro';
+
+## Usage
+
+The `Switcher` component consists of a number of toggles and their related content items. It uses a compound structure to correspond to UIkit's Switcher.
+
+<span class="uk-label">Note</span> UIkit's Switcher component uses an `a` tag with `href="#"` inside the `li` element as the trigger, but in `react-uikit`, we replace the `a` tag with a `button`.
+
+- `<Switcher.Root>` is equivalent to the wrapper with the `uk-switcher` attribute—`<div uk-switcher>`.
+- `<Switcher.List>` is equivalent to the `ul` element inside the wrapper `div`.
+- `<Switcher.Trigger>` is equivalent to each trigger item inside the `ul`, corresponding to `<li><a href="#" /></li>`.
+- `<Switcher.Container>` is equivalent to the wrapper `div` for the content panels.
+- `<Switcher.Panel>` is equivalent to the `div` that contains the actual content.
+
+```jsx
+<Switcher.Root>
+  <Switcher.List className="uk-subnav uk-subnav-pill">
+    <Switcher.Trigger>Tab 1</Switcher.Trigger>
+    <Switcher.Trigger>Tab 2</Switcher.Trigger>
+  </Switcher.List>
+  <Switcher.Container>
+    <Switcher.Panel>Content of panel 1</Switcher.Panel>
+    <Switcher.Panel>Content of panel 2</Switcher.Panel>
+  </Switcher.Container>
+</Switcher.Root>
+```
+
+Similar to UIkit's Switcher, this component is styled through other components. For example, the code below uses the _Subnav component_.
+
+<BasicUsage />
+
+## Navigation Controls
+
+In some cases, you may want to switch to another content section from within the active content. This is possible using the `Switcher.Item` component. To target an item, you need to set the `to` prop with the index of the respective content item. The index of the content items starts at `0`.
+
+Setting the `to` prop to `'next'` or `'previous'` will switch to the adjacent item.
+
+`Switcher.Item` is an unstyled `button` element; you can add UIkit's text or other CSS classes to style it as needed.
+
+```jsx
+<Switcher.Item className="uk-text-primary" to={2}>
+  Go to the third panel
+</Switcher.Item>
+```
+
+<NavigationControls />
+
+## Connect Multiple Containers
+
+It is also possible to connect multiple content containers. Just add additional `Switcher.Container` blocks.
+
+```jsx
+<Switcher.Root>
+  <Switcher.List>...</Switcher.List>
+  
+  {/* These are the containers of the content items */}
+  <Switcher.Container>...</Switcher.Container>
+
+  <Switcher.Container>...</Switcher.Container>
+</Switcher.Root>
+```
+
+<MultipleContainers />
+
+## Animations
+
+You can apply any animation CSS class from [UIkit's Animation component](https://getuikit.com/docs/animation) to the switcher items. To do so, pass an `animation` prop to `Switcher.Root`.
+
+```jsx
+<Switcher.Root animation="uk-animation-fade">...</Switcher.Root>
+```
+
+<Animations />
+
+### Multiple Animations
+
+You can also apply multiple animations by using two animation CSS classes. This allows you to add different **in** and **out** animations. The two CSS classes must be separated by a comma.
+
+```jsx
+<Switcher.Root
+  animation="uk-animation-slide-left-medium, uk-animation-slide-right-medium"
+>
+  ...
+</Switcher.Root>
+```
+
+<MultiAnimations />
+
+## Switcher and Subnav
+
+The Switcher can be easily integrated with the Subnav component. To do so, add the Subnav-related CSS classes to `Switcher.List`.
+
+```jsx
+<Switcher.List className="uk-subnav uk-subnav-pill">...</Switcher.List>
+```
+
+<Subnav />
+
+## Switcher and Tab
+
+To use UIkit's Tab style, add the `uk-tab` CSS class to `Switcher.List`.
+
+```jsx
+<Switcher.List className="uk-tab">...</Switcher.List>
+```
+
+<Tab />
+
+### Vertical Tabs
+
+Use the [Grid component](/grid) and UIkit's width CSS classes to display content correctly with a vertical tabbed navigation.
+
+```jsx
+<Switcher.Root>
+  <Grid>
+    <div className="uk-width-auto">
+      <Switcher.List className="uk-tab uk-tab-left">...</Switcher.List>
+    </div>
+    <div className="uk-width-expand">
+      <Switcher.Container>...</Switcher.Container>
+    </div>
+  </Grid>
+</Switcher.Root>
+```
+
+<VerticalTab />
+
+## Switcher and Button
+
+In `react-uikit`, the Switcher's trigger is an unstyled `button` element by default. Therefore, you can use UIkit's button CSS classes to style it.
+
+```jsx
+<Switcher.Trigger className="uk-button uk-button-default">...</Switcher.Trigger>
+```
+
+By default, `Switcher.List > Switcher.Trigger` renders as an unordered list: `ul > li > button`. If you do not combine the Switcher with Tab or Subnav CSS classes, you will need to add the `.uk-list` class to remove the default browser list styling, and add `.uk-flex` or other CSS rules to style it.
+
+
+```jsx
+<Switcher.List className="uk-list uk-flex">
+  <Switcher.Trigger className="uk-button uk-button-default">Item 1</Switcher.Trigger>
+  <Switcher.Trigger className="uk-button uk-button-default">Item 2</Switcher.Trigger>
+</Switcher.List>
+```
+
+<Button />
+
+
+If you combine it with `.uk-flex`, the default gap between triggers is `5px`. You can adjust this gap using the `--switcher-trigger-gutter` CSS variable.
+
+<ButtonGap />
+
+## API Reference
+
+The `Switcher` is a compound component, but all its behavior options need to be set on `Switcher.Root`.
+
+| Prop            | Type                      | Default | Description                                                                        |
+| --------------- | ------------------------- | ------- | ---------------------------------------------------------------------------------- |
+| `defaultValue`  | `number`                  | `0`     | The index of the initially selected item (uncontrolled).                           |
+| `value`         | `number`                  |         | The index of the currently selected item (controlled).                             |
+| `onValueChange` | `(index: number) => void` |         | Callback fired when the selected item changes.                                     |
+| `animation`     | `string`                  |         | UIkit animation CSS classes to apply when switching panels.                        |
+| `duration`      | `number`                  | `200`   | The duration of the animation in milliseconds.                                     |
+| `followFocus`   | `boolean`                 | `false` | If true, the selection automatically follows the focus during keyboard navigation. |
+| `swiping`       | `boolean`                 | `true`  | If true, enables touch swipe navigation between panels.                            |
