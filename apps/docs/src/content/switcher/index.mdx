@@ -164,3 +164,17 @@ By default, `Switcher.List > Switcher.Trigger` renders as an unordered list: `ul
 If you combine it with `.uk-flex`, the default gap between triggers is `5px`. You can adjust this gap using the `--switcher-trigger-gutter` CSS variable.
 
 <ButtonGap />
+
+## API Reference
+
+The `Switcher` is a compound component, but all its behavior options need to be set on `Switcher.Root`.
+
+| Prop            | Type                      | Default | Description                                                                        |
+| --------------- | ------------------------- | ------- | ---------------------------------------------------------------------------------- |
+| `defaultValue`  | `number`                  | `0`     | The index of the initially selected item (uncontrolled).                           |
+| `value`         | `number`                  |         | The index of the currently selected item (controlled).                             |
+| `onValueChange` | `(index: number) => void` |         | Callback fired when the selected item changes.                                     |
+| `animation`     | `string`                  |         | UIkit animation CSS classes to apply when switching panels.                        |
+| `duration`      | `number`                  | `200`   | The duration of the animation in milliseconds.                                     |
+| `followFocus`   | `boolean`                 | `false` | If true, the selection automatically follows the focus during keyboard navigation. |
+| `swiping`       | `boolean`                 | `true`  | If true, enables touch swipe navigation between panels.                            |
