@@ -28,18 +28,43 @@ export const parseAnimation = (animation: string | undefined) => {
 
   return {
     in: parts[0]!, // e.g. "uk-animation-fade"
-    out: parts[1] ?? parts[0]! // falls back to same class for single-animation mode
+    out: parts[1] ?? parts[0]! // Falls back to same class for single-animation mode.
   };
 };
 
+// ---------------------------------------------------------------------------
+// SwitcherRoot
+// ---------------------------------------------------------------------------
+
 export interface SwitcherRootProps {
   children: React.ReactNode;
+  /**
+   * The initially selected tab index (uncontrolled).
+   * @defaultValue 0
+   */
   defaultValue?: number;
+  /** The controlled selected tab index. */
   value?: number;
+  /** Callback when the selected tab changes. */
   onValueChange?: (index: number) => void;
+  /**
+   * Comma-separated UIkit animation classes (e.g. "uk-animation-fade").
+   */
   animation?: string;
+  /**
+   * Animation duration in milliseconds.
+   * @defaultValue 200
+   */
   duration?: number;
+  /**
+   * Whether to change tabs on focus (e.g. arrow keys) instead of requiring Enter/Space.
+   * @defaultValue false
+   */
   followFocus?: boolean;
+  /**
+   * Whether to enable swipe gestures to change tabs.
+   * @defaultValue true
+   */
   swiping?: boolean;
 }
 
@@ -102,6 +127,10 @@ export const SwitcherRoot = ({
   );
 };
 
+// ---------------------------------------------------------------------------
+// SwitcherList
+// ---------------------------------------------------------------------------
+
 export type SwitcherListProps = React.ComponentProps<'ul'>;
 
 export const SwitcherList = ({ children, className, ref, ...props }: SwitcherListProps) => (
@@ -109,6 +138,10 @@ export const SwitcherList = ({ children, className, ref, ...props }: SwitcherLis
     {children}
   </ul>
 );
+
+// ---------------------------------------------------------------------------
+// SwitcherTrigger
+// ---------------------------------------------------------------------------
 
 export type SwitcherTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -223,6 +256,10 @@ export const SwitcherTrigger = ({
   );
 };
 
+// ---------------------------------------------------------------------------
+// SwitcherContainer
+// ---------------------------------------------------------------------------
+
 export type SwitcherContainerProps = React.ComponentProps<'div'>;
 
 export const SwitcherContainer = ({
@@ -292,6 +329,10 @@ export const SwitcherContainer = ({
     </ContainerContext>
   );
 };
+
+// ---------------------------------------------------------------------------
+// SwitcherPanel
+// ---------------------------------------------------------------------------
 
 export type SwitcherPanelProps = React.ComponentProps<'div'>;
 
@@ -399,6 +440,10 @@ export const SwitcherPanel = ({ children, className, ref, ...props }: SwitcherPa
   );
 };
 
+// ---------------------------------------------------------------------------
+// SwitcherItem
+// ---------------------------------------------------------------------------
+
 export interface SwitcherItemProps extends React.ComponentProps<'button'> {
   to: SwitcherItemTarget;
 }
@@ -423,6 +468,10 @@ export const SwitcherItem = ({ to, className, onClick, ref, ...props }: Switcher
     />
   );
 };
+
+// ---------------------------------------------------------------------------
+// Compound export
+// ---------------------------------------------------------------------------
 
 export const Switcher = {
   Root: SwitcherRoot,

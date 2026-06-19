@@ -8,22 +8,22 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   /**
    * Whether to show the default close button.
-   * Default: true
+   * @defaultValue true
    */
   showCloseButton?: boolean;
   /**
    * Whether to animate the alert when closing.
-   * Default: true
+   * @defaultValue true
    */
   animation?: boolean;
   /**
    * Base duration of the close animation in milliseconds.
-   * Default: 150ms
+   * @defaultValue 150
    */
   duration?: number;
   /**
    * CSS selector for the close button.
-   * Default: `.uk-alert-close`
+   * @defaultValue '.uk-alert-close'
    */
   selClose?: string;
   /**
@@ -63,9 +63,8 @@ export const Alert: React.FC<AlertProps> = ({
       const el = ref.current;
       _alertRef.current = UIkit.alert(el, {
         animation,
-        // Workaround: UIkit Alert ignore `animation: false`,
-        // so we force duration to 0 to simulate it.
-        // TODO: update this when UIkit fixes this bug
+        // Workaround: UIkit Alert ignores `animation: false`, so we force duration to 0 to simulate it.
+        // TODO: update this when UIkit fixes this bug.
         duration: animation ? duration : 0,
         selClose
       });
@@ -76,7 +75,7 @@ export const Alert: React.FC<AlertProps> = ({
     const el = ref.current;
     if (!el) return;
 
-    // UIkit triggers these as native DOM events
+    // UIkit triggers these as native DOM events.
     const handleBeforeHide = (e: Event) => onBeforeHide?.(e);
     const handleHide = (e: Event) => onHide?.(e);
 

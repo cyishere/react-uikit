@@ -7,6 +7,9 @@ export interface UseSwipeOptions {
   enabled?: boolean | undefined;
 }
 
+/**
+ * Detects horizontal swipe gestures on a target element.
+ */
 export const useSwipe = (
   ref: React.RefObject<HTMLElement | null>,
   { onSwipeLeft, onSwipeRight, threshold = 100, enabled = true }: UseSwipeOptions
@@ -30,7 +33,7 @@ export const useSwipe = (
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
 
-      // dominant axis must be horizontal
+      // Dominant axis must be horizontal.
       if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
         if (deltaX > 0) {
           onSwipeRight?.();

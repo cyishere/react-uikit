@@ -14,11 +14,20 @@ export interface OffCanvasProps {
   open: boolean;
   /** Called when UIkit finishes closing (e.g. overlay click or Escape key). */
   onClose: () => void;
-  /** Enables UIkit overlay behavior. */
+  /**
+   * Enables UIkit overlay behavior.
+   * @defaultValue false
+   */
   overlay?: boolean;
-  /** Places the panel on the right side instead of the left. */
+  /**
+   * Places the panel on the right side instead of the left.
+   * @defaultValue false
+   */
   flip?: boolean;
-  /** UIkit off-canvas animation mode. */
+  /**
+   * UIkit off-canvas animation mode.
+   * @defaultValue 'none'
+   */
   mode?: 'slide' | 'push' | 'reveal' | 'none';
   /** Off-canvas content, usually including OffCanvasBar. */
   children: React.ReactNode;

@@ -6,6 +6,9 @@ export interface UseControllableStateParams<T> {
   onChange?: ((state: T) => void) | undefined;
 }
 
+/**
+ * Manages state that can be either controlled (via props) or uncontrolled (internal state).
+ */
 export const useControllableState = <T>({
   prop,
   defaultProp,

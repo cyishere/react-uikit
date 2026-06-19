@@ -5,7 +5,7 @@
  * an inline `<svg>`, matching UIkit's DOM structure so `uk-icon`
  * CSS rules apply correctly.
  *
- * - The inner SVG is always `aria-hidden="true"` since icons re decorative.
+ * - The inner SVG is always `aria-hidden="true"` since icons are decorative.
  * - `UIkitIconName` is derived from the registry's keys, so invalid icon names produce a TypeScript error at compile time.
  */
 import type { UIkitIconName } from './registry';
@@ -25,8 +25,9 @@ export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
    */
   label?: string;
   /**
-   * Scales the icon by this multiplier. Defaults to `1`.
+   * Scales the icon by this multiplier.
    * For example: `ratio={2}` renders the icon at 2x its natural size.
+   * @defaultValue 1
    */
   ratio?: number;
 }
