@@ -1,8 +1,9 @@
 ---
+import { extractComponentCode } from '../../utils/code';
+import PreviewSection from '../PreviewSection.astro';
+
 import ChildWidthReact from './ChildWidth';
 import rawCode from './ChildWidth.tsx?raw';
-import PreviewSection from '../PreviewSection.astro';
-import { extractComponentCode } from '../../utils/code';
 
 const codeSnippet = extractComponentCode(rawCode, 'Grid');
 ---

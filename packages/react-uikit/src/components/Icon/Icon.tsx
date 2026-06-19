@@ -8,12 +8,12 @@
  * - The inner SVG is always `aria-hidden="true"` since icons are decorative.
  * - `UIkitIconName` is derived from the registry's keys, so invalid icon names produce a TypeScript error at compile time.
  */
-import type { UIkitIconName } from './registry';
-
 import * as React from 'react';
 
+import { cn } from '@/utils';
+
+import type { UIkitIconName } from './registry';
 import { getIconSvg } from './registry';
-import { cn } from '../../utils';
 
 export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
   ref?: React.Ref<HTMLSpanElement>;

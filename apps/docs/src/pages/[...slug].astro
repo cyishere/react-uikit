@@ -1,8 +1,9 @@
 ---
-import ContentLayout from '@/layouts/Content.astro';
-import { customComponents } from '@/components/CustomComponents.astro';
-import { getAllDocs, getSlug, getPrevAndNext } from '@/utils/content';
 import { render } from 'astro:content';
+
+import { customComponents } from '@/components/CustomComponents.astro';
+import ContentLayout from '@/layouts/Content.astro';
+import { getAllDocs, getPrevAndNext,getSlug } from '@/utils/content';
 
 export async function getStaticPaths() {
 	const docs = await getAllDocs();

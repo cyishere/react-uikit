@@ -8,6 +8,30 @@ import reactPlugin from 'eslint-plugin-react';
 
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import astro from 'eslint-plugin-astro';
+
+// Shared import-sort rules, applied to both .ts/.tsx and .astro files.
+const importSortRules = {
+  'simple-import-sort/exports': 'error',
+  'simple-import-sort/imports': [
+    'error',
+    {
+      groups: [
+        // External packages. React first, then everything else.
+        ['^react', '^@?\\w'],
+        // Aliased internal imports (`@/`).
+        ['^@/'],
+        // Parent imports (`../`).
+        ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+        // Same-folder imports (`./`). Put `.` last.
+        ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+        // Style imports last (includes side-effect `import './x.css'`).
+        ['\\.(css|scss)$']
+      ]
+    }
+  ]
+};
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -31,7 +55,8 @@ export default [
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       import: importPlugin,
-      'jsx-a11y': jsxA11y
+      'jsx-a11y': jsxA11y,
+      'simple-import-sort': simpleImportSort
     },
     settings: {
       react: { version: 'detect' }
@@ -63,29 +88,17 @@ export default [
       'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       'jsx-a11y/no-autofocus': 'off',
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'type',
-            ['builtin', 'external'],
-            'internal',
-            ['parent', 'sibling', 'index'],
-            'object'
-          ],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-          pathGroups: [
-            {
-              pattern: '^react',
-              group: 'builtin',
-              position: 'before'
-            }
-          ],
-          pathGroupsExcludedImportTypes: [],
-          distinctGroup: true
-        }
-      ]
+      ...importSortRules
+    }
+  },
+  ...astro.configs.recommended,
+  {
+    files: ['**/*.astro'],
+    plugins: {
+      'simple-import-sort': simpleImportSort
+    },
+    rules: {
+      ...importSortRules
     }
   },
   {

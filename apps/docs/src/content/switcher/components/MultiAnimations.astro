@@ -1,8 +1,9 @@
 ---
+import PreviewSection from '@/components/PreviewSection.astro';
 import { extractComponentCode } from '@/utils/code';
+
 import MultiAnimationsReact from './MultiAnimations.tsx';
 import rawCode from './MultiAnimations.tsx?raw';
-import PreviewSection from '@/components/PreviewSection.astro';
 
 const codeSnippet = extractComponentCode(rawCode, 'Switcher.Root');
 ---

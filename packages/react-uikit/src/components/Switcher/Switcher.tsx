@@ -1,19 +1,19 @@
-import type { SwitcherItemTarget } from './SwitcherContext';
-
 import * as React from 'react';
 
-import {
-  ContainerContext,
-  SwitcherContext,
-  claimIndex,
-  resolveIndex,
-  resolveTarget,
-  useContainerContext,
-  useSwitcherContext
-} from './SwitcherContext';
 import { useControllableState, useSwipe } from '../../hooks';
 import { cn } from '../../utils';
 import UnstyledButton from '../UnstyledButton/UnstyledButton';
+
+import type { SwitcherItemTarget } from './SwitcherContext';
+import {
+  claimIndex,
+  ContainerContext,
+  resolveIndex,
+  resolveTarget,
+  SwitcherContext,
+  useContainerContext,
+  useSwitcherContext
+} from './SwitcherContext';
 
 import './Switcher.css';
 

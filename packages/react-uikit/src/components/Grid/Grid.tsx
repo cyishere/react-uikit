@@ -1,8 +1,8 @@
 import * as React from 'react';
 import UIkit from 'uikit';
 
-import { useGridRowClasses, useIsomorphicLayoutEffect } from '../../hooks';
-import { cn, isDev } from '../../utils';
+import { useGridRowClasses, useIsomorphicLayoutEffect } from '@/hooks';
+import { cn, isDev } from '@/utils';
 
 const VALID_GRID_ELEMENTS = new Set([
   'div',

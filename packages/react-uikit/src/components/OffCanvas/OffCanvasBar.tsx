@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn, isDev } from '../../utils';
+import { cn, isDev } from '@/utils';
 
 export interface OffCanvasBarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;

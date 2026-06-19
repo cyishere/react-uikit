@@ -4,7 +4,7 @@ import FocusLock from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 import UIkit from 'uikit';
 
-import { useIsomorphicLayoutEffect } from '../../hooks';
+import { useIsomorphicLayoutEffect } from '@/hooks';
 
 /**
  * Public props for the OffCanvas component.

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import UIkit from 'uikit';
 
-import { cn } from '../../utils';
+import { cn } from '@/utils';
+
 import { Close } from '../Close';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
