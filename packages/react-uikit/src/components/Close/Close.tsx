@@ -28,10 +28,10 @@
  *    category.
  */
 
-import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
-import { cn } from '../../utils';
+import { cn } from '@/utils';
 
 /**
  * Inline SVG for UIkit's `close-icon.svg` (14×14).

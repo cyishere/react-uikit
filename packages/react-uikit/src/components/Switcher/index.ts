@@ -1,9 +1,9 @@
-export { Switcher } from './Switcher';
 export type {
   SwitcherContainerProps,
+  SwitcherItemProps,
   SwitcherListProps,
   SwitcherPanelProps,
   SwitcherRootProps,
-  SwitcherTriggerProps,
-  SwitcherItemProps
+  SwitcherTriggerProps
 } from './Switcher';
+export { Switcher } from './Switcher';

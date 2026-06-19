@@ -1,7 +1,8 @@
-import type { DocsCategory } from '../content.config';
+import { getCollection } from 'astro:content';
+
 import type { Docs, NavItem } from '@/utils/types';
 
-import { getCollection } from 'astro:content';
+import type { DocsCategory } from '../content.config';
 
 export const getAllDocs = async () => {
   const allDocs = (await getCollection('docs')) as Docs[];

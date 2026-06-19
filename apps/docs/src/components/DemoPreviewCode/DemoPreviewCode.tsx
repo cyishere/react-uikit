@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from 'react';
-
 import { Switcher } from 'react-uikit';
 
 import styles from './DemoPreviewCode.module.css';

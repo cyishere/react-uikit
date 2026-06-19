@@ -1,8 +1,9 @@
 ---
+import PreviewSection from '@/components/PreviewSection.astro';
 import { extractComponentCode } from '@/utils/code';
+
 import SubnavReact from './Subnav.tsx';
 import rawCode from './Subnav.tsx?raw';
-import PreviewSection from '@/components/PreviewSection.astro';
 
 const codeSnippet = extractComponentCode(rawCode, 'Switcher.Root');
 ---

@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+import { cn } from '@/utils';
+
+import UnstyledButton from '../UnstyledButton';
+
 import {
   AccordionContext,
   AccordionItemContext,
@@ -7,8 +11,7 @@ import {
   useAccordionItemContext
 } from './AccordionContext';
 import AccordionIcon from './Icon';
-import { cn } from '../../utils';
-import UnstyledButton from '../UnstyledButton';
+
 import './Accordion.css';
 
 // ---------------------------------------------------------------------------
