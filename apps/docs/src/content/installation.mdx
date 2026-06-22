@@ -4,3 +4,17 @@ navTitle: Installation
 category: getting_started
 order: 2
 ---
+```bash
+pnpm add react-uikit uikit
+```
+
+## Usage
+
+Styles are not automatically injected. You must import the stylesheet in your app entry point:
+
+```tsx
+import 'uikit/dist/css/uikit.min.css';
+import 'react-uikit/styles.css';
+```
+
+If you want to use a custom theme, see the [Themes](/themes) guide.

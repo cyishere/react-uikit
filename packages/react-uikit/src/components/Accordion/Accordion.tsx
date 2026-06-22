@@ -12,8 +12,6 @@ import {
 } from './AccordionContext';
 import AccordionIcon from './Icon';
 
-import './Accordion.css';
-
 // ---------------------------------------------------------------------------
 // AccordionRoot
 // ---------------------------------------------------------------------------

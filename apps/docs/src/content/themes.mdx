@@ -30,6 +30,7 @@ $offcanvas-bar-background: #fff;
 $offcanvas-bar-color-mode: dark;
 
 @import 'uikit/src/scss/uikit-theme.scss';
+@import 'react-uikit/scss/index.scss';
 ```
 
 Import order matters:
@@ -38,6 +39,7 @@ Import order matters:
 2. UIkit theme mixins
 3. Your variable overrides
 4. UIkit theme bundle
+5. react-uikit component styles
 
 ## 3) Use your compiled theme in the layout
 
@@ -81,6 +83,28 @@ UIkit SCSS variables live in:
 - `uikit/src/scss/variables.scss` (core defaults)
 
 Search for component tokens such as `offcanvas` and override only what you need.
+
+## 6) Less vs Sass Override Ordering
+
+> [!WARNING]
+> Less and Sass have opposite override ordering!
+> - **Less**: Variables are evaluated lazily. The *last* declaration wins. Override variables **after** the framework imports.
+> - **Sass**: UIkit uses `!default`. The *first* assignment wins. Override variables **before** the framework imports.
+
+## 7) Theming with Less
+
+If your project uses Less instead of Sass, the flow is similar but the ordering is flipped:
+
+```less
+/* 1. UIkit theme variables */
+@import 'uikit/src/less/uikit.theme.less';
+
+/* 2. react-uikit components */
+@import 'react-uikit/less/index.less';
+
+/* 3. Your variable overrides (must go AFTER the imports in Less) */
+@global-primary-background: #d2042d;
+```
 
 ## Notes
 

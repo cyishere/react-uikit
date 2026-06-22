@@ -12,16 +12,22 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./styles.css": "./dist/index.css"
+    "./styles.css": "./dist/styles.css",
+    "./less/*": "./less/*",
+    "./scss/*": "./scss/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "less",
+    "scss"
   ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "tsup",
+    "build:js": "tsup",
+    "build:css": "node build/less.mjs",
+    "build:scss": "node build/prepare-styles.mjs",
+    "check:scss": "sass scss/index.scss /dev/null --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import",
+    "build": "pnpm build:js && pnpm build:css && pnpm build:scss && pnpm check:scss",
     "dev": "tsup --watch",
     "test": "vitest",
     "test:run": "vitest run",
@@ -40,8 +46,10 @@
     "@types/react-dom": "^19.0.0",
     "@types/uikit": "^3.23.0",
     "jsdom": "^25.0.0",
+    "less": "^4.6.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sass": "^1.99.0",
     "tsup": "^8.3.0",
     "uikit": "^3.25.16",
     "vitest": "^2.1.0"
