@@ -29,6 +29,7 @@
     "check:scss": "sass scss/index.scss /dev/null --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import",
     "build": "pnpm build:js && pnpm build:css && pnpm build:scss && pnpm check:scss",
     "dev": "tsup --watch",
+    "dev:styles": "node build/watch.mjs",
     "test": "vitest",
     "test:run": "vitest run",
     "type-check": "tsc --noEmit"
