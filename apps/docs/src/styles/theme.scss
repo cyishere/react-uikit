@@ -1,13 +1,34 @@
+// 1. Independent overrides go first
+$offcanvas-bar-background: #fff;
+$offcanvas-bar-color-mode: dark;
+
+// 2. Import default UIkit variables
 @import 'uikit/src/scss/variables-theme.scss';
 @import 'uikit/src/scss/mixins-theme.scss';
 
-$offcanvas-bar-background: #fff;
-$offcanvas-bar-color-mode: dark;
+// Fix label color modifiers in inverse contexts (.uk-light / .uk-dark)
+// This must be defined AFTER mixins-theme.scss so it overrides the empty stub.
+@mixin hook-inverse-label() {
+  &.uk-label-success {
+    background-color: $label-success-background;
+    color: $label-success-color;
+  }
+  &.uk-label-warning {
+    background-color: $label-warning-background;
+    color: $label-warning-color;
+  }
+  &.uk-label-danger {
+    background-color: $label-danger-background;
+    color: $label-danger-color;
+  }
+}
+
 $toc-active-color: $global-link-color;
 $toc-text-color: $global-color;
 $toc-text-hover-color: $global-emphasis-color;
 
 @import 'uikit/src/scss/uikit-theme.scss';
+@import 'react-uikit/scss/index.scss';
 
 :root {
   --ff-primary: 'Poppins', sans-serif;

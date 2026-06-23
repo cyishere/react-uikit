@@ -1,0 +1,16 @@
+.ruk-accordion-trigger {
+  .uk-accordion-icon svg > [class*='line-'] {
+    transition: 0.2s ease-out;
+    transition-property: transform, opacity;
+    transform-origin: center;
+  }
+
+  &[aria-expanded='true'] .uk-accordion-icon svg > .line-1 {
+    transform: rotate(-45deg);
+    opacity: 0;
+  }
+
+  &[aria-expanded='true'] .uk-accordion-icon svg > .line-2 {
+    transform: rotate(90deg);
+  }
+}

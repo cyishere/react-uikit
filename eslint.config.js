@@ -102,6 +102,14 @@ export default [
     }
   },
   {
+    files: ['**/*.mjs', '**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+  {
     ignores: ['**/node_modules/**', '**/dist/**', '.astro/**', 'apps/docs/.astro/**']
   }
 ];

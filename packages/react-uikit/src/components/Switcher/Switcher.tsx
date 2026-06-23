@@ -15,8 +15,6 @@ import {
   useSwitcherContext
 } from './SwitcherContext';
 
-import './Switcher.css';
-
 // Matches UIkit's Togglable/Switcher default duration (200ms). UIkit applies the
 // duration inline on every switch, overriding the CSS-default durations.
 const DEFAULT_ANIMATION_DURATION_MS = 200;

@@ -7,8 +7,9 @@
   "scripts": {
     "build": "pnpm --filter react-uikit build",
     "dev:lib": "pnpm --filter react-uikit dev",
+    "dev:styles": "pnpm --filter react-uikit dev:styles",
     "dev:docs": "pnpm --filter docs dev",
-    "dev": "concurrently \"pnpm dev:lib\" \"pnpm dev:docs\"",
+    "dev": "concurrently \"pnpm dev:lib\" \"pnpm dev:styles\" \"pnpm dev:docs\"",
     "test": "pnpm --filter react-uikit test",
     "test:run": "pnpm --filter react-uikit test:run",
     "format": "prettier --write --experimental-cli .",
