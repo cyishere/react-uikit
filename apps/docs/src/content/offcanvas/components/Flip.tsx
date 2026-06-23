@@ -7,12 +7,12 @@ const OffCanvasDemo = () => {
   const handleClose = () => setIsOpen(false);
 
   return (
-    <div className="uk-margin-top">
+    <div>
       <button type="button" className="uk-button uk-button-default" onClick={() => setIsOpen(true)}>
         Open
       </button>
 
-      <OffCanvas.Root open={isOpen} onClose={handleClose} mode="slide">
+      <OffCanvas.Root open={isOpen} onClose={handleClose} flip>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
@@ -25,12 +25,6 @@ const OffCanvasDemo = () => {
           </p>
         </OffCanvas.Bar>
       </OffCanvas.Root>
-
-      <div className="uk-padding">
-        <button>Test focus</button>
-        <a href="/#">Test Focus</a>
-        <div style={{ height: '600px' }} />
-      </div>
     </div>
   );
 };

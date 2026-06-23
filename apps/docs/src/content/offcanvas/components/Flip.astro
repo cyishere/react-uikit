@@ -1,0 +1,13 @@
+---
+import PreviewSection from '@/components/PreviewSection.astro';
+import { extractComponentCode } from '@/utils/code';
+
+import FlipReact from './Flip.tsx';
+import rawCode from './Flip.tsx?raw';
+
+const codeSnippet = extractComponentCode(rawCode, 'div');
+---
+
+<PreviewSection codeSnippet={codeSnippet} lang="jsx">
+  <FlipReact client:only="react" />
+</PreviewSection>

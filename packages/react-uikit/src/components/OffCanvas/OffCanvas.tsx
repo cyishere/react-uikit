@@ -31,7 +31,7 @@ export interface OffCanvasProps {
   flip?: boolean;
   /**
    * UIkit off-canvas animation mode.
-   * @defaultValue 'none'
+   * @defaultValue 'slide'
    */
   mode?: 'slide' | 'push' | 'reveal' | 'none';
   /** Off-canvas content, usually including OffCanvasBar. */
@@ -43,7 +43,7 @@ const OffCanvasRoot = ({
   onClose,
   overlay = false,
   flip = false,
-  mode = 'none',
+  mode = 'slide',
   children
 }: OffCanvasProps) => {
   const ref = React.useRef<HTMLDivElement>(null);

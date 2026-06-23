@@ -30,7 +30,10 @@ const id = `code-${crypto.randomUUID()}`;
   }
 
   :global(.astro-code) {
-    padding: 1rem;
+    --astro-code-p: 1rem;
+    
+    width: calc(100% - var(--astro-code-p) * 2);
+    padding: var(--astro-code-p);
     border: none;
     margin: 0;
   }
