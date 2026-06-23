@@ -1,0 +1,197 @@
+---
+title: Grid
+tagline: Create a fully responsive, fluid and nestable grid layout.
+description: The `Grid` component recreates UIkit's grid system, allowing you to arrange block elements in columns. It works closely with the [Width component](https://getuikit.com/docs/width) to determine how much container space each item takes up, and it can also be combined with the [Flex component](https://getuikit.com/docs/flex) to align and order grid items.
+category: components
+---
+
+import Warning from '@/components/Warning.astro';
+import BasicUsage from './components/BasicUsage.astro';
+import GapModifier from './components/GapModifier.astro';
+import NestedGrid from './components/NestedGrid.astro';
+import DividerModifier from './components/DividerModifier.astro';
+import MatchHeight from './components/MatchHeight.astro';
+import GridWithWidth from './components/GridWithWidth.astro';
+import ChildWidth from './components/ChildWidth.astro';
+import GridAndFlex from './components/GridAndFlex.astro';
+import Masonry from './components/Masonry.astro';
+import Parallax from './components/Parallax.astro';
+import ParallaxJustify from './components/ParallaxJustify.astro';
+
+## Usage
+
+The `Grid` component in `react-uikit` enables UIkit's grid features. By default, `Grid` renders as a `<div>`, but you can change the underlying element using the `as` prop. To see all features of the `Grid` component, please check the [API Reference](#api-reference).
+
+The `Grid` component works with any UIkit CSS classes.
+
+Add child `<div>` elements to create cells. By default, all grid cells are stacked. To place them side by side, add one of the classes from UIkit's [Width component](https://getuikit.com/docs/width). Using `.uk-child-width-expand` will automatically apply equal width to items, regardless of the number of items.
+
+<span class="uk-label">Note</span> There's no need to add the `.uk-grid` class to `Grid`, as it is already handled automatically.
+
+```jsx
+<Grid>
+  <div></div>
+  <div></div>
+</Grid>
+```
+
+Like UIkit's original grid component, `Grid` also works seamlessly with the [Card component](https://getuikit.com/docs/card).
+
+<BasicUsage />
+
+### Gap Modifier
+
+To modify the gap, apply the corresponding UIkit CSS classes, just as you would in vanilla UIkit.
+
+<GapModifier />
+
+### Nested Grid
+
+You can easily extend your grid layout with nested grids.
+
+```jsx
+<Grid>
+  <div>
+    <Grid>
+      <div></div>
+      <div></div>
+    </Grid>
+  </div>
+  <div>
+    <Grid>
+      <div></div>
+      <div></div>
+    </Grid>
+  </div>
+</Grid>
+```
+
+<NestedGrid />
+
+### Divider Modifier
+
+Just as in the original UIkit, add the `.uk-grid-divider` class to separate grid cells with lines.
+
+```jsx
+<Grid className="uk-grid-divider"></Grid>
+```
+
+<DividerModifier />
+
+## Match Height
+
+In `react-uikit`, to match the height of grid cells, apply the `matchHeight` prop to `Grid`. By default, height matching applies to the direct children of the grid container.
+
+```jsx
+<Grid matchHeight></Grid>
+```
+
+You can target specific nested elements by passing a CSS selector string to the `matchHeight` prop.
+
+<Warning>
+  Don't forget to include the leading dot `.` in the selector — for example, `.uk-card-body`.
+</Warning>
+
+```jsx
+<Grid matchHeight=".uk-card-body"></Grid>
+```
+
+<MatchHeight />
+
+## Grid with Width
+
+Just as in the original UIkit, `Grid` is frequently used in combination with the [Width component](https://getuikit.com/docs/width).
+
+```jsx
+<Grid>
+  <div className="uk-width-auto@m"></div>
+  <div className="uk-width-1-3@m"></div>
+  <div className="uk-width-expand@m"></div>
+</Grid>
+```
+
+<GridWithWidth />
+
+### Child Width
+
+If the grid columns are evenly split, you can add one of the `.uk-child-width-*` classes to `Grid` instead of adding a class to each individual item.
+
+```jsx
+<Grid className="uk-child-width-1-2@s uk-child-width-1-3@m"></Grid>
+```
+
+<ChildWidth />
+
+## Grid and Flex
+
+You can easily combine the `Grid` component with the [Flex component](https://getuikit.com/docs/flex) by using `.uk-flex-*` classes.
+
+<GridAndFlex />
+
+## Masonry
+
+Setting the `masonry` prop to either `"pack"` or `"next"` creates a masonry layout for the `Grid`.
+
+| Masonry | Description |
+|---------|-------------|
+| `"pack"` | Sorts items into columns with the most room to make column heights as equal as possible. |
+| `"next"` | Uses the natural item order. |
+
+<Masonry />
+
+## Parallax
+
+To move individual columns of a `Grid` at different speeds while scrolling, pass a numeric value to the `parallax` prop. This number specifies the parallax translation distance in pixels.
+
+```jsx
+<Grid parallax={150}></Grid>
+```
+
+<Parallax />
+
+To adjust the parallax start and end points, use the `parallaxStart` and `parallaxEnd` props.
+
+| Prop | Default | Description |
+|------|---------|-------------|
+| `parallaxStart` | `0` | Defines when the animation starts. |
+| `parallaxEnd` | `0` | Defines when the animation ends. |
+
+- For `parallaxStart`, the default value `0` means that the `Grid`'s top border and the viewport's bottom border intersect.
+- For `parallaxEnd`, the default value `0` means that the `Grid`'s bottom border and the viewport's top border intersect.
+- Values can be set in any CSS dimension unit, such as `vh`, `%`, or `px`. The `%` unit is relative to the height of the `Grid`.
+- Both options support basic mathematical operations like `+` and `-`.
+
+```jsx
+<Grid parallax={150} parallaxStart="100%" parallaxEnd="100%"></Grid>
+```
+
+To justify the `Grid` parallax if columns have different heights, such as in masonry grids, set the `parallaxJustify` prop to `true`. This ensures that all grid columns reach the bottom of the viewport at the same time. Set the `parallax` prop to `0` to move the columns solely by their height difference until they are justified, or specify a non-zero translation value to combine both effects.
+
+```jsx
+<Grid parallax={0} parallaxJustify={true} masonry="pack"></Grid>
+```
+
+<ParallaxJustify />
+
+## API Reference
+
+In addition to all standard `div` HTML attributes, `Grid` accepts the following props.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `as` | `React.ElementType` | `"div"` | The HTML element to render as the grid container. Recommended values: `div`, `ul`, `ol`, `section`, `article`, `main`, `aside`, `nav`. |
+| `masonry` | `"pack" \| "next"` | `undefined` | Enables UIkit masonry layout. `"pack"` sorts items into the column with the most room; `"next"` uses natural item order. |
+| `matchHeight` | `boolean \| string` | `undefined` | Enables UIkit height-match on grid cells. `true` targets direct children (`"> *"`); a string is used as a custom CSS selector. |
+| `matchRow` | `boolean` | `true` | When `matchHeight` is enabled, only match heights within the same row. |
+| `parallax` | `number` | `undefined` | Parallax translation value in pixels. Falsy disables the effect. |
+| `parallaxStart` | `string` | `undefined` | Start offset for the parallax animation. Accepts `vh`, `%`, and `px` units and basic `+`/`-` math. `"0"` means the grid's top border and the viewport's bottom border intersect. |
+| `parallaxEnd` | `string` | `undefined` | End offset for the parallax animation. Accepts `vh`, `%`, and `px` units and basic `+`/`-` math. `"0"` means the grid's bottom border and the viewport's top border intersect. |
+| `parallaxJustify` | `boolean` | `undefined` | With parallax enabled, all columns will reach the bottom at the same time. |
+
+## Roadmap
+
+While the current `Grid` implementation covers all core UI/UX requirements from UIkit, a few advanced options and integrations from the original UIkit library are currently omitted and planned for future releases:
+
+- **Filter and Order**: Integration with a dedicated Filter component (planned) to allow filtering and sorting of grid items.
+- **Single Cell Height Matching**: Built-in support for matching the height of a single cell's content (currently achievable by manually adding the `.uk-grid-item-match` CSS class to the grid item).
+- **Custom Margins**: Props to customize the `margin` (default `uk-grid-margin`) and `first-column` (default `uk-first-column`) classes added dynamically by UIkit.
