@@ -19,7 +19,7 @@ import ButtonGap from './components/ButtonGap.astro';
 
 The `Switcher` component consists of a number of toggles and their related content items. It uses a compound structure to correspond to UIkit's Switcher.
 
-<span class="uk-label">Note</span> UIkit's Switcher component uses an `a` tag with `href="#"` inside the `li` element as the trigger, but in `react-uikit`, we replace the `a` tag with a `button`.
+<span class="uk-label">Note</span> While UIkit's native Switcher component uses an `a` tag with `href="#"` inside an `li` element as its trigger, `react-uikit` replaces this with a native `<button>` element for better accessibility. Therefore, to ensure the component is styled correctly, please import `react-uikit/styles.css` in your app's entry point as well. If you are using Less or Sass, please refer to the [Themes](/themes) guide.
 
 - `<Switcher.Root>` is equivalent to the wrapper with the `uk-switcher` attribute—`<div uk-switcher>`.
 - `<Switcher.List>` is equivalent to the `ul` element inside the wrapper `div`.

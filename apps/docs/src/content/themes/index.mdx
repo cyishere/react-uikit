@@ -1,0 +1,133 @@
+---
+title: Themes
+category: getting_started
+order: 3
+---
+
+`react-uikit` is built directly on top of [UIkit](https://getuikit.com/)'s styling system. Most of the styles in `react-uikit` come from native UIkit CSS classes (for example, the `Alert` component needs the `.uk-alert` class applied).
+
+However, some components, such as the `Switcher`, require `react-uikit`'s own custom styling to function correctly. This is why `react-uikit` exposes its own `.css`, `.less`, and `.scss` files.
+
+If you want to customize the look and feel of your application (like changing the primary color), there are **three main ways** to do so:
+
+1. **Vanilla CSS** — override UIkit's compiled styles using CSS specificity. This is the simplest approach and is great for one-off tweaks, but it can only override the styles UIkit already emits; it cannot change theme variables.
+2. **Less** — override UIkit's Less theme variables.
+3. **Sass** — override UIkit's Sass theme variables.
+
+When theming with Less or Sass, import the raw `.less` or `.scss` files from `react-uikit` instead of the pre-compiled `.css` bundle. This way everything compiles together, so your variable overrides also flow into `react-uikit`'s custom components (like the `Switcher`).
+
+## Theme with Vanilla CSS
+
+When using vanilla CSS to override UIkit's styles, we take advantage of CSS specificity. Note that this approach can only override the styles UIkit already emits — to change theme variables themselves, use the Less or Sass approach below. For example, you can add a custom theme class at the very top of your element tree:
+
+```html
+<html class="my-theme">
+  <head>...</head>
+  <body>...</body>
+</html>
+```
+
+Alternatively, you can use a `data-*` attribute:
+
+```html
+<html data-theme="my-theme">
+  <head>...</head>
+  <body>...</body>
+</html>
+```
+
+With this setup, you can easily scope and override any UIkit styles that fall under that top-level class or `data` attribute:
+
+```css
+.my-theme .uk-button-primary {
+  background-color: #eb0095;
+}
+
+/* or */
+[data-theme="my-theme"] .uk-button-primary {
+  background-color: #eb0095;
+}
+```
+
+### Override on Specific Elements
+
+You can also apply your own utility classes directly to individual components or elements to override them locally:
+
+```html
+<button class="uk-button uk-button-primary my-primary-button">My Primary Button</button>
+```
+
+```css
+.uk-button-primary.my-primary-button {
+  background-color: #eb0095;
+}
+```
+
+<span class="uk-label">Note</span> When using vanilla CSS, don't forget to import UIkit's core CSS and `react-uikit/styles.css` ([if needed](/installation#usage)) in your app's entry point.
+
+## Theme with Less
+
+When using Less, variables are evaluated lazily, which means the **last** declaration wins. Because of this, you must define your custom variable overrides **after** importing the framework files.
+
+Create a `theme.less` file in your project:
+
+```less
+// 1. Import UIkit's theme
+@import 'uikit/src/less/uikit.theme.less';
+
+// 2. Import react-uikit's component styles, so they compile with your overrides
+@import 'react-uikit/less/index.less';
+
+// 3. Define your variable overrides (must go AFTER the imports)
+@global-primary-background: #eb0095;
+```
+
+Because `react-uikit`'s component styles are imported here too, your variable overrides also apply to its custom components (like the `Switcher`), not just native UIkit elements.
+
+## Theme with Sass
+
+When using Sass, UIkit defines its variables using the `!default` flag. This means the **first** assignment wins. Because of this, you must define your custom overrides **before** importing the UIkit framework files.
+
+Create a `theme.scss` file in your project. The minimal case is a single variable override before the imports:
+
+```scss
+// 1. Your variable overrides go first
+$global-primary-background: #eb0095;
+
+// 2. Import UIkit, then react-uikit's component styles
+@import 'uikit/src/scss/uikit-theme.scss';
+@import 'react-uikit/scss/index.scss';
+```
+
+As with Less, importing `react-uikit/scss/index.scss` ensures your overrides reach its custom components (like the `Switcher`) as well.
+
+For more advanced theming — dependent variables or custom mixin overrides — split the UIkit import so you can hook into its variables and mixins:
+
+```scss
+// 1. Independent variable overrides go first
+$global-primary-background: #eb0095;
+
+// 2. Import default UIkit variables and mixins
+@import 'uikit/src/scss/variables-theme.scss';
+@import 'uikit/src/scss/mixins-theme.scss';
+
+// 3. Define custom mixin overrides here (must go after mixins-theme to override UIkit's empty stubs)
+// Example: preserving label color modifiers inside inverse components (.uk-light / .uk-dark)
+@mixin hook-inverse-label() {
+    &.uk-label-success {
+        background-color: $label-success-background;
+        color: $label-success-color;
+    }
+}
+
+// 4. Dependent variable overrides go here (so they can use UIkit's variables)
+$custom-border: $global-border;
+
+// 5. Import the rest of UIkit
+@import 'uikit/src/scss/uikit-theme.scss';
+
+// 6. Import react-uikit's component styles so they compile with your new variables
+@import 'react-uikit/scss/index.scss';
+```
+
+<span class="uk-label">Note</span> UIkit's Sass entrypoints still use `@import`, which Dart Sass has deprecated in favor of `@use` and `@forward`. You may see deprecation warnings during compilation; `@use` is not yet supported by UIkit's stylesheets.
