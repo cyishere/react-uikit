@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Close, OffCanvas, OffCanvasBar } from 'react-uikit';
+import { Close, OffCanvas } from 'react-uikit';
 
 const OffCanvasDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,8 +12,8 @@ const OffCanvasDemo = () => {
         Open
       </button>
 
-      <OffCanvas open={isOpen} onClose={handleClose} mode="slide">
-        <OffCanvasBar>
+      <OffCanvas.Root open={isOpen} onClose={handleClose} mode="slide">
+        <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
           <h3>Title</h3>
@@ -23,8 +23,8 @@ const OffCanvasDemo = () => {
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
-        </OffCanvasBar>
-      </OffCanvas>
+        </OffCanvas.Bar>
+      </OffCanvas.Root>
 
       <div className="uk-padding">
         <button>Test focus</button>

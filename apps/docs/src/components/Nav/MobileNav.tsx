@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
-import { Close, Icon, OffCanvas, OffCanvasBar } from 'react-uikit';
+import { Close, Icon, OffCanvas } from 'react-uikit';
 
 import styles from './MobileNav.module.css';
 
@@ -24,13 +24,13 @@ const MobileNav = ({ children }: MobileNavProps) => {
         <Icon name="menu" label="Open menu" />
       </button>
 
-      <OffCanvas open={isOpen} onClose={handleClose} overlay>
-        <OffCanvasBar>
+      <OffCanvas.Root open={isOpen} onClose={handleClose} overlay>
+        <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
           {children}
-        </OffCanvasBar>
-      </OffCanvas>
+        </OffCanvas.Bar>
+      </OffCanvas.Root>
     </div>
   );
 };
