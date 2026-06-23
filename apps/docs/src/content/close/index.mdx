@@ -1,0 +1,55 @@
+---
+title: Close
+tagline: Create a close icon that can be combined with different components.
+category: components
+---
+
+import BasicUsage from './components/BasicUsage.astro';
+import ForCustomComponent from './components/ForCustomComponent.astro';
+import LargeModifier from './components/LargeModifier.astro';
+
+## Basic Usage
+
+To apply a "close" icon, simply use the self-closing `Close` component.
+
+By default, the `Close` component is a **button** contains an "x" svg.
+
+```jsx
+<Close />
+```
+
+<BasicUsage />
+
+## Use for Custom Component
+
+To use `Close` with a custom `Link` component of Next.js or React Router, use the `asChild` prop, then wrap the custom component inside `Close`.
+
+```jsx
+<Close asChild>
+  <Link to="/close" />
+</Close>
+```
+
+Also works with HTML's `a` tag.
+
+<ForCustomComponent />
+
+## Accessibility
+
+The `Close` component sets `aria-label="Close"` by default, so when using a custom component with `Close`, the `a` or `Link` component can be self-closing.
+
+Use `label` prop to customize `aria-label`.
+
+## Large Modifier
+
+Set the `large` prop to `true` to use a larger close button.
+
+<LargeModifier />
+
+## API Reference
+
+| Props | Type | Default | Description |
+|-------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | When `true`, merges all props onto the child element instead of rendering a `<button>`. Use this to swap the root element for a custom component (e.g. `<Link>`). |
+| `label` | `string` | `"Close"` | Customizes the `aria-label` on the close button. |
+| `large` | `boolean` | `false` | Renders the larger (20×20) close icon. |
