@@ -24,7 +24,7 @@
   "keywords": [],
   "author": "Chen Yang",
   "license": "ISC",
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@11.8.0",
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^8.58.0",

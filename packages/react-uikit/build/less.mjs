@@ -7,7 +7,7 @@ const output = 'dist/styles.css';
 
 async function buildLess() {
   const code = await fs.readFile(input, 'utf-8');
-  
+
   try {
     const result = await less.render(code, {
       filename: path.resolve(input),
