@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Close, OffCanvas } from 'react-uikit';
 
-const Flip = () => {
+const CloseBehavior = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
@@ -12,16 +12,15 @@ const Flip = () => {
         Open
       </button>
 
-      <OffCanvas.Root open={isOpen} onClose={handleClose} flip>
+      <OffCanvas.Root open={isOpen} onClose={handleClose} escClose={false} bgClose={false} overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
           <h3>Title</h3>
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Pressing <code>Escape</code> or clicking the background will not close this off-canvas.
+            Use the close button instead.
           </p>
         </OffCanvas.Bar>
       </OffCanvas.Root>
@@ -29,4 +28,4 @@ const Flip = () => {
   );
 };
 
-export default Flip;
+export default CloseBehavior;

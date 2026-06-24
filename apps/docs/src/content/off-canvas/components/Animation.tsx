@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Close, OffCanvas } from 'react-uikit';
 
-const OffCanvasDemo = () => {
+const Animation = () => {
   const [isSlideOpen, setIsSlideOpen] = useState(false);
   const [isPushOpen, setIsPushOpen] = useState(false);
   const [isRevealOpen, setIsRevealOpen] = useState(false);
@@ -104,4 +104,4 @@ const OffCanvasDemo = () => {
   );
 };
 
-export default OffCanvasDemo;
+export default Animation;

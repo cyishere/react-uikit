@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Close, OffCanvas } from 'react-uikit';
 
-const OffCanvasDemo = () => {
+const BasicUsage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
@@ -29,4 +29,4 @@ const OffCanvasDemo = () => {
   );
 };
 
-export default OffCanvasDemo;
+export default BasicUsage;

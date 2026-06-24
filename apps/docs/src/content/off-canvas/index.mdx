@@ -9,6 +9,7 @@ import Overlay from './components/Overlay.astro';
 import Flip from './components/Flip.astro';
 import Animation from './components/Animation.astro';
 import WithNav from './components/WithNav.astro';
+import CloseBehavior from './components/CloseBehavior.astro';
 
 ## Usage
 
@@ -16,7 +17,7 @@ The `OffCanvas` component consists of two parts: `OffCanvas.Root` and `OffCanvas
 
 To toggle an off-canvas sidebar, you can use the [`Close` component](/close) and pass a function to its `onClick` prop.
 
-<span class="uk-label">Note</span> Even if you use a `Close` button wired up to a close function, the `onClose` prop still needs to be set on `OffCanvas.Root` so that the `Escape` key can also close the off-canvas.
+<span class="uk-label">Note</span> Even if you use a `Close` button wired up to a close function, the `onClose` prop still needs to be set on `OffCanvas.Root` so that the `Escape` key or clicking outside the off-canvas can also close it.
 
 ```jsx
 <OffCanvas.Root open={isOpen} onClose={handleClose}>
@@ -85,6 +86,16 @@ You can use UIkit's [Nav component](https://getuikit.com/docs/nav) inside an `Of
 
 <WithNav />
 
+## Close Behavior
+
+By default, the off-canvas closes when the `Escape` key is pressed (`escClose`), when the background is clicked (`bgClose`), or when the panel is swiped away (`swiping`). Set any of these props to `false` to opt out — for example, to require the user to use the close button.
+
+```jsx
+<OffCanvas.Root escClose={false} bgClose={false}>...</OffCanvas.Root>
+```
+
+<CloseBehavior />
+
 ## API Reference
 
 `OffCanvas` is a compound component, and all of its behavior options must be set on `OffCanvas.Root`.
@@ -96,3 +107,6 @@ You can use UIkit's [Nav component](https://getuikit.com/docs/nav) inside an `Of
 | `overlay` | `boolean`                                   | `false`   | Enables UIkit overlay behavior.                                        |
 | `flip`    | `boolean`                                   | `false`   | Places the panel on the right side instead of the left.                |
 | `mode`    | `'slide' \| 'push' \| 'reveal' \| 'none'`   | `'slide'` | UIkit off-canvas animation mode.                                       |
+| `escClose` | `boolean`                                  | `true`    | Close the off-canvas when the `Escape` key is pressed.                 |
+| `bgClose` | `boolean`                                   | `true`    | Close the off-canvas when the background is clicked.                   |
+| `swiping` | `boolean`                                   | `true`    | Close the off-canvas when the panel is swiped away.                    |

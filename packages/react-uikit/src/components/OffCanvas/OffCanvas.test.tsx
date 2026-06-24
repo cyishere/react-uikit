@@ -67,7 +67,10 @@ describe('OffCanvas', () => {
     const panel = document.body.querySelector('.uk-offcanvas');
 
     expect(panel).toBeInTheDocument();
-    expect(panel).toHaveAttribute('data-uk-offcanvas', 'mode: none; overlay: false; flip: false');
+    expect(panel).toHaveAttribute(
+      'data-uk-offcanvas',
+      'mode: slide; overlay: false; flip: false; esc-close: true; bg-close: true; swiping: true'
+    );
   });
 
   it('calls UIkit.offcanvas with the rendered element', () => {
@@ -187,6 +190,9 @@ describe('OffCanvas', () => {
     );
 
     const panel = document.body.querySelector('.uk-offcanvas');
-    expect(panel).toHaveAttribute('data-uk-offcanvas', 'mode: push; overlay: true; flip: true');
+    expect(panel).toHaveAttribute(
+      'data-uk-offcanvas',
+      'mode: push; overlay: true; flip: true; esc-close: true; bg-close: true; swiping: true'
+    );
   });
 });

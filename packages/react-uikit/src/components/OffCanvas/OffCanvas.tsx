@@ -34,6 +34,21 @@ export interface OffCanvasProps {
    * @defaultValue 'slide'
    */
   mode?: 'slide' | 'push' | 'reveal' | 'none';
+  /**
+   * Close the off-canvas when the Escape key is pressed.
+   * @defaultValue true
+   */
+  escClose?: boolean;
+  /**
+   * Close the off-canvas when the background is clicked.
+   * @defaultValue true
+   */
+  bgClose?: boolean;
+  /**
+   * Close the off-canvas when the panel is swiped away.
+   * @defaultValue true
+   */
+  swiping?: boolean;
   /** Off-canvas content, usually including OffCanvasBar. */
   children: React.ReactNode;
 }
@@ -44,6 +59,9 @@ const OffCanvasRoot = ({
   overlay = false,
   flip = false,
   mode = 'slide',
+  escClose = true,
+  bgClose = true,
+  swiping = true,
   children
 }: OffCanvasProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -79,7 +97,7 @@ const OffCanvasRoot = ({
         <div
           ref={ref}
           className="uk-offcanvas"
-          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}`}
+          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}; esc-close: ${escClose}; bg-close: ${bgClose}; swiping: ${swiping}`}
         >
           {children}
         </div>
