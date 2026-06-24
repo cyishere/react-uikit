@@ -27,7 +27,6 @@ react-uikit-workspace/
 │   └── docs/                  # Astro documentation site with React islands
 ├── packages/
 │   └── react-uikit/           # Core library package (React + TypeScript)
-├── COMPONENT_OWNERSHIP.md     # Architectural log tracking responsibility
 ├── package.json               # Root workspace metadata & development scripts
 └── tsconfig.base.json         # Shared base TypeScript configuration
 ```
@@ -42,7 +41,7 @@ A core tenet of `react-uikit` is **architectural discipline**. We classify compo
 2.  **UIkit JS-Enhanced Components:** Components that delegate behavior to UIkit JS (e.g., `Alert`) are rendered in React, with UIkit JS initialized and cleaned up safely inside client-side `useEffect` lifecycles.
 3.  **React-Owned Components:** Complex overlays and interactive widgets (e.g., `OffCanvas`, `Switcher`, `Accordion`) are **fully implemented in React**. UIkit's JS never touches these nodes. React handles open/close state, portals, and standard keyboard/aria events.
 
-For a detailed, granular breakdown of every component, check the [Component Ownership Matrix](./COMPONENT_OWNERSHIP.md).
+For a detailed, granular breakdown of every component, check the [Component Ownership Matrix](./apps/docs/src/content/component-ownership/index.mdx).
 
 ---
 
@@ -157,7 +156,7 @@ pnpm test
 Contributions are highly welcome! To ensure consistency across the library, please adhere to the following guidelines:
 
 1.  **Maintain Documentation:** When adding a new component or prop, ensure you document it in the Astro docs site (`apps/docs`).
-2.  **Update the Component Matrix:** Fill in all relevant columns inside [COMPONENT_OWNERSHIP.md](./COMPONENT_OWNERSHIP.md) for any new component before submitting your Pull Request.
+2.  **Update the Component Matrix:** Fill in all relevant columns inside the [Component Ownership Matrix](./apps/docs/src/content/component-ownership/index.mdx) for any new component before submitting your Pull Request.
 3.  **Strict Linting:** Run `pnpm check` before pushing your commits to guarantee there are no formatting, type, or lint issues.
 
 ---

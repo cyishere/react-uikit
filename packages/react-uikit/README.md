@@ -55,7 +55,7 @@ If you compile your own styles, you can import the source partials instead of th
 
 ```scss
 // Sass
-@use '@cyishere/react-uikit/scss/index.scss';
+@import '@cyishere/react-uikit/scss/index.scss';
 ```
 
 ## Usage

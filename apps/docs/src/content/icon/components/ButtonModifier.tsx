@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Icon } from 'react-uikit';
+import { Icon } from '@cyishere/react-uikit';
 
 const ButtonModifier = () => {
   return (

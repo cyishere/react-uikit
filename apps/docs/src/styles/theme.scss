@@ -28,7 +28,7 @@ $toc-text-color: $global-color;
 $toc-text-hover-color: $global-emphasis-color;
 
 @import 'uikit/src/scss/uikit-theme.scss';
-@import 'react-uikit/scss/index.scss';
+@import '@cyishere/react-uikit/scss/index.scss';
 
 :root {
   --ff-primary: 'Poppins', sans-serif;

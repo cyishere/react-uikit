@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Close, OffCanvas } from 'react-uikit';
+import { Close, OffCanvas } from '@cyishere/react-uikit';
 
 const Flip = () => {
   const [isOpen, setIsOpen] = useState(false);

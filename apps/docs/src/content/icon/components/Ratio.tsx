@@ -1,4 +1,4 @@
-import { Icon } from 'react-uikit';
+import { Icon } from '@cyishere/react-uikit';
 
 const BasicUsage = () => {
   return (

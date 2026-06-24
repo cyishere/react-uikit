@@ -21,8 +21,8 @@ Every component in the library has a defined ownership row in the [Component Own
 
 The two ownership patterns in use are:
 
-- **React-owned** — React controls all state and behavior. UIkit CSS handles styling. UIkit JS never initializes on these nodes. `Accordion`, `Close`, `Icon`, `Switcher`, and `OffCanvas` follow this pattern.
-- **UIkit-JS-enhanced** — React renders the markup and UIkit JS augments it at runtime. `useIsomorphicLayoutEffect` initializes UIkit JS and cleans up on unmount. `Alert` and `Grid` follow this pattern.
+- **React-owned** — React controls all state and behavior. UIkit CSS handles styling. UIkit JS never initializes on these nodes. `Accordion`, `Close`, `Icon`, and `Switcher` follow this pattern.
+- **UIkit-JS-enhanced** — React renders the markup and UIkit JS augments it at runtime. `useIsomorphicLayoutEffect` initializes UIkit JS and cleans up on unmount. `Alert`, `OffCanvas` and `Grid` follow this pattern.
 
 ## Components
 

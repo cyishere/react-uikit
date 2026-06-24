@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon } from 'react-uikit';
+import { Icon } from '@cyishere/react-uikit';
 
 import styles from './CopyButton.module.scss';
 

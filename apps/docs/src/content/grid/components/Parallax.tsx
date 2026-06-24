@@ -1,4 +1,4 @@
-import { Grid } from 'react-uikit';
+import { Grid } from '@cyishere/react-uikit';
 
 const Parallax = () => {
   return (

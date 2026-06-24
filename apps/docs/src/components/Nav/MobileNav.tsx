@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
-import { Close, Icon, OffCanvas } from 'react-uikit';
+import { Close, Icon, OffCanvas } from '@cyishere/react-uikit';
 
 import styles from './MobileNav.module.css';
 
