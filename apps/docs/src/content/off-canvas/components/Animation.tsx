@@ -45,7 +45,7 @@ const OffCanvasDemo = () => {
         </button>
       </div>
 
-      <OffCanvas.Root open={isSlideOpen} onClose={handleSlideClose}>
+      <OffCanvas.Root open={isSlideOpen} onClose={handleSlideClose} overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleSlideClose} />
 
@@ -59,7 +59,7 @@ const OffCanvasDemo = () => {
         </OffCanvas.Bar>
       </OffCanvas.Root>
 
-      <OffCanvas.Root open={isPushOpen} onClose={handlePushClose} mode="push">
+      <OffCanvas.Root open={isPushOpen} onClose={handlePushClose} mode="push" overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handlePushClose} />
 
@@ -73,7 +73,7 @@ const OffCanvasDemo = () => {
         </OffCanvas.Bar>
       </OffCanvas.Root>
 
-      <OffCanvas.Root open={isRevealOpen} onClose={handleRevealClose} mode="reveal">
+      <OffCanvas.Root open={isRevealOpen} onClose={handleRevealClose} mode="reveal" overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleRevealClose} />
 
@@ -87,7 +87,7 @@ const OffCanvasDemo = () => {
         </OffCanvas.Bar>
       </OffCanvas.Root>
 
-      <OffCanvas.Root open={isNoneOpen} onClose={handleNoneClose} mode="none">
+      <OffCanvas.Root open={isNoneOpen} onClose={handleNoneClose} mode="none" overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleNoneClose} />
 
