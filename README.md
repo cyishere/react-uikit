@@ -38,8 +38,8 @@ react-uikit-workspace/
 A core tenet of `react-uikit` is **architectural discipline**. We classify components into three distinct ownership categories:
 
 1.  **CSS-only Components:** Presentational elements (e.g., `Button`, `Badge`, `Label`, `Card`) are **intentionally excluded** from this library. Creating React wrappers for purely visual CSS classes adds zero value and bloats bundles. The docs provide clear copy-paste-ready JSX snippets for these.
-2.  **UIkit JS-Enhanced Components:** Components that delegate behavior to UIkit JS (e.g., `Alert`) are rendered in React, with UIkit JS initialized and cleaned up safely inside client-side `useEffect` lifecycles.
-3.  **React-Owned Components:** Complex overlays and interactive widgets (e.g., `OffCanvas`, `Switcher`, `Accordion`) are **fully implemented in React**. UIkit's JS never touches these nodes. React handles open/close state, portals, and standard keyboard/aria events.
+2.  **UIkit JS-Enhanced Components:** Components that delegate behavior to UIkit JS (e.g., `Alert`, `OffCanvas`) are rendered in React, with UIkit JS initialized and cleaned up safely inside client-side effect lifecycles. Where needed, React layers concerns like focus trapping and scroll locking on top (as `OffCanvas` does).
+3.  **React-Owned Components:** Interactive widgets (e.g., `Switcher`, `Accordion`) are **fully implemented in React**. UIkit's JS never touches these nodes. React handles open/close state and standard keyboard/aria events.
 
 For a detailed, granular breakdown of every component, check the [Component Ownership Matrix](./apps/docs/src/content/component-ownership/index.mdx).
 
