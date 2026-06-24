@@ -1,0 +1,112 @@
+---
+title: OffCanvas
+category: components
+tagline: Create an off-canvas sidebar that slides in and out of the page, which is perfect for creating mobile navigations.
+---
+
+import BasicUsage from './components/BasicUsage.astro';
+import Overlay from './components/Overlay.astro';
+import Flip from './components/Flip.astro';
+import Animation from './components/Animation.astro';
+import WithNav from './components/WithNav.astro';
+import CloseBehavior from './components/CloseBehavior.astro';
+
+## Usage
+
+The `OffCanvas` component consists of two parts: `OffCanvas.Root` and `OffCanvas.Bar`.
+
+To toggle an off-canvas sidebar, you can use the [`Close` component](/close) and pass a function to its `onClick` prop.
+
+<span class="uk-label">Note</span> Even if you use a `Close` button wired up to a close function, the `onClose` prop still needs to be set on `OffCanvas.Root` so that the `Escape` key or clicking outside the off-canvas can also close it.
+
+```jsx
+<OffCanvas.Root open={isOpen} onClose={handleClose}>
+  ...
+</OffCanvas.Root>
+```
+
+<BasicUsage />
+
+### Overlay
+
+To add an overlay that blanks out the page, set the `overlay` prop to `true` on `OffCanvas.Root`.
+
+```jsx
+<OffCanvas.Root overlay={true}>...</OffCanvas.Root>
+
+{/* Or */}
+
+<OffCanvas.Root overlay>...</OffCanvas.Root>
+```
+
+<Overlay />
+
+## Flip Modifier
+
+Set the `flip` prop to `true` on `OffCanvas.Root` to adjust its alignment so that it slides in from the right.
+
+```jsx
+<OffCanvas.Root flip={true}>...</OffCanvas.Root>
+
+{/* Or */}
+
+<OffCanvas.Root flip>...</OffCanvas.Root>
+```
+
+<Flip />
+
+## Animation Mode
+
+By default, the off-canvas slides in. However, you can choose between different animation modes for the off-canvas entrance by setting the `mode` prop to one of the following values:
+
+| Mode | Description |
+|------|-------------|
+| `slide` | The off-canvas slides out and overlays the content. This is the default mode. |
+| `push` | The off-canvas slides out and pushes the site content. |
+| `reveal` | The off-canvas slides out and reveals its content while pushing the site content. |
+| `none` | The off-canvas appears and overlays the content without an animation. |
+
+```jsx
+<OffCanvas.Root mode="push">...</OffCanvas.Root>
+```
+
+<Animation />
+
+## Nav in OffCanvas
+
+You can use UIkit's [Nav component](https://getuikit.com/docs/nav) inside an `OffCanvas` to create a mobile navigation.
+
+```jsx
+<OffCanvas.Root>
+  <OffCanvas.Bar>
+    <ul className="uk-nav uk-nav-default">...</ul>
+  </OffCanvas.Bar>
+</OffCanvas.Root>
+```
+
+<WithNav />
+
+## Close Behavior
+
+By default, the off-canvas closes when the `Escape` key is pressed (`escClose`), when the background is clicked (`bgClose`), or when the panel is swiped away (`swiping`). Set any of these props to `false` to opt out — for example, to require the user to use the close button.
+
+```jsx
+<OffCanvas.Root escClose={false} bgClose={false}>...</OffCanvas.Root>
+```
+
+<CloseBehavior />
+
+## API Reference
+
+`OffCanvas` is a compound component, and all of its behavior options must be set on `OffCanvas.Root`.
+
+| Prop      | Type                                        | Default   | Description                                                            |
+| --------- | ------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| `open`    | `boolean`                                   |           | Controls whether the off-canvas is visible.                            |
+| `onClose` | `() => void`                                |           | Called when UIkit finishes closing (e.g. overlay click or Escape key). |
+| `overlay` | `boolean`                                   | `false`   | Enables UIkit overlay behavior.                                        |
+| `flip`    | `boolean`                                   | `false`   | Places the panel on the right side instead of the left.                |
+| `mode`    | `'slide' \| 'push' \| 'reveal' \| 'none'`   | `'slide'` | UIkit off-canvas animation mode.                                       |
+| `escClose` | `boolean`                                  | `true`    | Close the off-canvas when the `Escape` key is pressed.                 |
+| `bgClose` | `boolean`                                   | `true`    | Close the off-canvas when the background is clicked.                   |
+| `swiping` | `boolean`                                   | `true`    | Close the off-canvas when the panel is swiped away.                    |

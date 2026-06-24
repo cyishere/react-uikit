@@ -14,7 +14,7 @@ export { Grid } from './components/Grid';
 export type { IconCategory, IconProps, UIkitIconName } from './components/Icon';
 export { getIconCategory, getIconsByCategory, Icon } from './components/Icon';
 export type { OffCanvasBarProps, OffCanvasProps } from './components/OffCanvas';
-export { OffCanvas, OffCanvasBar } from './components/OffCanvas';
+export { OffCanvas } from './components/OffCanvas';
 export type {
   SwitcherContainerProps,
   SwitcherItemProps,

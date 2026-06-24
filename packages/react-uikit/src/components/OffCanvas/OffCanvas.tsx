@@ -5,6 +5,11 @@ import { RemoveScroll } from 'react-remove-scroll';
 import UIkit from 'uikit';
 
 import { useIsomorphicLayoutEffect } from '@/hooks';
+import { cn, isDev } from '@/utils';
+
+// ---------------------------------------------------------------------------
+// OffCanvasRoot
+// ---------------------------------------------------------------------------
 
 /**
  * Public props for the OffCanvas component.
@@ -26,19 +31,37 @@ export interface OffCanvasProps {
   flip?: boolean;
   /**
    * UIkit off-canvas animation mode.
-   * @defaultValue 'none'
+   * @defaultValue 'slide'
    */
   mode?: 'slide' | 'push' | 'reveal' | 'none';
+  /**
+   * Close the off-canvas when the Escape key is pressed.
+   * @defaultValue true
+   */
+  escClose?: boolean;
+  /**
+   * Close the off-canvas when the background is clicked.
+   * @defaultValue true
+   */
+  bgClose?: boolean;
+  /**
+   * Close the off-canvas when the panel is swiped away.
+   * @defaultValue true
+   */
+  swiping?: boolean;
   /** Off-canvas content, usually including OffCanvasBar. */
   children: React.ReactNode;
 }
 
-const OffCanvas = ({
+const OffCanvasRoot = ({
   open,
   onClose,
   overlay = false,
   flip = false,
-  mode = 'none',
+  mode = 'slide',
+  escClose = true,
+  bgClose = true,
+  swiping = true,
   children
 }: OffCanvasProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -74,7 +97,7 @@ const OffCanvas = ({
         <div
           ref={ref}
           className="uk-offcanvas"
-          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}`}
+          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}; esc-close: ${escClose}; bg-close: ${bgClose}; swiping: ${swiping}`}
         >
           {children}
         </div>
@@ -84,4 +107,35 @@ const OffCanvas = ({
   );
 };
 
-export default OffCanvas;
+// ---------------------------------------------------------------------------
+// OffCanvasBar
+// ---------------------------------------------------------------------------
+
+export type OffCanvasBarProps = React.ComponentProps<'div'>;
+
+const OffCanvasBar = ({ className, children, ...props }: OffCanvasBarProps) => {
+  const classes = cn('uk-offcanvas-bar', className);
+
+  if (isDev) {
+    if (!props['aria-label'] && !props['aria-labelledby']) {
+      console.warn(
+        '[react-uikit] OffCanvasBar: provide either aria-label or aria-labelledby for screen reader accessibility.'
+      );
+    }
+  }
+
+  return (
+    <div className={classes} {...props}>
+      {children}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Compound export
+// ---------------------------------------------------------------------------
+
+export const OffCanvas = {
+  Root: OffCanvasRoot,
+  Bar: OffCanvasBar
+};

@@ -59,22 +59,25 @@ describe('OffCanvas', () => {
 
   it('renders into document.body with default offcanvas options', () => {
     render(
-      <OffCanvas open={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     const panel = document.body.querySelector('.uk-offcanvas');
 
     expect(panel).toBeInTheDocument();
-    expect(panel).toHaveAttribute('data-uk-offcanvas', 'mode: none; overlay: false; flip: false');
+    expect(panel).toHaveAttribute(
+      'data-uk-offcanvas',
+      'mode: slide; overlay: false; flip: false; esc-close: true; bg-close: true; swiping: true'
+    );
   });
 
   it('calls UIkit.offcanvas with the rendered element', () => {
     render(
-      <OffCanvas open={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(offcanvasMock).toHaveBeenCalledTimes(1);
@@ -83,9 +86,9 @@ describe('OffCanvas', () => {
 
   it('calls show when open is true', () => {
     render(
-      <OffCanvas open={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(showMock).toHaveBeenCalledTimes(1);
@@ -94,9 +97,9 @@ describe('OffCanvas', () => {
 
   it('calls hide when open is false', () => {
     render(
-      <OffCanvas open={false} onClose={() => {}}>
+      <OffCanvas.Root open={false} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(hideMock).toHaveBeenCalledTimes(1);
@@ -105,9 +108,9 @@ describe('OffCanvas', () => {
 
   it('registers hidden listener and removes it on unmount', () => {
     const { unmount } = render(
-      <OffCanvas open={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(onMock).toHaveBeenCalledTimes(1);
@@ -131,9 +134,9 @@ describe('OffCanvas', () => {
     const onCloseB = vi.fn();
 
     const { rerender } = render(
-      <OffCanvas open={true} onClose={onCloseA}>
+      <OffCanvas.Root open={true} onClose={onCloseA}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     const firstOnCall = onMock.mock.calls[0];
@@ -145,9 +148,9 @@ describe('OffCanvas', () => {
     const hiddenHandler = firstOnCall[2] as () => void;
 
     rerender(
-      <OffCanvas open={true} onClose={onCloseB}>
+      <OffCanvas.Root open={true} onClose={onCloseB}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     hiddenHandler();
@@ -158,9 +161,9 @@ describe('OffCanvas', () => {
 
   it('disables focus lock and remove scroll when overlay is true', () => {
     render(
-      <OffCanvas open={true} overlay={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} overlay={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(screen.getByTestId('focus-lock')).toHaveAttribute('data-disabled', 'true');
@@ -170,9 +173,9 @@ describe('OffCanvas', () => {
 
   it('disables focus lock and remove scroll when open is false', () => {
     render(
-      <OffCanvas open={false} onClose={() => {}}>
+      <OffCanvas.Root open={false} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     expect(screen.getByTestId('focus-lock')).toHaveAttribute('data-disabled', 'true');
@@ -181,12 +184,15 @@ describe('OffCanvas', () => {
 
   it('uses custom mode, overlay and flip values in data attribute', () => {
     render(
-      <OffCanvas open={true} mode="push" overlay={true} flip={true} onClose={() => {}}>
+      <OffCanvas.Root open={true} mode="push" overlay={true} flip={true} onClose={() => {}}>
         <div>content</div>
-      </OffCanvas>
+      </OffCanvas.Root>
     );
 
     const panel = document.body.querySelector('.uk-offcanvas');
-    expect(panel).toHaveAttribute('data-uk-offcanvas', 'mode: push; overlay: true; flip: true');
+    expect(panel).toHaveAttribute(
+      'data-uk-offcanvas',
+      'mode: push; overlay: true; flip: true; esc-close: true; bg-close: true; swiping: true'
+    );
   });
 });
