@@ -1,4 +1,4 @@
-import { Switcher } from 'react-uikit';
+import { Switcher } from '@cyishere/react-uikit';
 
 const MultiAnimations = () => {
   return (

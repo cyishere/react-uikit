@@ -1,8 +1,29 @@
 {
-  "name": "react-uikit",
+  "name": "@cyishere/react-uikit",
   "version": "0.1.0",
   "description": "React components for UIkit CSS framework",
   "type": "module",
+  "author": "Chen Yang",
+  "license": "ISC",
+  "homepage": "https://github.com/cyishere/react-uikit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyishere/react-uikit.git",
+    "directory": "packages/react-uikit"
+  },
+  "bugs": {
+    "url": "https://github.com/cyishere/react-uikit/issues"
+  },
+  "keywords": [
+    "react",
+    "uikit",
+    "ui",
+    "components",
+    "component-library",
+    "css",
+    "ssr",
+    "accessibility"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,12 +43,16 @@
     "scss"
   ],
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build:js": "tsup",
     "build:css": "node build/less.mjs",
     "build:scss": "node build/prepare-styles.mjs",
     "check:scss": "sass scss/index.scss /dev/null --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import",
     "build": "pnpm build:js && pnpm build:css && pnpm build:scss && pnpm check:scss",
+    "prepublishOnly": "pnpm build",
     "dev": "tsup --watch",
     "dev:styles": "node build/watch.mjs",
     "test": "vitest",

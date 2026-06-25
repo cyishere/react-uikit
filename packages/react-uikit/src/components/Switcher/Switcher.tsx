@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-import { useControllableState, useSwipe } from '../../hooks';
-import { cn } from '../../utils';
-import UnstyledButton from '../UnstyledButton/UnstyledButton';
+import { useControllableState, useSwipe } from '@/hooks';
+import { cn } from '@/utils';
+
+import UnstyledButton from '../UnstyledButton';
 
 import type { SwitcherItemTarget } from './SwitcherContext';
 import {

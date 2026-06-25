@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { Close } from 'react-uikit';
+import { Close } from '@cyishere/react-uikit';
 
 const ForCustomComponent = () => {
   return (

@@ -1,0 +1,12 @@
+# Netlify deploy config for the docs site (apps/docs).
+#
+# The build runs from the repo root so pnpm can install the workspace and link
+# the local `@cyishere/react-uikit` package. `build:docs` builds the library
+# (producing packages/react-uikit/dist) before building the Astro docs, which
+# import from it.
+[build]
+  command = "pnpm build:docs"
+  publish = "apps/docs/dist"
+
+[build.environment]
+  NODE_VERSION = "22"

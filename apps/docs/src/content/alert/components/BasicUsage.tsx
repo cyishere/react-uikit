@@ -1,4 +1,4 @@
-import { Alert } from 'react-uikit';
+import { Alert } from '@cyishere/react-uikit';
 
 const BasicUsage = () => {
   return (

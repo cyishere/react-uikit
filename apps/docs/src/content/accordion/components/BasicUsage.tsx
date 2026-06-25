@@ -1,4 +1,4 @@
-import { Accordion } from 'react-uikit';
+import { Accordion } from '@cyishere/react-uikit';
 
 export default function BasicUsage() {
   return (

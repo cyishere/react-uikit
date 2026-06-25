@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Grid, Icon } from 'react-uikit';
+import { Grid, Icon } from '@cyishere/react-uikit';
 
 const OverlayModifier = () => {
   return (

@@ -21,7 +21,10 @@ async function getLessFiles(dir) {
   const files = [];
   for (const dirent of dirents) {
     if (dirent.isFile() && dirent.name.endsWith('.less')) {
-      const relPath = path.relative(SRC_DIR, path.join(dirent.parentPath || dirent.path, dirent.name));
+      const relPath = path.relative(
+        SRC_DIR,
+        path.join(dirent.parentPath || dirent.path, dirent.name)
+      );
       files.push(relPath);
     }
   }
@@ -41,7 +44,7 @@ async function prepareStyles() {
     const srcPath = path.join(SRC_DIR, file);
     const content = await fs.readFile(srcPath, 'utf-8');
 
-    // For the shipped `less/` and `scss/` dirs, we want to flatten `styles/index.less` 
+    // For the shipped `less/` and `scss/` dirs, we want to flatten `styles/index.less`
     // to the root `index.less` so consumers can import `react-uikit/less/index.less`.
     let outRelPath = file;
     if (file === 'styles/index.less') {
@@ -60,7 +63,7 @@ async function prepareStyles() {
 
     // 2. Process SCSS output
     let scssContent = lessContent;
-    
+
     // a. Map UIkit's Less theme reference to the SCSS variables-only entry.
     //    Sass has no `(reference)` equivalent, so importing the full theme
     //    bundle would re-emit all of UIkit's CSS (the consumer already imports
@@ -100,7 +103,7 @@ async function prepareStyles() {
   console.log('Successfully prepared less/ and scss/ trees');
 }
 
-prepareStyles().catch(err => {
+prepareStyles().catch((err) => {
   console.error(err);
   process.exit(1);
 });

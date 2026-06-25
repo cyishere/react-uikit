@@ -63,7 +63,7 @@ You can also apply your own utility classes directly to individual components or
 }
 ```
 
-<span class="uk-label">Note</span> When using vanilla CSS, don't forget to import UIkit's core CSS and `react-uikit/styles.css` ([if needed](/installation#usage)) in your app's entry point.
+<span class="uk-label">Note</span> When using vanilla CSS, don't forget to import UIkit's core CSS and `@cyishere/react-uikit/styles.css` ([if needed](/installation#usage)) in your app's entry point.
 
 ## Theme with Less
 
@@ -76,7 +76,7 @@ Create a `theme.less` file in your project:
 @import 'uikit/src/less/uikit.theme.less';
 
 // 2. Import react-uikit's component styles, so they compile with your overrides
-@import 'react-uikit/less/index.less';
+@import '@cyishere/react-uikit/less/index.less';
 
 // 3. Define your variable overrides (must go AFTER the imports)
 @global-primary-background: #eb0095;
@@ -96,10 +96,10 @@ $global-primary-background: #eb0095;
 
 // 2. Import UIkit, then react-uikit's component styles
 @import 'uikit/src/scss/uikit-theme.scss';
-@import 'react-uikit/scss/index.scss';
+@import '@cyishere/react-uikit/scss/index.scss';
 ```
 
-As with Less, importing `react-uikit/scss/index.scss` ensures your overrides reach its custom components (like the `Switcher`) as well.
+As with Less, importing `@cyishere/react-uikit/scss/index.scss` ensures your overrides reach its custom components (like the `Switcher`) as well.
 
 For more advanced theming — dependent variables or custom mixin overrides — split the UIkit import so you can hook into its variables and mixins:
 
@@ -127,7 +127,7 @@ $custom-border: $global-border;
 @import 'uikit/src/scss/uikit-theme.scss';
 
 // 6. Import react-uikit's component styles so they compile with your new variables
-@import 'react-uikit/scss/index.scss';
+@import '@cyishere/react-uikit/scss/index.scss';
 ```
 
 <span class="uk-label">Note</span> UIkit's Sass entrypoints still use `@import`, which Dart Sass has deprecated in favor of `@use` and `@forward`. You may see deprecation warnings during compilation; `@use` is not yet supported by UIkit's stylesheets.

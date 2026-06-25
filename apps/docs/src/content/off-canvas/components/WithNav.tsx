@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from 'react';
-import { Close, Icon, OffCanvas } from 'react-uikit';
+import { Close, Icon, OffCanvas } from '@cyishere/react-uikit';
 
 const WithNav = () => {
   const [isPrimaryNavOpen, setIsPrimaryNavOpen] = useState(false);

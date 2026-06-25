@@ -1,0 +1,33 @@
+---
+import { AlertTriangle } from 'react-feather';
+
+interface Props {
+  variant?: 'primary' | 'success' | 'warning' | 'danger';
+}
+
+const { variant } = Astro.props as Props;
+const className =
+  variant === 'warning' ? ' uk-alert-warning wrapper' : variant ? ` uk-alert-${variant}` : '';
+---
+
+<div class={`uk-alert${className}`}>
+  {
+    variant === 'warning' && (
+      <div class="icon">
+        <AlertTriangle />
+      </div>
+    )
+  }
+  <div class="flow">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    grid-template-rows: 1fr;
+    gap: 1rem;
+  }
+</style>

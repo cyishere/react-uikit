@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { Switcher } from 'react-uikit';
+import { Switcher } from '@cyishere/react-uikit';
 
 import styles from './DemoPreviewCode.module.css';
 

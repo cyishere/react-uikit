@@ -1,4 +1,4 @@
-import { Grid, Switcher } from 'react-uikit';
+import { Grid, Switcher } from '@cyishere/react-uikit';
 
 const VerticalTab = () => {
   return (
