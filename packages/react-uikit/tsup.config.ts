@@ -10,7 +10,7 @@ export default defineConfig((options) => ({
       ignoreDeprecations: '6.0'
     }
   },
-  sourcemap: true,
+  sourcemap: false,
   // Never clean in watch mode: `dist/styles.css` is produced by a separate
   // styles build (build:css / dev:styles), and a `clean` on watch startup would
   // wipe it with nothing to regenerate it, breaking the docs dev server.
