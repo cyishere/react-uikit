@@ -56,23 +56,23 @@ The docs site runs at `http://localhost:4321` and reflects library changes live.
 
 All scripts run from the root of the workspace using `pnpm`:
 
-| Script           | Description                                                       |
-| :--------------- | :--------------------------------------------------------------- |
-| `pnpm dev`       | Run the library watcher, styles watcher, and docs server.        |
-| `pnpm dev:lib`   | Watch and rebuild the library on save.                           |
-| `pnpm dev:docs`  | Start the Astro dev server for the docs site only.               |
-| `pnpm build`     | Build the production bundle of the library (ESM + CJS + d.ts).   |
-| `pnpm build:docs`| Build the library, then the static docs site.                    |
-| `pnpm test`      | Run the library test suite in watch mode.                        |
-| `pnpm test:run`  | Run the library test suite once.                                 |
-| `pnpm check`     | Run linting, Astro checks, and type checking.                    |
+| Script            | Description                                                    |
+| :---------------- | :------------------------------------------------------------- |
+| `pnpm dev`        | Run the library watcher, styles watcher, and docs server.      |
+| `pnpm dev:lib`    | Watch and rebuild the library on save.                         |
+| `pnpm dev:docs`   | Start the Astro dev server for the docs site only.             |
+| `pnpm build`      | Build the production bundle of the library (ESM + CJS + d.ts). |
+| `pnpm build:docs` | Build the library, then the static docs site.                  |
+| `pnpm test`       | Run the library test suite in watch mode.                      |
+| `pnpm test:run`   | Run the library test suite once.                               |
+| `pnpm check`      | Run linting, Astro checks, and type checking.                  |
 
 ## Packages
 
-| Package                              | Description                                                        |
-| :----------------------------------- | :---------------------------------------------------------------- |
+| Package                                          | Description                                                                         |
+| :----------------------------------------------- | :---------------------------------------------------------------------------------- |
 | [`@cyishere/react-uikit`](/packages/react-uikit) | The publishable React component library. See its README for installation and usage. |
-| [`docs`](/apps/docs)                 | The Astro documentation site (private, not published).            |
+| [`docs`](/apps/docs)                             | The Astro documentation site (private, not published).                              |
 
 ## Contributing
 
