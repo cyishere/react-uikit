@@ -1,6 +1,6 @@
 # react-uikit
 
-> Package name is `@cyishere/react-uikit`.
+❗NOTE: Package name is `@cyishere/react-uikit`.
 
 `react-uikit` is an SSR-safe React integration layer for the [**UIkit** framework](https://getuikit.com). This repository is the monorepo that contains the library itself, its documentation site, and the shared tooling that builds and tests them.
 
@@ -84,4 +84,4 @@ Contributions are welcome. Before opening a Pull Request:
 
 ## License
 
-This project is licensed under the [ISC License](./LICENSE).
+This project is licensed under the [ISC License](./packages/react-uikit/LICENSE).
