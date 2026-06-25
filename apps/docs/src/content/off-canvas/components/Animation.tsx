@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Close, OffCanvas } from '@cyishere/react-uikit';
+import { Close, Grid, OffCanvas } from '@cyishere/react-uikit';
 
 const Animation = () => {
   const [isSlideOpen, setIsSlideOpen] = useState(false);
@@ -14,36 +14,44 @@ const Animation = () => {
 
   return (
     <div>
-      <div className="uk-flex">
-        <button
-          type="button"
-          className="uk-button uk-button-default"
-          onClick={() => setIsSlideOpen(true)}
-        >
-          Slide
-        </button>
-        <button
-          type="button"
-          className="uk-button uk-button-default uk-margin-small-left"
-          onClick={() => setIsPushOpen(true)}
-        >
-          Push
-        </button>
-        <button
-          type="button"
-          className="uk-button uk-button-default uk-margin-small-left"
-          onClick={() => setIsRevealOpen(true)}
-        >
-          Reveal
-        </button>
-        <button
-          type="button"
-          className="uk-button uk-button-default uk-margin-small-left"
-          onClick={() => setIsNoneOpen(true)}
-        >
-          None
-        </button>
-      </div>
+      <Grid className="uk-grid-small uk-child-width-1-2 uk-child-width-1-4@m">
+        <div>
+          <button
+            type="button"
+            className="uk-button uk-button-default uk-width-1-1"
+            onClick={() => setIsSlideOpen(true)}
+          >
+            Slide
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="uk-button uk-button-default uk-width-1-1"
+            onClick={() => setIsPushOpen(true)}
+          >
+            Push
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="uk-button uk-button-default uk-width-1-1"
+            onClick={() => setIsRevealOpen(true)}
+          >
+            Reveal
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="uk-button uk-button-default uk-width-1-1"
+            onClick={() => setIsNoneOpen(true)}
+          >
+            None
+          </button>
+        </div>
+      </Grid>
 
       <OffCanvas.Root open={isSlideOpen} onClose={handleSlideClose} overlay>
         <OffCanvas.Bar>
