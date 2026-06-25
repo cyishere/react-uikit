@@ -81,11 +81,11 @@ Each content file is validated against the schema in `content.config.ts`:
 | Field         | Required | Purpose                                          |
 | :------------ | :------- | :----------------------------------------------- |
 | `title`       | Yes      | Page title                                       |
-| `category`    | Yes      | `getting_started` or `components` (nav grouping)  |
-| `navTitle`    | No       | Short label for the sidebar                       |
-| `tagline`     | No       | Short subtitle shown under the title              |
-| `description` | No       | Meta description                                  |
-| `order`       | No       | Sort order within a nav category                  |
+| `category`    | Yes      | `getting_started` or `components` (nav grouping) |
+| `navTitle`    | No       | Short label for the sidebar                      |
+| `tagline`     | No       | Short subtitle shown under the title             |
+| `description` | No       | Meta description                                 |
+| `order`       | No       | Sort order within a nav category                 |
 
 ## Adding a component page
 
