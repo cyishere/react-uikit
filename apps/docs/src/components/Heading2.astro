@@ -1,0 +1,12 @@
+---
+import { Icon } from '@cyishere/react-uikit';
+
+const props = Astro.props;
+---
+
+<h2 {...props} class="heading">
+  <a href={`#${props.id}`} style="--heading-link-size: 2rem;">
+    <Icon name="hashtag" ratio={1.6} client:load />
+  </a>
+  <slot />
+</h2>
