@@ -11,6 +11,8 @@ import { cn, isDev } from '@/utils';
 // OffCanvasRoot
 // ---------------------------------------------------------------------------
 
+type OffcanvasInitOptions = UIkit.UIkitOffcanvasOptions & { swiping?: boolean };
+
 /**
  * Public props for the OffCanvas component.
  */
@@ -65,40 +67,69 @@ const OffCanvasRoot = ({
   children
 }: OffCanvasProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  const instanceRef = React.useRef<ReturnType<typeof UIkit.offcanvas> | null>(null);
   const onCloseRef = React.useRef(onClose);
+  const openRef = React.useRef(open);
+  const didInitialShowRef = React.useRef(false);
 
   useIsomorphicLayoutEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
   useIsomorphicLayoutEffect(() => {
-    if (ref.current) {
-      const el = ref.current;
-      const _offcanvas = UIkit.offcanvas(el);
+    openRef.current = open;
+  }, [open]);
 
-      if (open) {
-        _offcanvas.show();
-      } else {
-        _offcanvas.hide();
-      }
+  useIsomorphicLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-      const handleHidden = () => onCloseRef.current();
-      UIkit.util.on(el, 'hidden', handleHidden);
+    const options: OffcanvasInitOptions = {
+      mode,
+      flip,
+      overlay,
+      escClose,
+      bgClose,
+      // `swiping` is a valid runtime option but missing from UIkitOffcanvasOptions
+      swiping
+    };
 
-      return () => {
-        UIkit.util.off(el, 'hidden', handleHidden);
-      };
+    const oc = UIkit.offcanvas(el, options);
+    instanceRef.current = oc;
+
+    // On initial mount, defer the first show() to the visibility effect to avoid a
+    // double show(). Only re-show here when options change after mount (instance recreated).
+    if (didInitialShowRef.current && openRef.current) {
+      oc.show();
     }
+
+    const handleHidden = () => onCloseRef.current();
+    UIkit.util.on(el, 'hidden', handleHidden);
+
+    return () => {
+      UIkit.util.off(el, 'hidden', handleHidden);
+      oc.$destroy();
+      instanceRef.current = null;
+    };
+  }, [mode, flip, overlay, escClose, bgClose, swiping]);
+
+  useIsomorphicLayoutEffect(() => {
+    const oc = instanceRef.current;
+    if (!oc) return;
+
+    if (open) {
+      oc.show();
+    } else {
+      oc.hide();
+    }
+
+    didInitialShowRef.current = true;
   }, [open]);
 
   return createPortal(
     <FocusLock disabled={overlay || !open} returnFocus={true}>
       <RemoveScroll enabled={!overlay && open}>
-        <div
-          ref={ref}
-          className="uk-offcanvas"
-          data-uk-offcanvas={`mode: ${mode}; overlay: ${overlay}; flip: ${flip}; esc-close: ${escClose}; bg-close: ${bgClose}; swiping: ${swiping}`}
-        >
+        <div ref={ref} className="uk-offcanvas">
           {children}
         </div>
       </RemoveScroll>

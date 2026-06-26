@@ -4,14 +4,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OffCanvas } from './';
 
-const { offcanvasMock, showMock, hideMock, onMock, offMock } = vi.hoisted(() => {
+const { offcanvasMock, showMock, hideMock, destroyMock, onMock, offMock } = vi.hoisted(() => {
   const showMock = vi.fn();
   const hideMock = vi.fn();
-  const offcanvasMock = vi.fn(() => ({ show: showMock, hide: hideMock }));
+  const destroyMock = vi.fn();
+  const offcanvasMock = vi.fn(() => ({ show: showMock, hide: hideMock, $destroy: destroyMock }));
   const onMock = vi.fn();
   const offMock = vi.fn();
 
-  return { offcanvasMock, showMock, hideMock, onMock, offMock };
+  return { offcanvasMock, showMock, hideMock, destroyMock, onMock, offMock };
 });
 
 vi.mock('uikit', () => ({
@@ -57,7 +58,7 @@ describe('OffCanvas', () => {
     vi.clearAllMocks();
   });
 
-  it('renders into document.body with default offcanvas options', () => {
+  it('renders into document.body', () => {
     render(
       <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
@@ -67,13 +68,10 @@ describe('OffCanvas', () => {
     const panel = document.body.querySelector('.uk-offcanvas');
 
     expect(panel).toBeInTheDocument();
-    expect(panel).toHaveAttribute(
-      'data-uk-offcanvas',
-      'mode: slide; overlay: false; flip: false; esc-close: true; bg-close: true; swiping: true'
-    );
+    expect(panel).not.toHaveAttribute('data-uk-offcanvas');
   });
 
-  it('calls UIkit.offcanvas with the rendered element', () => {
+  it('calls UIkit.offcanvas with the rendered element and default options', () => {
     render(
       <OffCanvas.Root open={true} onClose={() => {}}>
         <div>content</div>
@@ -81,7 +79,17 @@ describe('OffCanvas', () => {
     );
 
     expect(offcanvasMock).toHaveBeenCalledTimes(1);
-    expect(offcanvasMock).toHaveBeenCalledWith(expect.any(HTMLDivElement));
+    expect(offcanvasMock).toHaveBeenCalledWith(
+      expect.any(HTMLDivElement),
+      expect.objectContaining({
+        mode: 'slide',
+        overlay: false,
+        flip: false,
+        escClose: true,
+        bgClose: true,
+        swiping: true
+      })
+    );
   });
 
   it('calls show when open is true', () => {
@@ -182,17 +190,49 @@ describe('OffCanvas', () => {
     expect(screen.getByTestId('remove-scroll')).toHaveAttribute('data-enabled', 'false');
   });
 
-  it('uses custom mode, overlay and flip values in data attribute', () => {
+  it('uses custom mode, overlay and flip values for initialization options', () => {
     render(
       <OffCanvas.Root open={true} mode="push" overlay={true} flip={true} onClose={() => {}}>
         <div>content</div>
       </OffCanvas.Root>
     );
 
-    const panel = document.body.querySelector('.uk-offcanvas');
-    expect(panel).toHaveAttribute(
-      'data-uk-offcanvas',
-      'mode: push; overlay: true; flip: true; esc-close: true; bg-close: true; swiping: true'
+    expect(offcanvasMock).toHaveBeenCalledWith(
+      expect.any(HTMLDivElement),
+      expect.objectContaining({ mode: 'push', overlay: true, flip: true })
     );
+  });
+
+  it('destroys the UIkit instance on unmount', () => {
+    const { unmount } = render(
+      <OffCanvas.Root open={true} onClose={() => {}}>
+        <div>content</div>
+      </OffCanvas.Root>
+    );
+
+    unmount();
+    expect(destroyMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('recreates instance and reshows if options change while open', () => {
+    const { rerender } = render(
+      <OffCanvas.Root open={true} mode="slide" onClose={() => {}}>
+        <div>content</div>
+      </OffCanvas.Root>
+    );
+
+    expect(offcanvasMock).toHaveBeenCalledTimes(1);
+    expect(showMock).toHaveBeenCalledTimes(1);
+    expect(destroyMock).not.toHaveBeenCalled();
+
+    rerender(
+      <OffCanvas.Root open={true} mode="push" onClose={() => {}}>
+        <div>content</div>
+      </OffCanvas.Root>
+    );
+
+    expect(destroyMock).toHaveBeenCalledTimes(1);
+    expect(offcanvasMock).toHaveBeenCalledTimes(2);
+    expect(showMock).toHaveBeenCalledTimes(2); // This includes the initial show and the reshow after options change
   });
 });
