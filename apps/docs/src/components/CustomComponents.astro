@@ -1,11 +1,15 @@
 ---
 import CodeBlock from './CodeBlock.astro';
+import Heading2 from './Heading2.astro';
+import Heading3 from './Heading3.astro';
 import Info from './Info.astro';
 import Table from './Table.astro';
 
 export const customComponents = {
   pre: CodeBlock,
   table: Table,
-  Info
+  Info,
+  h2: Heading2,
+  h3: Heading3
 };
 ---

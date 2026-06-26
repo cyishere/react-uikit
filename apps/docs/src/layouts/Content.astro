@@ -8,7 +8,7 @@ const { title, tagline, description, headings, prev, next } = Astro.props;
 ---
 
 <BaseLayout headings={headings}>
-  <div class="uk-section">
+  <div class="uk-section container">
     <h1>{title}</h1>
     {tagline && <p class="uk-text-lead uk-text-muted">{tagline}</p>}
     {description && <p set:html={marked.parseInline(description)} />}
@@ -50,3 +50,9 @@ const { title, tagline, description, headings, prev, next } = Astro.props;
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .container {
+    padding-inline: 2rem;
+  }
+</style>

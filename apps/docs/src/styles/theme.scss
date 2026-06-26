@@ -100,3 +100,38 @@ body {
 .toc-depth-3 a {
   font-size: 14px;
 }
+
+.heading {
+  position: relative;
+}
+
+.heading > a {
+  --heading-link-offsetY: 4px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--heading-link-size);
+  height: var(--heading-link-size);
+  color: $global-muted-color;
+  display: grid;
+  place-content: center;
+  transform: translate(0, var(--heading-link-offsetY));
+  opacity: 0;
+  transition:
+    opacity 0.4s,
+    transform 0.4s cubic-bezier(0.61, 0.55, 0.24, 0.97);
+}
+
+.heading:hover > a {
+  opacity: 1;
+  transform: translate(-100%, var(--heading-link-offsetY));
+  transition:
+    opacity 0.25s,
+    transform 0.25s cubic-bezier(0.17, 0.67, 0.47, 1);
+}
+
+.heading:hover > a:hover {
+  color: inherit;
+}
