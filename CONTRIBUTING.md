@@ -16,13 +16,13 @@ pnpm install
 
 Common scripts (run from the repository root):
 
-| Command          | Description                                          |
-| ---------------- | ---------------------------------------------------- |
-| `pnpm dev`       | Run the library, styles, and docs site in watch mode |
-| `pnpm build`     | Build the library package                            |
-| `pnpm test:run`  | Run the unit tests once                              |
-| `pnpm type-check`| Type-check the library                               |
-| `pnpm check`     | Lint, check docs, and type-check (the full CI gate)  |
+| Command           | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `pnpm dev`        | Run the library, styles, and docs site in watch mode |
+| `pnpm build`      | Build the library package                            |
+| `pnpm test:run`   | Run the unit tests once                              |
+| `pnpm type-check` | Type-check the library                               |
+| `pnpm check`      | Lint, check docs, and type-check (the full CI gate)  |
 
 ## Releasing
 
