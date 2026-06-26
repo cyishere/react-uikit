@@ -20,12 +20,14 @@ const MobileNav = ({ children }: MobileNavProps) => {
       <button
         className={`uk-button uk-button-default uk-button-small`}
         onClick={() => setIsOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
       >
         <Icon name="menu" label="Open menu" />
       </button>
 
       <OffCanvas.Root open={isOpen} onClose={handleClose} overlay>
-        <OffCanvas.Bar>
+        <OffCanvas.Bar aria-label="Mobile navigation">
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
           {children}

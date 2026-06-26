@@ -12,7 +12,7 @@ const Flip = () => {
         Open
       </button>
 
-      <OffCanvas.Root open={isOpen} onClose={handleClose} flip>
+      <OffCanvas.Root open={isOpen} onClose={handleClose} flip overlay>
         <OffCanvas.Bar>
           <Close className="uk-offcanvas-close" onClick={handleClose} />
 
