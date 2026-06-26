@@ -6,6 +6,7 @@
 
 - Library details and usage: [`packages/react-uikit/README.md`](/packages/react-uikit/README.md)
 - Documentation site: [react-uikit.cyishere.dev](https://react-uikit.cyishere.dev)
+- Contributing & releasing: [`CONTRIBUTING.md`](/CONTRIBUTING.md)
 
 ---
 
