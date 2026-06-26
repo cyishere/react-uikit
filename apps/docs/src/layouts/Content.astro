@@ -53,6 +53,12 @@ const { title, tagline, description, headings, prev, next } = Astro.props;
 
 <style>
   .container {
-    padding-inline: 2rem;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-inline: 0;
+    }
   }
 </style>
