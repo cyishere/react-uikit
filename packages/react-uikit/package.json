@@ -1,6 +1,6 @@
 {
   "name": "@cyishere/react-uikit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React components for UIkit CSS framework",
   "type": "module",
   "author": "Chen Yang",
